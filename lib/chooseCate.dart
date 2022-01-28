@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:project/DetailCate.dart';
+import 'package:project/screens/DetailCate.dart';
 import 'package:project/main.dart';
 import 'package:snapshot/snapshot.dart';
 import 'package:http/http.dart' as http;

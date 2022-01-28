@@ -45,10 +45,9 @@ class _MyEventState extends State<MyEvent> {
                       onTap: () {
                         Navigator.push(
                             context,
-                            new MaterialPageRoute(
+                            MaterialPageRoute(
                                 builder: (context) => EditEvent(
-                                      studenthasposts: studenthasposts,
-                                    )));
+                                    studenthasposts: studenthasposts)));
                       },
                     ),
                   );
