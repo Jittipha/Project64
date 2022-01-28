@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project/screens/home.dart';
+import 'package:project/screens/listcate.dart';
 import 'package:project/services/auth_service.dart';
 import 'package:project/chooseCate.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,7 @@ class AuthBloc {
                         msg: "เข้าสู่ระบบสำเร็จ!",
                         gravity: ToastGravity.CENTER),
                     Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => const Tabbar()),
+                      MaterialPageRoute(builder: (context) => Tabbar()),
                     ),
                   });
         } else {
@@ -75,7 +76,8 @@ class AuthBloc {
                         msg: "เข้าสู่ระบบสำเร็จ!",
                         gravity: ToastGravity.CENTER),
                     Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => const Tabbar()),
+                      MaterialPageRoute(
+                          builder: (context) => const Categories()),
                     ),
                   });
         }
