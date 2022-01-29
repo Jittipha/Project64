@@ -77,7 +77,7 @@ class AuthBloc {
                         gravity: ToastGravity.CENTER),
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                          builder: (context) => const Categories()),
+                          builder: (context) => Listcate()),
                     ),
                   });
         }
