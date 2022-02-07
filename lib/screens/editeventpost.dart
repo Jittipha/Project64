@@ -53,13 +53,24 @@ class _EditEventState extends State<EditEvent> {
                   child: Form(
                       key: _formKey,
                       child: Column(children: <Widget>[
+                        Container(
+                          child: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                '${widget.studenthasposts["Image"]}'),
+                          ),
+                        ),
                         TextFormField(
                           decoration: InputDecoration(
                             icon: const Icon(
                                 Icons.photo_size_select_small_outlined),
                             hintText: widget.studenthasposts["Image"],
                           ),
-                          //initialValue: snapshot.data![''],
+                          initialValue: widget.studenthasposts["Image"],
+                          validator:
+                              RequiredValidator(errorText: "กรุณาใส่ลิงก์รูป!"),
+                          onSaved: (value) {
+                            setState(() => event.Image = value);
+                          },
                         ),
                         TextFormField(
                           decoration: InputDecoration(
@@ -212,7 +223,7 @@ class _EditEventState extends State<EditEvent> {
                                           gravity: ToastGravity.CENTER);
                                       Navigator.push(context, MaterialPageRoute(
                                         builder: (context) {
-                                          return MyEvent();
+                                          return const MyEvent();
                                         },
                                       ));
                                     });

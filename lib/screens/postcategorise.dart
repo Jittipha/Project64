@@ -1,13 +1,20 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'package:project/Model/Event.dart';
 import 'package:project/screens/Myevents.dart';
 import 'package:project/screens/addcategorise.dart';
 import 'package:project/screens/tabbar.dart';
 import 'package:project/Model/Student.dart';
+import 'Interests.dart';
 import 'editeventpost.dart';
 //import 'package:flutter_application_1/screen/addcategorise.dart';
 //import 'package:flutter_application_1/screen/createeventspost.dart';
@@ -15,6 +22,10 @@ import 'editeventpost.dart';
 
 // ignore: use_key_in_widget_constructors
 class Post extends StatefulWidget {
+  final List<Postinterests> arraychoose;
+
+  // ignore: use_key_in_widget_constructors
+  const Post({required this.arraychoose});
   @override
   _PostState createState() => _PostState();
 }
@@ -23,6 +34,52 @@ class _PostState extends State<Post> {
   final _formKey = GlobalKey<FormState>();
   Students student = Students();
   events event = events();
+  bool isLoading = false;
+  File? image;
+  String? urlImage;
+
+  Future<void> pickImage(ImageSource imageSource) async {
+    try {
+      final Image = await ImagePicker().pickImage(source: imageSource);
+      if (Image == null) return;
+
+      final imageTemporary = File(Image.path);
+      setState(() {
+        image = imageTemporary;
+        print("image : $image");
+        isLoading = true;
+      });
+
+      upLoadImageToStorage();
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  Future<void> upLoadImageToStorage() async {
+    String time = DateTime.now()
+        .toString()
+        .replaceAll("-", "_")
+        .replaceAll(":", "_")
+        .replaceAll(" ", "_");
+    print('time : $time');
+
+    FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+
+    Reference reference = firebaseStorage.ref().child('Event/Event$time.jpg');
+
+    UploadTask uploadTask = reference.putFile(image!);
+    await uploadTask.then((TaskSnapshot taskSnapshot) async => {
+          await taskSnapshot.ref.getDownloadURL().then((dynamic url) => {
+                print("url : $url"),
+                urlImage = url.toString(),
+                setState(() {
+                  isLoading = false;
+                })
+              })
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,16 +95,34 @@ class _PostState extends State<Post> {
             key: _formKey,
             child: Column(
               children: <Widget>[
-                TextFormField(
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.photo_size_select_small_outlined),
-                    hintText: 'Link Photo',
-                  ),
-                  validator: RequiredValidator(errorText: "กรุณาใส่รูป!"),
-                  onSaved: (value) {
-                    event.Image = value;
-                  },
+                Container(
+                  child: urlImage == null
+                      ? Container(
+                          child: ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.deepPurple[400]),
+                              onPressed: () => pickImage(ImageSource.gallery),
+                              icon: const Icon(Icons.add_a_photo_outlined),
+                              label: const Text("Pick Photo")),
+                        )
+                      : Image.network(
+                          urlImage!,
+                          fit: BoxFit.fill,
+                          width: 300,
+                          height: 150,
+                        ),
                 ),
+
+                // TextFormField(
+                //     // decoration: const InputDecoration(
+                //     //   icon: Icon(Icons.photo_size_select_small_outlined),
+                //     //   hintText: '',
+                //     // ),
+                //     // validator: RequiredValidator(errorText: "กรุณาใส่รูป!"),
+                //     // onSaved: (value) {
+                //     //   event.Image = value;
+                //     // },
+                //     ),
                 TextFormField(
                   decoration: const InputDecoration(
                     icon: Icon(Icons.account_circle_sharp),
@@ -62,6 +137,7 @@ class _PostState extends State<Post> {
                   decoration: const InputDecoration(
                       icon: Icon(Icons.message_outlined),
                       hintText: 'Description'),
+                  maxLines: 2,
                   validator: RequiredValidator(errorText: "กรุณาใส่คำอธิบาย!"),
                   onSaved: (value) {
                     event.Description = value;
@@ -76,14 +152,34 @@ class _PostState extends State<Post> {
                     event.Location = value;
                   },
                 ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                      icon: Icon(Icons.menu_book_outlined),
-                      hintText: 'interests'),
-                  validator: RequiredValidator(errorText: "กรุณาใส่หมวดหมู่!"),
-                  onSaved: (value) {
-                    event.interests = value;
-                  },
+                Container(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.category,
+                      size: 30,
+                    ),
+                    title: const Text(
+                      "Interests",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    trailing: Wrap(
+                      spacing: 13,
+                      children: const <Widget>[
+                        Icon(
+                          Icons.navigate_next_rounded,
+                          size: 35,
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      _formKey.currentState!.save();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Postinterests()));
+                    },
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -103,27 +199,28 @@ class _PostState extends State<Post> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
+                            print(widget.arraychoose);
                             await FirebaseFirestore.instance
                                 .collection('Event')
                                 .doc()
                                 .set({
-                              "Image": event.Image,
+                              "Image": urlImage,
                               "Name": event.Name,
                               "Description": event.Description,
                               "Time": event.Time,
                               "Location": event.Location,
                               "interests": event.interests,
-                              // "Host": [{"Student_id" : ,"Name" : ,"Photo":}]
+                              "Host": [
+                                {
+                                  "Student_id":
+                                      FirebaseAuth.instance.currentUser?.uid,
+                                  "Name": FirebaseAuth
+                                      .instance.currentUser?.displayName,
+                                  "Photo": FirebaseAuth
+                                      .instance.currentUser?.photoURL
+                                }
+                              ]
                             });
-                            // await FirebaseFirestore.instance
-                            //       .collection('Event')
-                            //       .where('Name =='+ event.Name!)
-                            //       .get()
-                            //       .then((DocumentSnapshot snapshot) async{
-                            //         if(snapshot.exists){
-                            //           print("w")
-                            //         }
-                            //       });
                             QuerySnapshot snap = await FirebaseFirestore
                                 .instance
                                 .collection('Event')
@@ -138,7 +235,7 @@ class _PostState extends State<Post> {
                                   .collection('Posts')
                                   .doc()
                                   .set({
-                                "Image": event.Image,
+                                "Image": urlImage,
                                 "Name": event.Name,
                                 "Description": event.Description,
                                 "Time": event.Time,
@@ -149,7 +246,7 @@ class _PostState extends State<Post> {
                                         Fluttertoast.showToast(
                                             msg: "Success!",
                                             gravity: ToastGravity.CENTER),
-                                        Navigator.push(context,
+                                        Navigator.pushReplacement(context,
                                             MaterialPageRoute(
                                           builder: (context) {
                                             return const Tabbar();

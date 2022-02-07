@@ -65,7 +65,9 @@ class MainPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return Post();
+                      return const Post(
+                        arraychoose: [],
+                      );
                     }));
                   }),
             ),

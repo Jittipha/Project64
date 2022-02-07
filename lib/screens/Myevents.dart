@@ -14,11 +14,12 @@ class MyEvent extends StatefulWidget {
 
 class _MyEventState extends State<MyEvent> {
   Students student = Students();
+  final String test = "Fuck";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             "My Events",
             style: TextStyle(fontSize: 25),
           ),

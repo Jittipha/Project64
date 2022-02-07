@@ -1,10 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'package:project/blocs/auth_bloc.dart';
-import 'package:project/chooseCate.dart';
 import 'package:project/screens/login.dart';
-import 'package:project/screens/tabbar.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -26,7 +23,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.grey,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: LoginScreen(),
+        home: const LoginScreen(),
       ),
     );
   }
