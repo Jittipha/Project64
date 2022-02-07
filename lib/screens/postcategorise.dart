@@ -22,10 +22,8 @@ import 'editeventpost.dart';
 
 // ignore: use_key_in_widget_constructors
 class Post extends StatefulWidget {
-  final List<Postinterests> arraychoose;
-
   // ignore: use_key_in_widget_constructors
-  const Post({required this.arraychoose});
+
   @override
   _PostState createState() => _PostState();
 }
@@ -152,35 +150,7 @@ class _PostState extends State<Post> {
                     event.Location = value;
                   },
                 ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.category,
-                      size: 30,
-                    ),
-                    title: const Text(
-                      "Interests",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    trailing: Wrap(
-                      spacing: 13,
-                      children: const <Widget>[
-                        Icon(
-                          Icons.navigate_next_rounded,
-                          size: 35,
-                        ),
-                      ],
-                    ),
-                    onTap: () {
-                      _formKey.currentState!.save();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Postinterests()));
-                    },
-                  ),
-                ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -199,7 +169,7 @@ class _PostState extends State<Post> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            print(widget.arraychoose);
+
                             await FirebaseFirestore.instance
                                 .collection('Event')
                                 .doc()
@@ -209,7 +179,6 @@ class _PostState extends State<Post> {
                               "Description": event.Description,
                               "Time": event.Time,
                               "Location": event.Location,
-                              "interests": event.interests,
                               "Host": [
                                 {
                                   "Student_id":
@@ -241,15 +210,11 @@ class _PostState extends State<Post> {
                                 "Time": event.Time,
                                 "Location": event.Location,
                                 "Event_id": document.id,
-                                "interests": event.interests,
                               }).then((value) => {
-                                        Fluttertoast.showToast(
-                                            msg: "Success!",
-                                            gravity: ToastGravity.CENTER),
                                         Navigator.pushReplacement(context,
                                             MaterialPageRoute(
                                           builder: (context) {
-                                            return const Tabbar();
+                                            return Postinterests(document);
                                           },
                                         ))
                                       });

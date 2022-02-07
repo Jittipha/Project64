@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:project/Model/Event.dart';
 
+import 'Interests.dart';
 import 'Myevents.dart';
 import 'homepage.dart';
 
@@ -106,16 +107,35 @@ class _EditEventState extends State<EditEvent> {
                             setState(() => event.Location = value);
                           },
                         ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                              icon: Icon(Icons.menu_book_outlined),
-                              hintText: ('interests')),
-                          initialValue: widget.studenthasposts["interests"],
-                          validator:
-                              RequiredValidator(errorText: "กรุณาใส่หมวดหมู่!"),
-                          onSaved: (value) {
-                            setState(() => event.interests = value);
-                          },
+                        Container(
+                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                          child: ListTile(
+                            leading: const Icon(
+                              Icons.category,
+                              size: 30,
+                            ),
+                            title: const Text(
+                              "Interests",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            trailing: Wrap(
+                              spacing: 13,
+                              children: const <Widget>[
+                                Icon(
+                                  Icons.navigate_next_rounded,
+                                  size: 35,
+                                ),
+                              ],
+                            ),
+                            onTap: () {
+                              _formKey.currentState!.save();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Postinterests(
+                                          widget.studenthasposts)));
+                            },
+                          ),
                         ),
                         const SizedBox(
                           height: 300,

@@ -135,9 +135,9 @@ class _Listcate extends State<Listcate> {
                   .collection('Categories')
                   .doc()
                   .set({
-                "Category_id": Cate_id[x],
-                "Description": Cate_Description[x],
-                "Name": Cate_name[x]
+                "Category_id": Cate_id[x - 1],
+                "Description": Cate_Description[x - 1],
+                "Name": Cate_name[x - 1]
               }).then((value) => {
                         Fluttertoast.showToast(
                             msg: "Success!", gravity: ToastGravity.CENTER),

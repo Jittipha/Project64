@@ -11,6 +11,8 @@ import 'package:project/screens/postcategorise.dart';
 import 'package:project/screens/tabbar.dart';
 
 class Postinterests extends StatefulWidget {
+  QueryDocumentSnapshot<Object?> documents;
+  Postinterests(this.documents);
   @override
   _Postinterests createState() => _Postinterests();
 }
@@ -120,23 +122,60 @@ class _Postinterests extends State<Postinterests> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (_formKey.currentState!.validate()) {
-            _formKey.currentState!.save();
-            var arraychoose = Choose.split(",");
-            print(arraychoose);
-            print(Cate_Description);
-            Navigator.pop(context, MaterialPageRoute(
-              builder: (context) {
-                return Post(
-                  arraychoose: arraychoose,
-                );
-              },
-            ));
-          }
-        },
-        child: const Icon(Icons.check_circle_outline_outlined),
-      ),
+          onPressed: () async {
+            if (_formKey.currentState!.validate()) {
+              _formKey.currentState!.save();
+              var arraychoose = Choose.split(",");
+              print(arraychoose);
+
+              for (int a = 0; a < arraychoose.length; a++) {
+                print(arraychoose[a]);
+                int x = int.parse(arraychoose[a]);
+                print(x);
+                print(Cate_name[x - 1]);
+                FirebaseFirestore.instance
+                    .collection('Event')
+                    .doc(widget.documents.id)
+                    .collection('Interests')
+                    .doc()
+                    .set({
+                  "Category_id": Cate_id[x - 1],
+                  "Description": Cate_Description[x - 1],
+                  "Name": Cate_name[x - 1]
+                });
+                QuerySnapshot snap = await FirebaseFirestore.instance
+                    .collection('Student')
+                    .doc(FirebaseAuth.instance.currentUser?.uid)
+                    .collection('Posts')
+                    .where("Name", isEqualTo: event.Name)
+                    .where("Event_id", isEqualTo: widget.documents.id)
+                    .get();
+                snap.docs.forEach((document) async {
+                  FirebaseFirestore.instance
+                      .collection('Student')
+                      .doc(FirebaseAuth.instance.currentUser?.uid)
+                      .collection('Posts')
+                      .doc(document.id)
+                      .collection('interests')
+                      .doc()
+                      .set({
+                    "Category_id": Cate_id[x - 1],
+                    "Description": Cate_Description[x - 1],
+                    "Name": Cate_name[x - 1]
+                  }).then((value) => {
+                            Fluttertoast.showToast(
+                                msg: "Success!", gravity: ToastGravity.CENTER),
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return const Tabbar();
+                              },
+                            ))
+                          });
+                });
+              }
+            }
+          },
+          child: const Icon(Icons.check_circle_outline_outlined)),
     );
   }
 }
