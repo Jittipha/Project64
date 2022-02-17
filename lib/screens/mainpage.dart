@@ -22,7 +22,11 @@ class MainPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           "MENU",
-          style: TextStyle(fontSize: 25, color: Colors.black),
+          style: TextStyle(
+            fontSize: 25,
+            fontFamily: 'Raleway',
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       body: Padding(
@@ -38,7 +42,10 @@ class MainPage extends StatelessWidget {
                           Colors.green.shade200)),
                   child: const Text(
                     "Create Categories",
-                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'RobotoMono',
+                        color: Colors.black),
                   ),
                   onPressed: () {
                     Navigator.push(context,
@@ -60,7 +67,10 @@ class MainPage extends StatelessWidget {
                           Colors.green.shade200)),
                   child: const Text(
                     "Create Event",
-                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'RobotoMono',
+                        color: Colors.black),
                   ),
                   onPressed: () {
                     Navigator.push(context,
@@ -82,7 +92,10 @@ class MainPage extends StatelessWidget {
                           Colors.green.shade200)),
                   child: const Text(
                     "My Events",
-                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'RobotoMono',
+                        color: Colors.black),
                   ),
                   onPressed: () {
                     Navigator.push(context,
@@ -104,7 +117,10 @@ class MainPage extends StatelessWidget {
                           Colors.yellow.shade200)),
                   child: const Text(
                     "My Profile",
-                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'RobotoMono',
+                        color: Colors.black),
                   ),
                   onPressed: () {
                     Navigator.push(context,

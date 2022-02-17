@@ -231,9 +231,9 @@ class _EditEventState extends State<EditEvent> {
                                             .instance.currentUser?.uid)
                                         .collection('Posts')
                                         .doc(widget.studenthasposts.id)
-                                        .delete()
-                                        .then((value) => {});
-                                    FirebaseFirestore.instance
+                                        .delete();
+
+                                    await FirebaseFirestore.instance
                                         .collection('Event')
                                         .doc(widget.studenthasposts["Event_id"])
                                         .delete()
