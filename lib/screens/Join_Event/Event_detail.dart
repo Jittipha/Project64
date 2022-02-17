@@ -101,7 +101,7 @@ class _eventdetailState extends State<eventdetail> {
             )),
             child: ListTile(
                 title: Text(
-              widget.snap.data["Description"],
+              "   " + widget.snap.data["Description"],
               style: const TextStyle(
                 fontSize: 15,
                 fontFamily: 'Raleway',
@@ -185,7 +185,7 @@ class _eventdetailState extends State<eventdetail> {
         },
         label: const Text('JOIN'),
         icon: const Icon(Icons.person_add_alt),
-        backgroundColor: Colors.pink[400],
+        backgroundColor: Colors.green[400],
       ),
     );
   }
