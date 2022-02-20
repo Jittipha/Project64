@@ -2,6 +2,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:project/algolia/searchpage.dart';
+
 
 import 'mainpage.dart';
 
@@ -21,14 +23,12 @@ class _TabbarState extends State<Tabbar> {
       'Index 0: home',
       style: optionStyle,
     ),
+    SearchBar(),
     Text(
-      'Index 1: Search',
+      'Index 1: Notifications',
       style: optionStyle,
     ),
-    Text(
-      'Index 2:Notification',
-      style: optionStyle,
-    ),
+    
     MainPage(),
   ];
 
