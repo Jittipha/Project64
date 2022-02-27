@@ -9,7 +9,7 @@ class AddCategorise extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           "Add Categorise",
-          style: TextStyle(fontSize: 20, color: Colors.black),
+          style: TextStyle(fontSize: 200, color: Colors.black),
         ),
       ),
     );

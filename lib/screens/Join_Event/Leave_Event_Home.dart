@@ -165,8 +165,8 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
               .then((value) {
             Fluttertoast.showToast(
                 msg: "ออกจากกิจกรรมแล้ว!", gravity: ToastGravity.CENTER);
-            Navigator.pop(
-                context, MaterialPageRoute(builder: (context) => SearchBar()));
+            Navigator.pop(context,
+                MaterialPageRoute(builder: (context) => const SearchBar()));
           });
         },
         label: const Text(
