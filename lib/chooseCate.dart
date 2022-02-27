@@ -60,9 +60,7 @@ class _CategoriesState extends State<Categories> {
             } else {
               return ListView(
                   children: snapshot.data!.docs.map((category) {
-                // choosecate.add(CheckboxState(title: category['Name']));
-                // print(choosecate);
-                // var index = snapshot.data!.docs.indexOf(category);
+                var index = snapshot.data!.docs.indexOf(category);
                 return buildSingleCheckbox(
                     CheckboxState(title: category['Name']));
               }).toList());

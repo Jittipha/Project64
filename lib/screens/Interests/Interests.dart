@@ -156,7 +156,7 @@ class _Postinterests extends State<Postinterests> {
                       .doc(FirebaseAuth.instance.currentUser?.uid)
                       .collection('Posts')
                       .doc(document.id)
-                      .collection('interests')
+                      .collection('Interests')
                       .doc()
                       .set({
                     "Category_id": Cate_id[x - 1],

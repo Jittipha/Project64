@@ -2,19 +2,21 @@ import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:project/algolia/searchpage.dart';
+import 'package:project/screens/Home_Feed/homepage.dart';
 
-import '../../SearchBar.dart';
-
-class Leaveevent extends StatefulWidget {
-  Leaveevent({Key? key, required this.snap}) : super(key: key);
+class eventdetail extends StatefulWidget {
+  eventdetail({Key? key, required this.snap}) : super(key: key);
+  //final QueryDocumentSnapshot<Object?> studenthasposts;
   AlgoliaObjectSnapshot snap;
 
   @override
-  _LeaveeventState createState() => _LeaveeventState();
+  _eventdetailState createState() => _eventdetailState();
 }
 
-class _LeaveeventState extends State<Leaveevent> {
+class _eventdetailState extends State<eventdetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,7 +101,7 @@ class _LeaveeventState extends State<Leaveevent> {
             )),
             child: ListTile(
                 title: Text(
-              widget.snap.data["Description"],
+              "   " + widget.snap.data["Description"],
               style: const TextStyle(
                 fontSize: 15,
                 fontFamily: 'Raleway',
@@ -125,7 +127,7 @@ class _LeaveeventState extends State<Leaveevent> {
             )),
             child: ListTile(
                 leading: CircleAvatar(
-                  radius: 26.0,
+                  radius: 24.0,
                   backgroundImage:
                       NetworkImage("${widget.snap.data['Host'][0]['Photo']}"),
                   backgroundColor: Colors.transparent,
@@ -149,26 +151,51 @@ class _LeaveeventState extends State<Leaveevent> {
               .doc(widget.snap.objectID)
               .collection("Joined")
               .doc(FirebaseAuth.instance.currentUser?.uid)
-              .delete();
+              .set({
+            "Student_id": FirebaseAuth.instance.currentUser?.uid,
+            "Name": FirebaseAuth.instance.currentUser?.displayName,
+            "Photo": FirebaseAuth.instance.currentUser?.photoURL,
+            "Email": FirebaseAuth.instance.currentUser?.email
+          });
+          await FirebaseFirestore.instance
+              .collection("Notification")
+              .doc(widget.snap.objectID)
+              .collection("Student")
+              .doc(FirebaseAuth.instance.currentUser?.uid)
+              .set({
+            "Name": FirebaseAuth.instance.currentUser?.displayName,
+            "Photo": FirebaseAuth.instance.currentUser?.photoURL,
+            "Email": FirebaseAuth.instance.currentUser?.email
+          });
           await FirebaseFirestore.instance
               .collection("Student")
               .doc(FirebaseAuth.instance.currentUser?.uid)
               .collection("Joined")
               .doc(widget.snap.objectID)
-              .delete()
-              .then((value) {
+              .set({
+            "Image": widget.snap.data["Image"],
+            "Name": widget.snap.data["Name"],
+            "Description": widget.snap.data["Description"],
+            "Time": widget.snap.data["Time"],
+            "Location": widget.snap.data["Location"],
+            "Host": [
+              {
+                "Student_id": widget.snap.data['Host'][0]['Student_id'],
+                "Name": widget.snap.data['Host'][0]['Name'],
+                "Photo": widget.snap.data['Host'][0]['Photo'],
+                "Email": widget.snap.data['Host'][0]['Email']
+              }
+            ]
+          }).then((value) {
             Fluttertoast.showToast(
-                msg: "ออกจากกิจกรรมแล้ว!", gravity: ToastGravity.CENTER);
+                msg: "เข้าร่วมกิจกรรมแล้ว!", gravity: ToastGravity.CENTER);
             Navigator.pop(
                 context, MaterialPageRoute(builder: (context) => SearchBar()));
           });
         },
-        label: const Text(
-          'LEAVE',
-          style: TextStyle(fontFamily: 'RobotoMono-Light'),
-        ),
-        icon: const Icon(Icons.exit_to_app_outlined),
-        backgroundColor: Colors.pink[400],
+        label: const Text('JOIN'),
+        icon: const Icon(Icons.person_add_alt),
+        backgroundColor: Colors.green[400],
       ),
     );
   }

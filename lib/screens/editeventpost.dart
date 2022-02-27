@@ -3,11 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+
 import 'package:project/Model/Event.dart';
 
-import 'Interests.dart';
+import 'Interests/editinterests.dart';
 import 'Myevents.dart';
-import 'homepage.dart';
+import 'Home_Feed/homepage.dart';
 
 class EditEvent extends StatefulWidget {
   EditEvent({
@@ -26,6 +27,7 @@ class _EditEventState extends State<EditEvent> {
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
   events event = events();
   bool isLoading = false;
+  String count_interests = '';
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +134,7 @@ class _EditEventState extends State<EditEvent> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Postinterests(
+                                      builder: (context) => editinterest(
                                           widget.studenthasposts)));
                             },
                           ),

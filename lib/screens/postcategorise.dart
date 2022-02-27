@@ -14,7 +14,8 @@ import 'package:project/screens/Myevents.dart';
 import 'package:project/screens/addcategorise.dart';
 import 'package:project/screens/tabbar.dart';
 import 'package:project/Model/Student.dart';
-import 'Interests.dart';
+
+import 'Interests/Interests.dart';
 import 'editeventpost.dart';
 //import 'package:flutter_application_1/screen/addcategorise.dart';
 //import 'package:flutter_application_1/screen/createeventspost.dart';
