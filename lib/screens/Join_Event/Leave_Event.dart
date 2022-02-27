@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:project/screens/bg.dart';
 
 import '../../SearchBar.dart';
 
@@ -25,123 +26,164 @@ class _LeaveeventState extends State<Leaveevent> {
               fontSize: 25, fontFamily: 'Raleway', fontWeight: FontWeight.w600),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(children: <Widget>[
-          Container(
-            child: Image.network(
-              widget.snap.data["Image"],
-              fit: BoxFit.fitWidth,
-              height: 230,
-              width: 500,
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(10, 23, 10, 15),
-            child: Text(
-              widget.snap.data["Name"],
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Raleway',
-                  fontSize: 25),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
-            decoration: const BoxDecoration(
-                border: Border(
-              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
-            )),
-            child: const ListTile(
-                leading: Icon(Icons.date_range, size: 30),
-                title: Text(
-                  "",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'Raleway',
-                    fontWeight: FontWeight.w400,
+      body: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('Event')
+              .doc(widget.snap.objectID)
+              .collection('Joined')
+              .snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return const Background(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return SingleChildScrollView(
+              child: Column(children: <Widget>[
+                Container(
+                  child: Image.network(
+                    widget.snap.data["Image"],
+                    fit: BoxFit.fitWidth,
+                    height: 230,
+                    width: 500,
                   ),
-                  textAlign: TextAlign.start,
-                )),
-          ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-            decoration: const BoxDecoration(
-                border: Border(
-              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
-            )),
-            child: ListTile(
-                leading: const Icon(Icons.location_on_outlined, size: 30),
-                title: Text(
-                  widget.snap.data["Location"],
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'Raleway',
-                    fontWeight: FontWeight.w400,
-                  ),
-                  textAlign: TextAlign.start,
-                )),
-          ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(15, 13, 10, 2),
-            child: const ListTile(
-              title: Text("About",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Raleway',
-                      fontSize: 25)),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(28, 0, 10, 10),
-            decoration: const BoxDecoration(
-                border: Border(
-              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
-            )),
-            child: ListTile(
-                title: Text(
-              widget.snap.data["Description"],
-              style: const TextStyle(
-                fontSize: 15,
-                fontFamily: 'Raleway',
-                fontWeight: FontWeight.w400,
-              ),
-            )),
-          ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(15, 13, 10, 2),
-            child: const ListTile(
-              title: Text("Host",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Raleway',
-                      fontSize: 25)),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(13, 0, 0, 10),
-            decoration: const BoxDecoration(
-                border: Border(
-              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
-            )),
-            child: ListTile(
-                leading: CircleAvatar(
-                  radius: 26.0,
-                  backgroundImage:
-                      NetworkImage("${widget.snap.data['Host'][0]['Photo']}"),
-                  backgroundColor: Colors.transparent,
                 ),
-                title: Text(
-                  widget.snap.data['Host'][0]['Name'],
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'Raleway',
-                    fontWeight: FontWeight.w400,
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10, 23, 10, 15),
+                  child: Text(
+                    widget.snap.data["Name"],
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Raleway',
+                        fontSize: 25),
                   ),
-                  textAlign: TextAlign.start,
-                )),
-          ),
-        ]),
-      ),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+                  decoration: const BoxDecoration(
+                      border: Border(
+                    bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+                  )),
+                  child: const ListTile(
+                      leading: Icon(Icons.date_range, size: 30),
+                      title: Text(
+                        "",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w400,
+                        ),
+                        textAlign: TextAlign.start,
+                      )),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  decoration: const BoxDecoration(
+                      border: Border(
+                    bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+                  )),
+                  child: ListTile(
+                      leading: const Icon(Icons.location_on_outlined, size: 30),
+                      title: Text(
+                        widget.snap.data["Location"],
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w400,
+                        ),
+                        textAlign: TextAlign.start,
+                      )),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(15, 13, 10, 2),
+                  child: const ListTile(
+                    title: Text("About",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Raleway',
+                            fontSize: 25)),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(28, 0, 10, 10),
+                  decoration: const BoxDecoration(
+                      border: Border(
+                    bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+                  )),
+                  child: ListTile(
+                      title: Text(
+                    widget.snap.data["Description"],
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontFamily: 'Raleway',
+                      fontWeight: FontWeight.w400,
+                    ),
+                  )),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(15, 13, 10, 2),
+                  child: const ListTile(
+                    title: Text("Host",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Raleway',
+                            fontSize: 25)),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(13, 0, 0, 10),
+                  decoration: const BoxDecoration(
+                      border: Border(
+                    bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+                  )),
+                  child: ListTile(
+                      leading: CircleAvatar(
+                        radius: 26.0,
+                        backgroundImage: NetworkImage(
+                            "${widget.snap.data['Host'][0]['Photo']}"),
+                        backgroundColor: Colors.transparent,
+                      ),
+                      title: Text(
+                        widget.snap.data['Host'][0]['Name'],
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w400,
+                        ),
+                        textAlign: TextAlign.start,
+                      )),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(15, 13, 10, 2),
+                  child: const ListTile(
+                    title: Text("Joined",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Raleway',
+                            fontSize: 25)),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(13, 0, 0, 10),
+                  decoration: const BoxDecoration(
+                      border: Border(
+                    bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+                  )),
+                  height: 200,
+                  width: 500,
+                  child: ListView(
+                      children: snapshot.data!.docs.map((doc) {
+                    return Card(
+                        color: Colors.purple[50],
+                        child: ListTile(
+                          leading: Image.network(doc['Photo']),
+                          title: Text(doc['Name']),
+                        ));
+                  }).toList()),
+                )
+              ]),
+            );
+          }),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           await FirebaseFirestore.instance
