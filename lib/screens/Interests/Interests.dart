@@ -136,12 +136,12 @@ class _Postinterests extends State<Postinterests> {
                 FirebaseFirestore.instance
                     .collection('Event')
                     .doc(widget.documents.id)
-                    .collection('Interests')
-                    .doc()
+                    // .collection('Interests')
+                    // .doc()
                     .set({
-                  "Category_id": Cate_id[x - 1],
-                  "Description": Cate_Description[x - 1],
-                  "Name": Cate_name[x - 1]
+                  "Interests": [
+                    Cate_id[x - 1],
+                  ]
                 });
                 QuerySnapshot snap = await FirebaseFirestore.instance
                     .collection('Student')
@@ -156,12 +156,10 @@ class _Postinterests extends State<Postinterests> {
                       .doc(FirebaseAuth.instance.currentUser?.uid)
                       .collection('Posts')
                       .doc(document.id)
-                      .collection('Interests')
-                      .doc()
+                      // .collection('Interests')
+                      // .doc()
                       .set({
-                    "Category_id": Cate_id[x - 1],
-                    "Description": Cate_Description[x - 1],
-                    "Name": Cate_name[x - 1]
+                    "Interests": [Cate_id[x - 1]]
                   }).then((value) => {
                             Fluttertoast.showToast(
                                 msg: "Success!", gravity: ToastGravity.CENTER),

@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -15,6 +17,7 @@ import 'package:project/screens/tabbar.dart';
 class editinterest extends StatefulWidget {
   QueryDocumentSnapshot<Object?> documents;
   editinterest(this.documents);
+
   @override
   _editinterest createState() => _editinterest();
 }
@@ -26,6 +29,7 @@ class _editinterest extends State<editinterest> {
   final Cate_name = [];
   final Cate_Description = [];
   var Choose;
+
   Cates cates = Cates();
   events event = events();
 
@@ -131,23 +135,23 @@ class _editinterest extends State<editinterest> {
               var arraychoose = Choose.split(",");
               print(arraychoose);
               //delete old interests
-              await FirebaseFirestore.instance
-                  .collection('Event')
-                  .doc(widget.documents["Event_id"])
-                  .collection('Interests')
-                  .get()
-                  .then((value) => {
-                        print(value.docs.length),
-                        value.docs.forEach((del) async {
-                          print(del.id);
-                          await FirebaseFirestore.instance
-                              .collection('Event')
-                              .doc(widget.documents["Event_id"])
-                              .collection('Interests')
-                              .doc(del.id)
-                              .delete();
-                        })
-                      });
+              // await FirebaseFirestore.instance
+              //     .collection('Event')
+              //     .doc(widget.documents["Event_id"])
+              //     .collection('Interests')
+              //     .get()
+              //     .then((value) => {
+              //           print(value.docs.length),
+              //           value.docs.forEach((del) async {
+              //             print(del.id);
+              //             await FirebaseFirestore.instance
+              //                 .collection('Event')
+              //                 .doc(widget.documents["Event_id"])
+              //                 .collection('Interests')
+              //                 .doc(del.id)
+              //                 .delete();
+              //           })
+              //         });
               await FirebaseFirestore.instance
                   .collection('Student')
                   .doc(FirebaseAuth.instance.currentUser?.uid)
