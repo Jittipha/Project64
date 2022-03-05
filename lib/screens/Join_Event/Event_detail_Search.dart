@@ -160,6 +160,13 @@ class _eventdetailState extends State<eventdetail> {
           await FirebaseFirestore.instance
               .collection("Notification")
               .doc(widget.snap.objectID)
+              .set({
+            "Photo": widget.snap.data["Image"],
+            "Name": widget.snap.data["Name"]
+          });
+          await FirebaseFirestore.instance
+              .collection("Notification")
+              .doc(widget.snap.objectID)
               .collection("Student")
               .doc(FirebaseAuth.instance.currentUser?.uid)
               .set({

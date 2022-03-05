@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:project/chooseCate.dart';
 import 'package:project/screens/Home_Feed/homepage.dart';
 import 'package:project/screens/Home_Feed/thisweek.dart';
 import 'package:project/screens/Home_Feed/today.dart';
 import 'package:project/screens/Home_Feed/tomorrow.dart';
+import 'package:project/screens/listcate.dart';
 
 class FillOutlineButton extends StatelessWidget {
   const FillOutlineButton({
@@ -35,12 +37,12 @@ class FillOutlineButton extends StatelessWidget {
       color: isFilled ? Colors.white : Colors.transparent,
       onPressed: () {
         Navigator.pop(
-            context, MaterialPageRoute(builder: (context) => _Goto[Num]));
+            context, MaterialPageRoute(builder: (context) => Listcate()));
       },
       child: Text(
         text,
         style: TextStyle(
-          color: isFilled ? Color(0xFF1D1D35) : Colors.white,
+          color: isFilled ? const Color(0xFF1D1D35) : Colors.white,
           fontSize: 12,
         ),
       ),

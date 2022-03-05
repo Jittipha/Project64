@@ -57,7 +57,7 @@ class _MyEventState extends State<MyEvent> {
                         );
                       } else if (snapshots.data?.docs.length == 0) {
                         return Container(
-                            padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 55, 0, 0),
                             child: const Text(
                               "NOT HAVE EVENT.",
                               style: TextStyle(
@@ -162,7 +162,7 @@ class _MyEventState extends State<MyEvent> {
                         );
                       } else if (snapshot.data?.docs.length == 0) {
                         return Container(
-                            padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 55, 0, 0),
                             child: const Text(
                               "NOT HAVE EVENT.",
                               style: TextStyle(

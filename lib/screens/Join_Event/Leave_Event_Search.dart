@@ -119,20 +119,6 @@ class _LeaveeventState extends State<Leaveevent> {
                   ),
                 ),
                 Container(
-                    padding: const EdgeInsets.fromLTRB(13, 0, 0, 10),
-                    decoration: const BoxDecoration(
-                        border: Border(
-                      bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
-                    )),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 24.0,
-                        backgroundImage: NetworkImage(
-                            "${widget.snap.data['Host'][0]['Photo']}"),
-                        backgroundColor: Colors.transparent,
-                      ),
-                    )),
-                Container(
                   padding: const EdgeInsets.fromLTRB(15, 13, 10, 2),
                   child: const ListTile(
                     title: Text("Host",

@@ -180,11 +180,9 @@ class _SearchBarState extends State<SearchBar> {
                                       ListTile(
                                         title: Text(snap.data["Name"],
                                             style: TextStyle(
-                                                fontFamily: 'Raleway')),
-                                        subtitle: Text(
-                                            " " + snap.data["Description"],
-                                            style: TextStyle(
-                                                fontFamily: 'Raleway')),
+                                                fontSize: 22,
+                                                fontFamily: 'Raleway',
+                                                fontWeight: FontWeight.w600)),
                                       ),
                                     ],
                                   ),
