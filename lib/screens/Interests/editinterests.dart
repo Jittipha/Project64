@@ -2,19 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:get/get.dart';
+
 import 'package:project/Model/Event.dart';
 
 import 'package:project/screens/DetailCate.dart';
 import 'package:project/Model/Category.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:project/screens/editeventpost.dart';
-import 'package:project/screens/postcategorise.dart';
-import 'package:project/screens/tabbar.dart';
 
 class editinterest extends StatefulWidget {
   QueryDocumentSnapshot<Object?> documents;
-  editinterest(this.documents);
+  List count_interests;
+  editinterest(this.documents, this.count_interests);
 
   @override
   _editinterest createState() => _editinterest();
@@ -114,6 +113,7 @@ class _editinterest extends State<editinterest> {
                           label: Text('เช่น 1,2,3,...'),
                           border: OutlineInputBorder(),
                         ),
+                        // initialValue: '${widget.count_interests}',
                         keyboardType: const TextInputType.numberWithOptions(),
                         validator: RequiredValidator(errorText: "กรุณาใส่เลข!"),
                         onSaved: (value) {
@@ -150,27 +150,38 @@ class _editinterest extends State<editinterest> {
               //                 .delete();
               //           })
               //         });
+              //delete Interests in Event Table
               await FirebaseFirestore.instance
-                  .collection('Student')
-                  .doc(FirebaseAuth.instance.currentUser?.uid)
-                  .collection('Posts')
+                  .collection("Event")
                   .doc(widget.documents.id)
-                  .collection('Interests')
-                  .get()
-                  .then((value) => {
-                        print(value.docs.length),
-                        value.docs.forEach((del) async {
-                          print(del.id);
-                          await FirebaseFirestore.instance
-                              .collection('Student')
-                              .doc(FirebaseAuth.instance.currentUser?.uid)
-                              .collection('Posts')
-                              .doc(widget.documents.id)
-                              .collection('Interests')
-                              .doc(del.id)
-                              .delete();
-                        })
-                      });
+                  .update({'Interests': FieldValue.delete()});
+              await FirebaseFirestore.instance
+                  .collection("Student")
+                  .doc(FirebaseAuth.instance.currentUser?.uid)
+                  .collection("Post")
+                  .doc(widget.documents.id)
+                  .update({'Interests': FieldValue.delete()});
+              // await FirebaseFirestore.instance
+              //     .collection('Student')
+              //     .doc(FirebaseAuth.instance.currentUser?.uid)
+              //     .collection('Posts')
+              //     .doc(widget.documents.id)
+              //     .collection('Interests')
+              //     .get()
+              //     .then((value) => {
+              //           print(value.docs.length),
+              //           value.docs.forEach((del) async {
+              //             print(del.id);
+              //             await FirebaseFirestore.instance
+              //                 .collection('Student')
+              //                 .doc(FirebaseAuth.instance.currentUser?.uid)
+              //                 .collection('Posts')
+              //                 .doc(widget.documents.id)
+              //                 .collection('Interests')
+              //                 .doc(del.id)
+              //                 .delete();
+              //           })
+              //         });
               for (int a = 0; a < arraychoose.length; a++) {
                 print(arraychoose[a]);
                 int x = int.parse(arraychoose[a]);
@@ -178,37 +189,42 @@ class _editinterest extends State<editinterest> {
                 print(Cate_name[x - 1]);
 
                 //insert new interests
-                await FirebaseFirestore.instance
+                FirebaseFirestore.instance
                     .collection('Event')
-                    .doc(widget.documents["Event_id"])
-                    .collection('Interests')
-                    .doc()
+                    .doc(widget.documents.id)
                     .set({
-                  "Category_id": Cate_id[x - 1],
-                  "Description": Cate_Description[x - 1],
-                  "Name": Cate_name[x - 1]
+                  "Interests": [
+                    Cate_id[x - 1],
+                  ]
                 });
+                // await FirebaseFirestore.instance
+                //     .collection('Event')
+                //     .doc(widget.documents["Event_id"])
+                //     .collection('Interests')
+                //     .doc()
+                //     .set({
+                //   "Category_id": Cate_id[x - 1],
+                //   "Description": Cate_Description[x - 1],
+                //   "Name": Cate_name[x - 1]
+                // });
 
-                // QuerySnapshot snap = await FirebaseFirestore.instance
-                //     .collection('Student')
-                //     .doc(FirebaseAuth.instance.currentUser?.uid)
-                //     .collection('Posts')
-                //     .where("Name", isEqualTo: event.Name)
-                //     .where("Event_id", isEqualTo: widget.documents.id)
-                //     .get();
-
-                // snap.docs.forEach((document) async {
-                await FirebaseFirestore.instance
+                QuerySnapshot snap = await FirebaseFirestore.instance
                     .collection('Student')
                     .doc(FirebaseAuth.instance.currentUser?.uid)
                     .collection('Posts')
-                    .doc(widget.documents.id)
-                    .collection('Interests')
-                    .doc()
-                    .set({
-                  "Category_id": Cate_id[x - 1],
-                  "Description": Cate_Description[x - 1],
-                  "Name": Cate_name[x - 1]
+                    .where("Name", isEqualTo: event.Name)
+                    .where("Event_id", isEqualTo: widget.documents.id)
+                    .get();
+
+                snap.docs.forEach((document) async {
+                  FirebaseFirestore.instance
+                      .collection('Student')
+                      .doc(FirebaseAuth.instance.currentUser?.uid)
+                      .collection('Posts')
+                      .doc(document.id)
+                      .set({
+                    "Interests": [Cate_id[x - 1]]
+                  });
                 });
               }
               Fluttertoast.showToast(

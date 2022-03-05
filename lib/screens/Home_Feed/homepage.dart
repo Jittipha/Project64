@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
         body: Column(children: [
       Container(
         height: MediaQuery.of(context).size.height * 0.18,
-        padding: const EdgeInsets.fromLTRB(10, 65, 10, 0),
+        padding: const EdgeInsets.fromLTRB(10, 75, 10, 0),
         color: const Color(0xFF00BF6D),
         child: Row(
           children: [
