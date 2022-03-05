@@ -162,16 +162,29 @@ class _eventdetailhomeState extends State<eventdetailhome> {
               .doc(widget.snap.id)
               .set(
                   {"Photo": widget.snap["Image"], "Name": widget.snap["Name"]});
-          await FirebaseFirestore.instance
+          var checkid = await FirebaseFirestore.instance
               .collection("Notification")
               .doc(widget.snap.id)
-              .collection("Student")
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .set({
-            "Name": FirebaseAuth.instance.currentUser?.displayName,
-            "Photo": FirebaseAuth.instance.currentUser?.photoURL,
-            "Email": FirebaseAuth.instance.currentUser?.email
-          });
+              .get();
+          if (checkid.exists) {
+            await FirebaseFirestore.instance
+                .collection("Notification")
+                .doc(widget.snap.id)
+                .update({
+              'Student_id': FieldValue.arrayUnion(
+                  [FirebaseAuth.instance.currentUser?.uid])
+            });
+          } else {
+            await FirebaseFirestore.instance
+                .collection("Notification")
+                .doc(widget.snap.id)
+                .set({
+              'Student_id': [
+                FirebaseAuth.instance.currentUser?.uid,
+              ]
+            });
+          }
+
           await FirebaseFirestore.instance
               .collection("Student")
               .doc(FirebaseAuth.instance.currentUser?.uid)

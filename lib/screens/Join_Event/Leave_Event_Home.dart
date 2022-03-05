@@ -153,9 +153,11 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
           await FirebaseFirestore.instance
               .collection("Notification")
               .doc(widget.snap.id)
-              .collection("Student")
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .delete();
+              .update({
+            'Student_id':
+                FieldValue.arrayRemove([FirebaseAuth.instance.currentUser?.uid])
+          });
+
           await FirebaseFirestore.instance
               .collection("Student")
               .doc(FirebaseAuth.instance.currentUser?.uid)
