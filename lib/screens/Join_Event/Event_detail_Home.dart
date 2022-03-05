@@ -157,11 +157,7 @@ class _eventdetailhomeState extends State<eventdetailhome> {
             "Photo": FirebaseAuth.instance.currentUser?.photoURL,
             "Email": FirebaseAuth.instance.currentUser?.email
           });
-          await FirebaseFirestore.instance
-              .collection("Notification")
-              .doc(widget.snap.id)
-              .set(
-                  {"Photo": widget.snap["Image"], "Name": widget.snap["Name"]});
+
           var checkid = await FirebaseFirestore.instance
               .collection("Notification")
               .doc(widget.snap.id)
@@ -179,7 +175,9 @@ class _eventdetailhomeState extends State<eventdetailhome> {
                 .collection("Notification")
                 .doc(widget.snap.id)
                 .set({
-              'Student_id': [
+              "Photo": widget.snap["Image"],
+              "Name": widget.snap["Name"],
+              "Student_id": [
                 FirebaseAuth.instance.currentUser?.uid,
               ]
             });
