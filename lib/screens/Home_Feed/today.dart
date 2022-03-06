@@ -10,6 +10,9 @@ class Today extends StatefulWidget {
 class _TodayState extends State<Today> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+        body: Column(
+      children: [Container()],
+    ));
   }
 }

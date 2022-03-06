@@ -17,13 +17,14 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String Category = "";
   String Category_id = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(children: [
       Container(
         height: MediaQuery.of(context).size.height * 0.18,
-        padding: const EdgeInsets.fromLTRB(10, 70, 10, 0),
+        padding: const EdgeInsets.fromLTRB(10, 75, 10, 0),
         color: const Color(0xFF00BF6D),
         child: Row(
           children: [
@@ -45,8 +46,8 @@ class _HomeState extends State<Home> {
         ),
       ),
       Container(
-          height: MediaQuery.of(context).size.height * 0.7,
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+          height: MediaQuery.of(context).size.height * 0.741,
+          padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
           child: StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('Student')
@@ -63,7 +64,7 @@ class _HomeState extends State<Home> {
                       scrollDirection: Axis.vertical,
                       children: snapshot.data!.docs.map((cate) {
                         Category = cate["Name"];
-                        Category_id = cate.id;
+                        Category_id = cate["Category_id"];
                         return Column(children: <Widget>[
                           Container(
                               child: ListTile(
@@ -82,11 +83,9 @@ class _HomeState extends State<Home> {
                               child: StreamBuilder(
                                 stream: FirebaseFirestore.instance
                                     .collection("Event")
-                                    // .doc()
-                                    // .collection("Interests")
-                                    // .where("Category_id",
-                                    //     isEqualTo: Category_id)
-                                    .snapshots(),
+                                    .where("Interests", arrayContainsAny: [
+                                  Category_id
+                                ]).snapshots(),
                                 builder: (context,
                                     AsyncSnapshot<QuerySnapshot> snapshots) {
                                   if (snapshots.connectionState ==
@@ -135,14 +134,15 @@ class _HomeState extends State<Home> {
                                                               .then(
                                                                   (value) async =>
                                                                       {
-                                                                        if (value.docs.length ==
-                                                                            0)
+                                                                        if (value
+                                                                            .docs
+                                                                            .isEmpty)
                                                                           {
                                                                             await FirebaseFirestore.instance.collection("Event").doc(Event.id).collection("Joined").where("Student_id", isEqualTo: FirebaseAuth.instance.currentUser?.uid).get().then((docsnapshot) =>
                                                                                 {
                                                                                   // ignore: avoid_print
                                                                                   print(docsnapshot.docs.length),
-                                                                                  if (docsnapshot.docs.length == 0)
+                                                                                  if (docsnapshot.docs.isEmpty)
                                                                                     // ignore: avoid_print
                                                                                     {
                                                                                       print("dont have"),
