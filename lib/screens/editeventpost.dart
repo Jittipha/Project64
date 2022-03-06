@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:intl/intl.dart';
 
 import 'package:project/Model/Event.dart';
 
@@ -28,6 +29,60 @@ class _EditEventState extends State<EditEvent> {
   events event = events();
   bool isLoading = false;
   String count_interests = '';
+
+  //set date
+  DateTime? dateTime;
+  String? date;
+  String getTextDate() {
+    if (date == null) {
+      return widget.studenthasposts['date'];
+    } else {
+      return date!;
+    }
+  }
+
+  Future pickDate(BuildContext context) async {
+    final initialDate = DateTime.now();
+    final newDate = await showDatePicker(
+      context: context,
+      initialDate: dateTime ?? initialDate,
+      firstDate: DateTime(DateTime.now().year),
+      lastDate: DateTime(DateTime.now().year + 5),
+    );
+    if (newDate == null) return;
+    String stDate = DateFormat('MM/dd/yyyy').format(newDate!);
+
+    setState(() {
+      date = stDate;
+      event.Date = stDate;
+    });
+  }
+
+  //set time
+  TimeOfDay? time;
+  String getTextTime() {
+    if (time == null) {
+      return widget.studenthasposts['Time'];
+    } else {
+      final hours = time?.hour.toString().padLeft(2, '0');
+      final minutes = time?.minute.toString().padLeft(2, '0');
+
+      return '$hours:$minutes';
+    }
+  }
+
+  Future pickTime(BuildContext context) async {
+    final initialTime = TimeOfDay(hour: 9, minute: 0);
+    final newTime = await showTimePicker(
+        context: context, initialTime: time ?? initialTime);
+
+    if (newTime == null) return;
+
+    setState(() {
+      time = newTime;
+      event.Time = newTime;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +164,30 @@ class _EditEventState extends State<EditEvent> {
                             setState(() => event.Location = value);
                           },
                         ),
+                        //เลือกวันที่
+                        SizedBox(
+                          width: 500,
+                          height: 35,
+                          child: ElevatedButton(
+                              onPressed: () => pickDate(context),
+                              child: Text(getTextDate()),
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.white)),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        //เลือกเวลา
+                        SizedBox(
+                          width: 500,
+                          height: 35,
+                          child: ElevatedButton(
+                            onPressed: () => pickTime(context),
+                            child: Text(getTextTime()),
+                            style:
+                                ElevatedButton.styleFrom(primary: Colors.white),
+                          ),
+                        ),
                         Container(
                           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                           child: ListTile(
@@ -140,7 +219,7 @@ class _EditEventState extends State<EditEvent> {
                           ),
                         ),
                         const SizedBox(
-                          height: 300,
+                          height: 45,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
@@ -176,8 +255,9 @@ class _EditEventState extends State<EditEvent> {
                                           //"Image": event.Image,
                                           "Name": event.Name,
                                           "Description": event.Description,
-                                          //"Time": event.Time,
+                                          "Time": event.Time!.format(context),
                                           "Location": event.Location,
+                                          "date": event.Date,
                                         });
 
                                         await FirebaseFirestore.instance
@@ -190,8 +270,9 @@ class _EditEventState extends State<EditEvent> {
                                           "Image": event.Image,
                                           "Name": event.Name,
                                           "Description": event.Description,
-                                          "Time": event.Time,
-                                          "Location": event.Location
+                                          "Time": event.Time!.format(context),
+                                          "Location": event.Location,
+                                          "date": event.Date,
                                         }).then((value) => {
                                                   Fluttertoast.showToast(
                                                       msg: "Success!",
