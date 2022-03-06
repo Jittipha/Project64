@@ -117,6 +117,7 @@ class _MyEventState extends State<MyEvent> {
                                                           fontFamily:
                                                               'Raleway')),
                                                 ),
+                                                
                                               ],
                                             ),
                                           ),

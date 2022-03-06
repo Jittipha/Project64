@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:get/route_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +18,7 @@ import 'package:project/Model/Student.dart';
 
 import 'Interests/Interests.dart';
 import 'editeventpost.dart';
+
 //import 'package:flutter_application_1/screen/addcategorise.dart';
 //import 'package:flutter_application_1/screen/createeventspost.dart';
 //import 'package:flutter_application_1/screen/homepage.dart';
@@ -80,6 +82,61 @@ class _PostState extends State<Post> {
         });
   }
 
+//set date
+  DateTime? dateTime;
+  String? date;
+  //DateTime? newDate;
+  String getTextDate() {
+    if (date == null) {
+      return "Select Date";
+    } else {
+      return date!;
+    }
+  }
+
+  Future pickDate(BuildContext context) async {
+    final initialDate = DateTime.now();
+    final newDate = await showDatePicker(
+      context: context,
+      initialDate: dateTime ?? initialDate,
+      firstDate: DateTime(DateTime.now().year),
+      lastDate: DateTime(DateTime.now().year + 6),
+    );
+    if (newDate == null) return;
+    String stDate = DateFormat('MM/dd/yyyy').format(newDate!);
+
+    setState(() {
+      date = stDate;
+      event.Date = stDate;
+    });
+  }
+
+  //set time
+  TimeOfDay? time;
+  String getTextTime() {
+    if (time == null) {
+      return "Select Time";
+    } else {
+      final hours = time?.hour.toString().padLeft(2, '0');
+      final minutes = time?.minute.toString().padLeft(2, '0');
+
+      return '$hours:$minutes';
+    }
+  }
+
+  Future pickTime(BuildContext context) async {
+    final initialTime = TimeOfDay(hour: 9, minute: 0);
+    final newTime = await showTimePicker(
+        context: context, initialTime: time ?? initialTime);
+
+    if (newTime == null) return;
+
+    setState(() {
+      time = newTime;
+      event.Time = newTime;
+    });
+  }
+
   @override
   void initState() {
     dateinput.text = ""; //set the initial value of text field
@@ -118,6 +175,7 @@ class _PostState extends State<Post> {
                           height: 150,
                         ),
                 ),
+
                 // TextFormField(
                 //     // decoration: const InputDecoration(
                 //     //   icon: Icon(Icons.photo_size_select_small_outlined),
@@ -157,7 +215,28 @@ class _PostState extends State<Post> {
                     event.Location = value;
                   },
                 ),
-
+                //เลือกวันที่
+                SizedBox(
+                  width: 500,
+                  height: 35,
+                  child: ElevatedButton(
+                      onPressed: () => pickDate(context),
+                      child: Text(getTextDate()),
+                      style: ElevatedButton.styleFrom(primary: Colors.white)),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                //เลือกเวลา
+                SizedBox(
+                  width: 500,
+                  height: 35,
+                  child: ElevatedButton(
+                    onPressed: () => pickTime(context),
+                    child: Text(getTextTime()),
+                    style: ElevatedButton.styleFrom(primary: Colors.white),
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -184,8 +263,9 @@ class _PostState extends State<Post> {
                               "Image": urlImage,
                               "Name": event.Name,
                               "Description": event.Description,
-                              "Time": event.Time,
+                              "Time": event.Time?.format(context),
                               "Location": event.Location,
+                              "date": event.Date,
                               "Host": [
                                 {
                                   "Student_id":
@@ -216,9 +296,10 @@ class _PostState extends State<Post> {
                                 "Image": urlImage,
                                 "Name": event.Name,
                                 "Description": event.Description,
-                                "Time": event.Time,
+                                "Time": event.Time?.format(context),
                                 "Location": event.Location,
                                 "Event_id": document.id,
+                                "date": event.Date
                               }).then((value) => {
                                         Navigator.pushReplacement(context,
                                             MaterialPageRoute(
