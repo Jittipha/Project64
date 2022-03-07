@@ -83,6 +83,7 @@ class _HomeState extends State<Home> {
                               child: StreamBuilder(
                                 stream: FirebaseFirestore.instance
                                     .collection("Event")
+                                    //where อาเรย์
                                     .where("Interests", arrayContainsAny: [
                                   Category_id
                                 ]).snapshots(),
@@ -127,6 +128,7 @@ class _HomeState extends State<Home> {
                                                                   ?.uid)
                                                               .collection(
                                                                   "Posts")
+                                                              //where เช็คค่า
                                                               .where("Event_id",
                                                                   isEqualTo:
                                                                       Event.id)
