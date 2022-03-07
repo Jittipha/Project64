@@ -136,7 +136,7 @@ class _Postinterests extends State<Postinterests> {
                 FirebaseFirestore.instance
                     .collection('Event')
                     .doc(widget.documents.id)
-                    .set({
+                    .update({
                   "Interests": [
                     Cate_id[x - 1],
                   ]
@@ -154,7 +154,7 @@ class _Postinterests extends State<Postinterests> {
                       .doc(FirebaseAuth.instance.currentUser?.uid)
                       .collection('Posts')
                       .doc(document.id)
-                      .set({
+                      .update({
                     "Interests": [Cate_id[x - 1]]
                   }).then((value) => {
                             Fluttertoast.showToast(
