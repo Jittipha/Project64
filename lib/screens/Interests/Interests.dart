@@ -137,9 +137,7 @@ class _Postinterests extends State<Postinterests> {
                     .collection('Event')
                     .doc(widget.documents.id)
                     .update({
-                  "Interests": [
-                    Cate_id[x - 1],
-                  ]
+                  "Interests": FieldValue.arrayUnion([Cate_id[x - 1]])
                 });
                 QuerySnapshot snap = await FirebaseFirestore.instance
                     .collection('Student')
@@ -155,7 +153,7 @@ class _Postinterests extends State<Postinterests> {
                       .collection('Posts')
                       .doc(document.id)
                       .update({
-                    "Interests": [Cate_id[x - 1]]
+                    "Interests": FieldValue.arrayUnion([Cate_id[x - 1]])
                   }).then((value) => {
                             Fluttertoast.showToast(
                                 msg: "Success!", gravity: ToastGravity.CENTER),

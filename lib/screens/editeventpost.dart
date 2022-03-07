@@ -210,27 +210,27 @@ class _EditEventState extends State<EditEvent> {
                             ),
                             onTap: () async {
                               _formKey.currentState!.save();
-                              QuerySnapshot snap = await FirebaseFirestore
-                                  .instance
-                                  .collection("Category")
-                                  .get();
+                              // QuerySnapshot snap = await FirebaseFirestore
+                              //     .instance
+                              //     .collection("Category")
+                              //     .get();
 
-                              for (int a = 0; a < snap.docs.length; a++) {
-                                for (int x = 0;
-                                    x <
-                                        widget.studenthasposts["Interests"]
-                                            .length;
-                                    x++) {
-                                  var id = snap.docs[a];
-                                  // print(id.id);
-                                  // print(widget.studenthasposts["Interests"][x]);
-                                  if (id.id ==
-                                      widget.studenthasposts["Interests"][x]) {
-                                    int sum = x + 1;
-                                    count_interests.add(x.toString());
-                                  }
-                                }
-                              }
+                              // for (int a = 0; a < snap.docs.length; a++) {
+                              //   for (int x = 0;
+                              //       x <
+                              //           widget.studenthasposts["Interests"]
+                              //               .length;
+                              //       x++) {
+                              //     var id = snap.docs[a];
+                              //     // print(id.id);
+                              //     // print(widget.studenthasposts["Interests"][x]);
+                              //     if (id.id ==
+                              //         widget.studenthasposts["Interests"][x]) {
+                              //       int sum = x + 1;
+                              //       count_interests.add(x.toString());
+                              //     }
+                              //   }
+                              // }
                               print(count_interests);
                               Navigator.push(
                                   context,

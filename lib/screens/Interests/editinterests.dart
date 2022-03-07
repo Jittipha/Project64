@@ -153,12 +153,12 @@ class _editinterest extends State<editinterest> {
               //delete Interests in Event Table
               await FirebaseFirestore.instance
                   .collection("Event")
-                  .doc(widget.documents.id)
+                  .doc(widget.documents["Event_id"])
                   .update({'Interests': FieldValue.delete()});
               await FirebaseFirestore.instance
                   .collection("Student")
                   .doc(FirebaseAuth.instance.currentUser?.uid)
-                  .collection("Post")
+                  .collection("Posts")
                   .doc(widget.documents.id)
                   .update({'Interests': FieldValue.delete()});
               // await FirebaseFirestore.instance
@@ -191,11 +191,9 @@ class _editinterest extends State<editinterest> {
                 //insert new interests
                 FirebaseFirestore.instance
                     .collection('Event')
-                    .doc(widget.documents.id)
-                    .set({
-                  "Interests": [
-                    Cate_id[x - 1],
-                  ]
+                    .doc(widget.documents["Event_id"])
+                    .update({
+                  "Interests": FieldValue.arrayUnion([Cate_id[x - 1]])
                 });
                 // await FirebaseFirestore.instance
                 //     .collection('Event')
@@ -208,23 +206,13 @@ class _editinterest extends State<editinterest> {
                 //   "Name": Cate_name[x - 1]
                 // });
 
-                QuerySnapshot snap = await FirebaseFirestore.instance
+                FirebaseFirestore.instance
                     .collection('Student')
                     .doc(FirebaseAuth.instance.currentUser?.uid)
                     .collection('Posts')
-                    .where("Name", isEqualTo: event.Name)
-                    .where("Event_id", isEqualTo: widget.documents.id)
-                    .get();
-
-                snap.docs.forEach((document) async {
-                  FirebaseFirestore.instance
-                      .collection('Student')
-                      .doc(FirebaseAuth.instance.currentUser?.uid)
-                      .collection('Posts')
-                      .doc(document.id)
-                      .set({
-                    "Interests": [Cate_id[x - 1]]
-                  });
+                    .doc(widget.documents.id)
+                    .update({
+                  "Interests": FieldValue.arrayUnion([Cate_id[x - 1]])
                 });
               }
               Fluttertoast.showToast(
