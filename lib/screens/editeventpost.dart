@@ -50,7 +50,7 @@ class _EditEventState extends State<EditEvent> {
       lastDate: DateTime(DateTime.now().year + 5),
     );
     if (newDate == null) return;
-    String stDate = DateFormat('MM/dd/yyyy').format(newDate!);
+    String stDate = DateFormat('MM/dd/yyyy').format(newDate);
 
     setState(() {
       date = stDate;

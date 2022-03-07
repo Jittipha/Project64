@@ -103,7 +103,7 @@ class _PostState extends State<Post> {
       lastDate: DateTime(DateTime.now().year + 6),
     );
     if (newDate == null) return;
-    String stDate = DateFormat('MM/dd/yyyy').format(newDate!);
+    String stDate = DateFormat('MM/dd/yyyy').format(newDate);
 
     setState(() {
       date = stDate;
