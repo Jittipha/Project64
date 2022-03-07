@@ -1,8 +1,11 @@
-// ignore_for_file: unnecessary_const, curly_braces_in_flow_control_structures, unnecessary_new, non_constant_identifier_names, use_key_in_widget_constructors, must_be_immutable, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, await_only_futures, deprecated_member_use, prefer_is_empty, prefer_final_fields, unused_field, unused_element, unrelated_type_equality_checks
-
-
+// ignore_for_file: unnecessary_const, curly_braces_in_flow_control_structures, unnecessary_new, non_constant_identifier_names, use_key_in_widget_constructors, must_be_immutable, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, await_only_futures, deprecated_member_use, prefer_is_empty, prefer_final_fields, unused_field, unused_element, unrelated_type_equality_checks, unused_import
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:algolia/algolia.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project/screens/Join_Event/Event_detail.dart';
+import 'package:project/screens/Join_Event/Leave_Event.dart';
+import 'package:snapshot/snapshot.dart';
 // import 'package:project/algolia/AlgoliaApplication.dart';
 // import 'package:project/algolia/AlgoliaApplication.dart';
 
@@ -41,18 +44,14 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Algolia Search"),
-      ),
       body: Container(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.fromLTRB(15, 75, 15, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text("Search"),
             TextField(
               controller: _searchText,
-              decoration: InputDecoration(hintText: "Search query here..."),
+              decoration: InputDecoration(hintText: "Search....."),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -61,7 +60,10 @@ class _SearchBarState extends State<SearchBar> {
                   color: Colors.blue,
                   child: Text(
                     "Search",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                        fontFamily: 'Raleway',
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
                   ),
                   onPressed: _search,
                 ),
@@ -70,25 +72,102 @@ class _SearchBarState extends State<SearchBar> {
             Expanded(
               child: _searching == true
                   ? Center(
-                      child: Text("Searching, please wait..."),
+                      child: Text(
+                        "Searching, please wait...",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     )
                   : _results.length == 0
                       ? Center(
-                          child: Text("No results found."),
+                          child: Text(
+                            "No results found.",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         )
                       : ListView.builder(
                           itemCount: _results.length,
                           itemBuilder: (BuildContext ctx, int index) {
                             AlgoliaObjectSnapshot snap = _results[index];
 
-                            return ListTile(
-                              leading: CircleAvatar(
-                                child: Text(
-                                  (index + 1).toString(),
+                            return Container(
+                              padding:
+                                  const EdgeInsets.fromLTRB(10, 15, 10, 10),
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8.0))),
+                                child: InkWell(
+                                  onTap: () async {
+                                    await FirebaseFirestore.instance
+                                        .collection("Event")
+                                        .doc(snap.objectID)
+                                        .collection("Joined")
+                                        .where("Student_id",
+                                            isEqualTo: FirebaseAuth
+                                                .instance.currentUser?.uid)
+                                        .get()
+                                        .then((docsnapshot) => {
+                                              // ignore: avoid_print
+                                              print(docsnapshot.docs.length),
+                                              if (docsnapshot.docs.length == 0)
+                                                // ignore: avoid_print
+                                                {
+                                                  // ignore: avoid_print
+                                                  print("dont have"),
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              eventdetail(
+                                                                  snap: snap)))
+                                                }
+                                              else
+                                                // ignore: avoid_print
+                                                {
+                                                  // ignore: avoid_print
+                                                  print("had"),
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              Leaveevent(
+                                                                  snap: snap)))
+                                                }
+                                            });
+                                  },
+                                  child: Column(
+                                    children: <Widget>[
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(8.0),
+                                          topRight: Radius.circular(8.0),
+                                        ),
+                                        child: Image.network(snap.data["Image"],
+                                            width: 300,
+                                            height: 150,
+                                            fit: BoxFit.fill),
+                                      ),
+                                      ListTile(
+                                        title: Text(snap.data["Name"],
+                                            style: TextStyle(
+                                                fontFamily: 'Raleway')),
+                                        subtitle: Text(
+                                            " " + snap.data["Description"],
+                                            style: TextStyle(
+                                                fontFamily: 'Raleway')),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                              title: Text(snap.data["Name"]),
-                              subtitle: Text(snap.data["Description"]),
                             );
                           },
                         ),

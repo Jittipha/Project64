@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, unused_import, unused_local_variable, unused_element
+
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
@@ -98,8 +100,11 @@ class CheckboxState {
 }
 
 class Cate {
+  // ignore: non_constant_identifier_names
   final int CategoryID;
+  // ignore: non_constant_identifier_names
   final String Name;
+  // ignore: non_constant_identifier_names
   final String Description;
   Cate(this.CategoryID, this.Name, this.Description);
 }

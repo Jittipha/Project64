@@ -1,5 +1,7 @@
-import 'dart:io';
+// ignore_for_file: unused_import, non_constant_identifier_names, avoid_print, avoid_unnecessary_containers, avoid_function_literals_in_foreach_calls
 
+import 'dart:io';
+import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -29,6 +31,7 @@ class Post extends StatefulWidget {
 }
 
 class _PostState extends State<Post> {
+  TextEditingController dateinput = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   Students student = Students();
   events event = events();
@@ -79,6 +82,12 @@ class _PostState extends State<Post> {
   }
 
   @override
+  void initState() {
+    dateinput.text = ""; //set the initial value of text field
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -110,7 +119,6 @@ class _PostState extends State<Post> {
                           height: 150,
                         ),
                 ),
-
                 // TextFormField(
                 //     // decoration: const InputDecoration(
                 //     //   icon: Icon(Icons.photo_size_select_small_outlined),
@@ -186,7 +194,9 @@ class _PostState extends State<Post> {
                                   "Name": FirebaseAuth
                                       .instance.currentUser?.displayName,
                                   "Photo": FirebaseAuth
-                                      .instance.currentUser?.photoURL
+                                      .instance.currentUser?.photoURL,
+                                  "Email":
+                                      FirebaseAuth.instance.currentUser?.email
                                 }
                               ]
                             });

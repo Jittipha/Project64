@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, duplicate_ignore, prefer_collection_literals, non_constant_identifier_names, unused_element, unused_field, unused_local_variable, unnecessary_null_comparison
+// ignore_for_file: avoid_print, duplicate_ignore, prefer_collection_literals, non_constant_identifier_names, unused_element, unused_field, unused_local_variable, unnecessary_null_comparison, unused_import
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -38,7 +38,7 @@ class AuthBloc {
       students.uid = result.user?.uid;
       students.Photo = result.user?.photoURL;
 
-      ;
+      
       // ignore: avoid_print
       print('${result.user?.displayName}');
 
@@ -60,7 +60,7 @@ class AuthBloc {
                         msg: "เข้าสู่ระบบสำเร็จ!",
                         gravity: ToastGravity.CENTER),
                     Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => Tabbar()),
+                      MaterialPageRoute(builder: (context) => const Tabbar()),
                     ),
                   });
         } else {

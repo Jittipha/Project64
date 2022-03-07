@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
@@ -22,7 +24,11 @@ class MainPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           "MENU",
-          style: TextStyle(fontSize: 25, color: Colors.black),
+          style: TextStyle(
+            fontSize: 25,
+            fontFamily: 'Raleway',
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       body: Padding(
@@ -38,7 +44,10 @@ class MainPage extends StatelessWidget {
                           Colors.green.shade200)),
                   child: const Text(
                     "Create Categories",
-                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'RobotoMono',
+                        color: Colors.black),
                   ),
                   onPressed: () {
                     Navigator.push(context,
@@ -60,7 +69,10 @@ class MainPage extends StatelessWidget {
                           Colors.green.shade200)),
                   child: const Text(
                     "Create Event",
-                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'RobotoMono',
+                        color: Colors.black),
                   ),
                   onPressed: () {
                     Navigator.push(context,
@@ -82,12 +94,15 @@ class MainPage extends StatelessWidget {
                           Colors.green.shade200)),
                   child: const Text(
                     "My Events",
-                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'RobotoMono',
+                        color: Colors.black),
                   ),
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return MyEvent();
+                      return const MyEvent();
                     }));
                   }),
             ),
@@ -104,12 +119,15 @@ class MainPage extends StatelessWidget {
                           Colors.yellow.shade200)),
                   child: const Text(
                     "My Profile",
-                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'RobotoMono',
+                        color: Colors.black),
                   ),
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return HomeScreen();
+                      return const HomeScreen();
                     }));
                   }),
             ),

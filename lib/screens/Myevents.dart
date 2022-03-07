@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,25 +35,67 @@ class _MyEventState extends State<MyEvent> {
                   .snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
 
                 return ListView(
+                    // scrollDirection: Axis.horizontal,
                     children: snapshot.data!.docs.map((studenthasposts) {
                   return Container(
-                    child: ListTile(
-                      title: Text(studenthasposts["Name"]),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EditEvent(
-                                    studenthasposts: studenthasposts)));
-                      },
+                    padding: const EdgeInsets.fromLTRB(10, 15, 10, 10),
+                    child: Card(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditEvent(
+                                      studenthasposts: studenthasposts)));
+                        },
+                        child: Column(
+                          children: <Widget>[
+                            ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(8.0),
+                                topRight: Radius.circular(8.0),
+                              ),
+                              child: Image.network(studenthasposts["Image"],
+                                  width: 300, height: 150, fit: BoxFit.fill),
+                            ),
+                            ListTile(
+                              title: Text(studenthasposts["Name"],
+                                  style: const TextStyle(
+                                    fontFamily: 'Raleway',
+                                    fontWeight: FontWeight.w400,
+                                  )),
+                              subtitle:
+                                  Text(" " + studenthasposts["Description"],
+                                      style: const TextStyle(
+                                        fontFamily: 'Raleway',
+                                        fontWeight: FontWeight.w300,
+                                      )),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   );
+                  // Container(
+                  //   child: ListTile(
+                  //     title: Text(studenthasposts["Name"]),
+                  //     onTap: () {
+                  //       Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (context) => EditEvent(
+                  //                   studenthasposts: studenthasposts)));
+                  //     },
+                  //   ),
+                  // );
                 }).toList());
               }),
         ));
