@@ -4,6 +4,8 @@
 import 'package:flutter/material.dart';
 import 'package:project/algolia/searchpage.dart';
 import 'package:project/screens/mainpage.dart';
+import 'Home_Feed/homepage.dart';
+import 'mainpage.dart';
 
 
 class Tabbar extends StatefulWidget {
@@ -18,10 +20,7 @@ class _TabbarState extends State<Tabbar> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black);
   static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: home',
-      style: optionStyle,
-    ),
+    Home(),
     SearchBar(),
     Text(
       'Index 2:Notification',

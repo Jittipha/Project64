@@ -55,8 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
               if (!snapshot.hasData) return const CircularProgressIndicator();
 
               return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const SizedBox(height: 70),
                   const Text('Student',
                       style: TextStyle(
                         fontSize: 30.0,

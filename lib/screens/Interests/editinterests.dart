@@ -1,33 +1,37 @@
-// ignore_for_file: file_names, unused_import, must_be_immutable, use_key_in_widget_constructors, non_constant_identifier_names, prefer_typing_uninitialized_variables, avoid_unnecessary_containers, sized_box_for_whitespace, avoid_print, avoid_function_literals_in_foreach_calls
+// ignore_for_file: camel_case_types, must_be_immutable, non_constant_identifier_names, use_key_in_widget_constructors, prefer_typing_uninitialized_variables, avoid_unnecessary_containers, sized_box_for_whitespace, avoid_print, avoid_function_literals_in_foreach_calls
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+
 import 'package:project/Model/Event.dart';
-import 'package:project/chooseCate.dart';
+
 import 'package:project/screens/DetailCate.dart';
 import 'package:project/Model/Category.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:project/screens/postcategorise.dart';
-import 'package:project/screens/tabbar.dart';
+import 'package:project/screens/editeventpost.dart';
 
-class Postinterests extends StatefulWidget {
+class editinterest extends StatefulWidget {
   QueryDocumentSnapshot<Object?> documents;
-  Postinterests(this.documents);
+  List count_interests;
+  editinterest(this.documents, this.count_interests);
+
   @override
-  _Postinterests createState() => _Postinterests();
+  _editinterest createState() => _editinterest();
 }
 
-class _Postinterests extends State<Postinterests> {
+class _editinterest extends State<editinterest> {
   final String test = "Fuck";
   final _formKey = GlobalKey<FormState>();
   final Cate_id = [];
   final Cate_name = [];
   final Cate_Description = [];
   var Choose;
+
   Cates cates = Cates();
   events event = events();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,6 +115,7 @@ class _Postinterests extends State<Postinterests> {
                           label: Text('เช่น 1,2,3,...'),
                           border: OutlineInputBorder(),
                         ),
+                        // initialValue: '${widget.count_interests}',
                         keyboardType: const TextInputType.numberWithOptions(),
                         validator: RequiredValidator(errorText: "กรุณาใส่เลข!"),
                         onSaved: (value) {
@@ -129,22 +134,82 @@ class _Postinterests extends State<Postinterests> {
               _formKey.currentState!.save();
               var arraychoose = Choose.split(",");
               print(arraychoose);
-
+              //delete old interests
+              // await FirebaseFirestore.instance
+              //     .collection('Event')
+              //     .doc(widget.documents["Event_id"])
+              //     .collection('Interests')
+              //     .get()
+              //     .then((value) => {
+              //           print(value.docs.length),
+              //           value.docs.forEach((del) async {
+              //             print(del.id);
+              //             await FirebaseFirestore.instance
+              //                 .collection('Event')
+              //                 .doc(widget.documents["Event_id"])
+              //                 .collection('Interests')
+              //                 .doc(del.id)
+              //                 .delete();
+              //           })
+              //         });
+              //delete Interests in Event Table
+              await FirebaseFirestore.instance
+                  .collection("Event")
+                  .doc(widget.documents.id)
+                  .update({'Interests': FieldValue.delete()});
+              await FirebaseFirestore.instance
+                  .collection("Student")
+                  .doc(FirebaseAuth.instance.currentUser?.uid)
+                  .collection("Post")
+                  .doc(widget.documents.id)
+                  .update({'Interests': FieldValue.delete()});
+              // await FirebaseFirestore.instance
+              //     .collection('Student')
+              //     .doc(FirebaseAuth.instance.currentUser?.uid)
+              //     .collection('Posts')
+              //     .doc(widget.documents.id)
+              //     .collection('Interests')
+              //     .get()
+              //     .then((value) => {
+              //           print(value.docs.length),
+              //           value.docs.forEach((del) async {
+              //             print(del.id);
+              //             await FirebaseFirestore.instance
+              //                 .collection('Student')
+              //                 .doc(FirebaseAuth.instance.currentUser?.uid)
+              //                 .collection('Posts')
+              //                 .doc(widget.documents.id)
+              //                 .collection('Interests')
+              //                 .doc(del.id)
+              //                 .delete();
+              //           })
+              //         });
               for (int a = 0; a < arraychoose.length; a++) {
                 print(arraychoose[a]);
                 int x = int.parse(arraychoose[a]);
                 print(x);
                 print(Cate_name[x - 1]);
+
+                //insert new interests
                 FirebaseFirestore.instance
                     .collection('Event')
                     .doc(widget.documents.id)
-                    .collection('Interests')
-                    .doc()
                     .set({
-                  "Category_id": Cate_id[x - 1],
-                  "Description": Cate_Description[x - 1],
-                  "Name": Cate_name[x - 1]
+                  "Interests": [
+                    Cate_id[x - 1],
+                  ]
                 });
+                // await FirebaseFirestore.instance
+                //     .collection('Event')
+                //     .doc(widget.documents["Event_id"])
+                //     .collection('Interests')
+                //     .doc()
+                //     .set({
+                //   "Category_id": Cate_id[x - 1],
+                //   "Description": Cate_Description[x - 1],
+                //   "Name": Cate_name[x - 1]
+                // });
+
                 QuerySnapshot snap = await FirebaseFirestore.instance
                     .collection('Student')
                     .doc(FirebaseAuth.instance.currentUser?.uid)
@@ -152,29 +217,25 @@ class _Postinterests extends State<Postinterests> {
                     .where("Name", isEqualTo: event.Name)
                     .where("Event_id", isEqualTo: widget.documents.id)
                     .get();
+
                 snap.docs.forEach((document) async {
                   FirebaseFirestore.instance
                       .collection('Student')
                       .doc(FirebaseAuth.instance.currentUser?.uid)
                       .collection('Posts')
                       .doc(document.id)
-                      .collection('interests')
-                      .doc()
                       .set({
-                    "Category_id": Cate_id[x - 1],
-                    "Description": Cate_Description[x - 1],
-                    "Name": Cate_name[x - 1]
-                  }).then((value) => {
-                            Fluttertoast.showToast(
-                                msg: "Success!", gravity: ToastGravity.CENTER),
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return const Tabbar();
-                              },
-                            ))
-                          });
+                    "Interests": [Cate_id[x - 1]]
+                  });
                 });
               }
+              Fluttertoast.showToast(
+                  msg: "Success!", gravity: ToastGravity.CENTER);
+              Navigator.pop(context, MaterialPageRoute(
+                builder: (context) {
+                  return EditEvent(studenthasposts: widget.documents);
+                },
+              ));
             }
           },
           child: const Icon(Icons.check_circle_outline_outlined)),

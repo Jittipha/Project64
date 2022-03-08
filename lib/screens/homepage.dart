@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/screens/bg.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -13,8 +14,14 @@ class _HomeState extends State<Home> {
     return Scaffold(
         appBar: AppBar(
             title: const Text(
-      "Home",
-      style: TextStyle(fontSize: 25, color: Colors.black),
-    )));
+          "Home",
+          style: TextStyle(fontSize: 25, color: Colors.black),
+        )),
+        body: StreamBuilder(
+          stream: null,
+          builder: (context, snapshot) {
+            return const Background(child: Text('nono'));
+          },
+        ));
   }
 }

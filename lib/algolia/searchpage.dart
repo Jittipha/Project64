@@ -1,10 +1,11 @@
-// ignore_for_file: unnecessary_const, curly_braces_in_flow_control_structures, unnecessary_new, non_constant_identifier_names, use_key_in_widget_constructors, must_be_immutable, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, await_only_futures, deprecated_member_use, prefer_is_empty, prefer_final_fields, unused_field, unused_element, unrelated_type_equality_checks, unused_import
+// ignore_for_file: unnecessary_const, curly_braces_in_flow_control_structures, unnecessary_new, non_constant_identifier_names, use_key_in_widget_constructors, must_be_immutable, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, await_only_futures, deprecated_member_use, prefer_is_empty, prefer_final_fields, unused_field, unused_element, unrelated_type_equality_checks, unused_import, avoid_print, duplicate_ignore, empty_statements, dead_code
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:project/screens/Join_Event/Event_detail.dart';
-import 'package:project/screens/Join_Event/Leave_Event.dart';
+import 'package:project/screens/Join_Event/Event_detail_Search.dart';
+import 'package:project/screens/Join_Event/Leave_Event_Search.dart';
+import 'package:project/screens/editeventpost.dart';
 import 'package:snapshot/snapshot.dart';
 // import 'package:project/algolia/AlgoliaApplication.dart';
 // import 'package:project/algolia/AlgoliaApplication.dart';
@@ -107,40 +108,61 @@ class _SearchBarState extends State<SearchBar> {
                                 child: InkWell(
                                   onTap: () async {
                                     await FirebaseFirestore.instance
-                                        .collection("Event")
-                                        .doc(snap.objectID)
-                                        .collection("Joined")
-                                        .where("Student_id",
-                                            isEqualTo: FirebaseAuth
-                                                .instance.currentUser?.uid)
+                                        .collection("Student")
+                                        .doc(FirebaseAuth
+                                            .instance.currentUser?.uid)
+                                        .collection("Posts")
+                                        .where("Event_id",
+                                            isEqualTo: snap.objectID)
                                         .get()
-                                        .then((docsnapshot) => {
-                                              // ignore: avoid_print
-                                              print(docsnapshot.docs.length),
-                                              if (docsnapshot.docs.length == 0)
-                                                // ignore: avoid_print
+                                        .then((value) async => {
+                                              if (value.docs.length == 0)
                                                 {
-                                                  // ignore: avoid_print
-                                                  print("dont have"),
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              eventdetail(
-                                                                  snap: snap)))
+                                                  await FirebaseFirestore
+                                                      .instance
+                                                      .collection("Event")
+                                                      .doc(snap.objectID)
+                                                      .collection("Joined")
+                                                      .where("Student_id",
+                                                          isEqualTo:
+                                                              FirebaseAuth
+                                                                  .instance
+                                                                  .currentUser
+                                                                  ?.uid)
+                                                      .get()
+                                                      .then((docsnapshot) => {
+                                                            // ignore: avoid_print
+                                                            print(docsnapshot
+                                                                .docs.length),
+                                                            if (docsnapshot.docs
+                                                                    .length ==
+                                                                0)
+                                                              // ignore: avoid_print
+                                                              {
+                                                                print(
+                                                                    "dont have"),
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                eventdetail(snap: snap)))
+                                                              }
+                                                            else
+                                                              // ignore: avoid_print
+                                                              {
+                                                                print("had"),
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                Leaveevent(snap: snap)))
+                                                              }
+                                                          })
                                                 }
                                               else
-                                                // ignore: avoid_print
-                                                {
-                                                  // ignore: avoid_print
-                                                  print("had"),
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              Leaveevent(
-                                                                  snap: snap)))
-                                                }
+                                                {print("Your Event")}
                                             });
                                   },
                                   child: Column(
@@ -158,11 +180,9 @@ class _SearchBarState extends State<SearchBar> {
                                       ListTile(
                                         title: Text(snap.data["Name"],
                                             style: TextStyle(
-                                                fontFamily: 'Raleway')),
-                                        subtitle: Text(
-                                            " " + snap.data["Description"],
-                                            style: TextStyle(
-                                                fontFamily: 'Raleway')),
+                                                fontSize: 22,
+                                                fontFamily: 'Raleway',
+                                                fontWeight: FontWeight.w600)),
                                       ),
                                     ],
                                   ),
@@ -178,7 +198,6 @@ class _SearchBarState extends State<SearchBar> {
     );
   }
 }
-
 
 // -------------------------------------------------------------------------------------------------------------
 

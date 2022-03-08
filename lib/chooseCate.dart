@@ -1,7 +1,7 @@
+
 // ignore_for_file: file_names, unused_import, unused_local_variable, unused_element
 
 import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -62,9 +62,7 @@ class _CategoriesState extends State<Categories> {
             } else {
               return ListView(
                   children: snapshot.data!.docs.map((category) {
-                // choosecate.add(CheckboxState(title: category['Name']));
-                // print(choosecate);
-                // var index = snapshot.data!.docs.indexOf(category);
+                var index = snapshot.data!.docs.indexOf(category);
                 return buildSingleCheckbox(
                     CheckboxState(title: category['Name']));
               }).toList());

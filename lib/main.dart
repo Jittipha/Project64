@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 // import 'package:project/Notification/services/notification.dart';
 // import 'package:project/Notification/views/home_view.dart';
 import 'package:project/blocs/auth_bloc.dart';
-import 'package:project/screens/Myevents.dart';
+import 'package:project/screens/login.dart';
 // import 'package:project/screens/editeventpost.dart';
 // import 'package:project/screens/login.dart';
 // import 'package:project/blocs/auth_bloc.dart';
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.grey,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: const MyEvent(),
+        home: const LoginScreen(),
   
       ),
 

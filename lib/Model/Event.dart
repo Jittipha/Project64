@@ -10,6 +10,7 @@ class events {
   String? Location;
   TimeOfDay? Time;
   String? interests;
+  String? Date;
   events(
       {this.eid,
       this.Image,
@@ -17,5 +18,6 @@ class events {
       this.Description,
       this.Location,
       this.Time,
-      this.interests});
+      this.interests,
+      this.Date});
 }
