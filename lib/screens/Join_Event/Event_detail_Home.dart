@@ -49,17 +49,18 @@ class _eventdetailhomeState extends State<eventdetailhome> {
                   fontSize: 25),
             ),
           ),
+
           Container(
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
             decoration: const BoxDecoration(
                 border: Border(
               bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
             )),
-            child: const ListTile(
-                leading: Icon(Icons.date_range, size: 30),
+            child: ListTile(
+                leading: const Icon(Icons.date_range, size: 30),
                 title: Text(
-                  "",
-                  style: TextStyle(
+                  widget.snap["date"] + '     ' + widget.snap["Time"],
+                  style: const TextStyle(
                     fontSize: 18,
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.w400,
@@ -67,6 +68,7 @@ class _eventdetailhomeState extends State<eventdetailhome> {
                   textAlign: TextAlign.start,
                 )),
           ),
+          //
           Container(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
             decoration: const BoxDecoration(

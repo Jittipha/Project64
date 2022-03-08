@@ -217,27 +217,27 @@ class _EditEventState extends State<EditEvent> {
                             ),
                             onTap: () async {
                               _formKey.currentState!.save();
-                              QuerySnapshot snap = await FirebaseFirestore
-                                  .instance
-                                  .collection("Category")
-                                  .get();
+                              // QuerySnapshot snap = await FirebaseFirestore
+                              //     .instance
+                              //     .collection("Category")
+                              //     .get();
 
-                              for (int a = 0; a < snap.docs.length; a++) {
-                                for (int x = 0;
-                                    x <
-                                        widget.studenthasposts["Interests"]
-                                            .length;
-                                    x++) {
-                                  var id = snap.docs[a];
-                                  // print(id.id);
-                                  // print(widget.studenthasposts["Interests"][x]);
-                                  if (id.id ==
-                                      widget.studenthasposts["Interests"][x]) {
-                                    int sum = x + 1;
-                                    count_interests.add(x.toString());
-                                  }
-                                }
-                              }
+                              // for (int a = 0; a < snap.docs.length; a++) {
+                              //   for (int x = 0;
+                              //       x <
+                              //           widget.studenthasposts["Interests"]
+                              //               .length;
+                              //       x++) {
+                              //     var id = snap.docs[a];
+                              //     // print(id.id);
+                              //     // print(widget.studenthasposts["Interests"][x]);
+                              //     if (id.id ==
+                              //         widget.studenthasposts["Interests"][x]) {
+                              //       int sum = x + 1;
+                              //       count_interests.add(x.toString());
+                              //     }
+                              //   }
+                              // }
                               print(count_interests);
                               Navigator.push(
                                   context,
@@ -281,42 +281,42 @@ class _EditEventState extends State<EditEvent> {
                                       try {
                                         await model.imageNotification(event);
 
-                                        // await FirebaseFirestore.instance
-                                        //     .collection('Event')
-                                        //     .doc(widget
-                                        //         .studenthasposts["Event_id"])
-                                        //     .update({
-                                        //   //"Image": event.Image,
-                                        //   "Name": event.Name,
-                                        //   "Description": event.Description,
-                                        //   //"Time": event.Time,
-                                        //   "Location": event.Location,
-                                        // });
+                                        await FirebaseFirestore.instance
+                                            .collection('Event')
+                                            .doc(widget
+                                                .studenthasposts["Event_id"])
+                                            .update({
+                                          //"Image": event.Image,
+                                          "Name": event.Name,
+                                          "Description": event.Description,
+                                          //"Time": event.Time,
+                                          "Location": event.Location,
+                                        });
 
-                                        // await FirebaseFirestore.instance
-                                        //     .collection('Student')
-                                        //     .doc(FirebaseAuth
-                                        //         .instance.currentUser?.uid)
-                                        //     .collection('Posts')
-                                        //     .doc(widget.studenthasposts.id)
-                                        //     .update({
-                                        //   "Image": event.Image,
-                                        //   "Name": event.Name,
-                                        //   "Description": event.Description,
-                                        //   "Time": event.Time,
-                                        //   "Location": event.Location
-                                        // }).then((value) => {
-                                        //           Fluttertoast.showToast(
-                                        //               msg: "Success!",
-                                        //               gravity:
-                                        //                   ToastGravity.CENTER),
-                                        //           Navigator.push(context,
-                                        //               MaterialPageRoute(
-                                        //             builder: (context) {
-                                        //               return const MyEvent();
-                                        //             },
-                                        //           ))
-                                        //         });
+                                        await FirebaseFirestore.instance
+                                            .collection('Student')
+                                            .doc(FirebaseAuth
+                                                .instance.currentUser?.uid)
+                                            .collection('Posts')
+                                            .doc(widget.studenthasposts.id)
+                                            .update({
+                                          "Image": event.Image,
+                                          "Name": event.Name,
+                                          "Description": event.Description,
+                                          "Time": event.Time,
+                                          "Location": event.Location
+                                        }).then((value) => {
+                                                  Fluttertoast.showToast(
+                                                      msg: "Success!",
+                                                      gravity:
+                                                          ToastGravity.CENTER),
+                                                  Navigator.push(context,
+                                                      MaterialPageRoute(
+                                                    builder: (context) {
+                                                      return const MyEvent();
+                                                    },
+                                                  ))
+                                                });
 
                                         //  เวลาแจ้งเตือน //
                                         String Time = DateFormat("hh:mm:ss")
@@ -325,19 +325,6 @@ class _EditEventState extends State<EditEvent> {
                                             .format(DateTime.now());
                                         print(Time + date);
                                         print(event.Name);
-
-                                        // await FirebaseFirestore.instance
-                                        //     .collection('Event')
-                                        //     .doc(widget
-                                        //         .studenthasposts["Event_id"])
-                                        //     .update({
-                                        //   //"Image": event.Image,
-                                        //   "Name": event.Name,
-                                        //   "Description": event.Description,
-                                        //   "Time": event.Time!.format(context),
-                                        //   "Location": event.Location,
-                                        //   "date": event.Date,
-                                        // });
 
                                         var checkid = await FirebaseFirestore
                                             .instance
