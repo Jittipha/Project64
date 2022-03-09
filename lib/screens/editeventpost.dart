@@ -179,7 +179,7 @@ class _EditEventState extends State<EditEvent> {
                               onPressed: () => pickDate(context),
                               child: Text(getTextDate()),
                               style: ElevatedButton.styleFrom(
-                                  primary: Colors.white)),
+                                  primary: Colors.white)), 
                         ),
                         const SizedBox(
                           height: 10,
@@ -286,11 +286,12 @@ class _EditEventState extends State<EditEvent> {
                                             .doc(widget
                                                 .studenthasposts["Event_id"])
                                             .update({
-                                          //"Image": event.Image,
+                                          "Image": event.Image,
                                           "Name": event.Name,
                                           "Description": event.Description,
-                                          //"Time": event.Time,
+                                          // "Time": event.Time,
                                           "Location": event.Location,
+                                          // "date": event.Date,
                                         });
 
                                         await FirebaseFirestore.instance
@@ -303,20 +304,10 @@ class _EditEventState extends State<EditEvent> {
                                           "Image": event.Image,
                                           "Name": event.Name,
                                           "Description": event.Description,
-                                          "Time": event.Time,
-                                          "Location": event.Location
-                                        }).then((value) => {
-                                                  Fluttertoast.showToast(
-                                                      msg: "Success!",
-                                                      gravity:
-                                                          ToastGravity.CENTER),
-                                                  Navigator.push(context,
-                                                      MaterialPageRoute(
-                                                    builder: (context) {
-                                                      return const MyEvent();
-                                                    },
-                                                  ))
-                                                });
+                                          // "Time": event.Time,
+                                          "Location": event.Location,
+                                          // "date": event.Date,
+                                        });
 
                                         //  เวลาแจ้งเตือน //
                                         String Time = DateFormat("hh:mm:ss")
@@ -326,13 +317,6 @@ class _EditEventState extends State<EditEvent> {
                                         print(Time + date);
                                         print(event.Name);
 
-                                        var checkid = await FirebaseFirestore
-                                            .instance
-                                            .collection("Notification")
-                                            .doc(widget
-                                                .studenthasposts["Event_id"])
-                                            .get();
-                                        if (checkid.exists) {
                                           await FirebaseFirestore.instance
                                               .collection("Notification")
                                               .doc(widget
@@ -356,7 +340,7 @@ class _EditEventState extends State<EditEvent> {
                                                       },
                                                     ))
                                                   });
-                                        }
+                                        
                                       } on FirebaseAuthException catch (err) {
                                         Fluttertoast.showToast(
                                             msg: err.message!);
