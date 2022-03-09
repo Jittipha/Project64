@@ -130,6 +130,7 @@ class _PostState extends State<Post> {
         context: context, initialTime: time ?? initialTime);
 
     if (newTime == null) return;
+    
 
     setState(() {
       time = newTime;
