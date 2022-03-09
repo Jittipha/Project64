@@ -186,6 +186,7 @@ class _eventdetailState extends State<eventdetail> {
             "Name": widget.snap.data["Name"],
             "Description": widget.snap.data["Description"],
             "Time": widget.snap.data["Time"],
+            "date": widget.snap.data["date"],
             "Location": widget.snap.data["Location"],
             "Host": [
               {
@@ -198,8 +199,8 @@ class _eventdetailState extends State<eventdetail> {
           }).then((value) {
             Fluttertoast.showToast(
                 msg: "เข้าร่วมกิจกรรมแล้ว!", gravity: ToastGravity.CENTER);
-            Navigator.pop(
-                context, MaterialPageRoute(builder: (context) => const SearchBar()));
+            Navigator.pop(context,
+                MaterialPageRoute(builder: (context) => const SearchBar()));
           });
         },
         label: const Text('JOIN'),
