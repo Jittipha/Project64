@@ -1,3 +1,14 @@
+
+// ignore_for_file: unused_import, non_constant_identifier_names, unused_field, constant_identifier_names, duplicate_ignore
+
+import 'package:flutter/material.dart';
+import 'package:project/chooseCate.dart';
+import 'package:project/screens/Home_Feed/homepage.dart';
+import 'package:project/screens/Home_Feed/thisweek.dart';
+import 'package:project/screens/Home_Feed/today.dart';
+import 'package:project/screens/Home_Feed/tomorrow.dart';
+import 'package:project/screens/listcate.dart';
+
 // import 'package:flutter/material.dart';
 // import 'package:project/chooseCate.dart';
 // import 'package:project/screens/Home_Feed/homepage.dart';

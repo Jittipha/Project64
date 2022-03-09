@@ -1,11 +1,12 @@
+// ignore_for_file: file_names, unused_import, must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors
+
 import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:project/algolia/searchpage.dart';
 import 'package:project/screens/bg.dart';
-
-import '../../SearchBar.dart';
 
 class Leaveevent extends StatefulWidget {
   Leaveevent({Key? key, required this.snap}) : super(key: key);

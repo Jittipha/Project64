@@ -3,9 +3,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:project/algolia/searchpage.dart';
-
+import 'package:project/screens/mainpage.dart';
 import 'Home_Feed/homepage.dart';
 import 'mainpage.dart';
+
 
 class Tabbar extends StatefulWidget {
   const Tabbar({Key? key}) : super(key: key);
@@ -25,6 +26,7 @@ class _TabbarState extends State<Tabbar> {
       'Index 2:Notification',
       style: optionStyle,
     ),
+    
     MainPage(),
   ];
 

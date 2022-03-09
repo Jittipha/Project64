@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
@@ -100,7 +102,7 @@ class MainPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return MyEvent();
+                      return const MyEvent();
                     }));
                   }),
             ),
@@ -125,7 +127,7 @@ class MainPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return HomeScreen();
+                      return const HomeScreen();
                     }));
                   }),
             ),
