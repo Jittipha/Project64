@@ -172,9 +172,8 @@ class _eventdetailState extends State<eventdetail> {
               .collection("Notification")
               .doc(widget.snap.objectID)
               .update({
-            "Student_id": [
-              FirebaseAuth.instance.currentUser?.uid,
-            ]
+            'Student_id':
+                FieldValue.arrayUnion([FirebaseAuth.instance.currentUser?.uid])
           });
           await FirebaseFirestore.instance
               .collection("Student")
