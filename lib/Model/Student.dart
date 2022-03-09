@@ -1,3 +1,6 @@
+// ignore_for_file: file_names, non_constant_identifier_names
+
+// ignore: unused_import
 import 'package:flutter/material.dart';
 
 class Students {

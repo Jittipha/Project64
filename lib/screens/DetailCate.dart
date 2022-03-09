@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, unused_import, camel_case_types, override_on_non_overriding_member, must_be_immutable, annotate_overrides
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../main.dart';
@@ -28,16 +30,16 @@ class _Detail_CateState extends State<Detail_Cate> {
         children: [
           Text(
             widget.category["Name"] + ".",
-            style: TextStyle(fontSize: 40),
+            style: const TextStyle(fontSize: 40),
           ),
           Text(
             widget.category["Description"],
             textAlign: TextAlign.center,
           ),
-          Text(""),
-          Text(""),
-          Text(""),
-          Text(""),
+          const Text(""),
+          const Text(""),
+          const Text(""),
+          const Text(""),
         ],
       )),
     );

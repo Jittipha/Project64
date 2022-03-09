@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, non_constant_identifier_names, avoid_print, avoid_unnecessary_containers, avoid_function_literals_in_foreach_calls, prefer_const_constructors
+
 import 'dart:io';
 import 'package:get/route_manager.dart';
 import 'package:intl/intl.dart';
@@ -130,6 +132,7 @@ class _PostState extends State<Post> {
         context: context, initialTime: time ?? initialTime);
 
     if (newTime == null) return;
+    
 
     setState(() {
       time = newTime;

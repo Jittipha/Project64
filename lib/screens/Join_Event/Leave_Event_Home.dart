@@ -1,10 +1,14 @@
+// ignore_for_file: file_names, must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, unused_import
+
 import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:project/algolia/searchpage.dart';
 
-import '../../SearchBar.dart';
+
+
 
 class Leaveeventhome extends StatefulWidget {
   Leaveeventhome({Key? key, required this.snap}) : super(key: key);
@@ -51,11 +55,11 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                 border: Border(
               bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
             )),
-            child: const ListTile(
-                leading: Icon(Icons.date_range, size: 30),
+            child:  ListTile(
+                leading: const Icon(Icons.date_range, size: 30),
                 title: Text(
-                  "",
-                  style: TextStyle(
+                widget.snap["date"],
+                  style: const TextStyle(
                     fontSize: 18,
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.w400,
@@ -140,6 +144,48 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                   textAlign: TextAlign.start,
                 )),
           ),
+           Container(
+            padding: const EdgeInsets.fromLTRB(15, 13, 10, 2),
+            child: const ListTile(
+              title: Text("Joined",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'Raleway',
+                      fontSize: 25)),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.fromLTRB(13, 0, 0, 10),
+            decoration: const BoxDecoration(
+                border: Border(
+              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+            )),
+            
+            child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('Event')
+                    .doc(widget.snap.id)
+                    .collection('Joined')
+                    .snapshots(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return const CircularProgressIndicator();
+                  }
+                  return SizedBox(height: 300,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      
+                        children: snapshot.data!.docs.map((doc) {
+                      return SizedBox(height: 20,width: 300,
+                        child: ListTile(
+                          leading: CircleAvatar(backgroundImage: NetworkImage(doc['Photo']),),
+                          title: Text(doc['Name']),
+                        ),
+                      );
+                    }).toList()),
+                  );
+                }),
+          )
         ]),
       ),
       floatingActionButton: FloatingActionButton.extended(

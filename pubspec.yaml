@@ -54,6 +54,8 @@ dependencies:
   image_picker: ^0.8.4+6
   algolia: ^1.0.4
   intl: ^0.17.0
+  flutter_local_notifications: ^9.3.2
+  
  
   
   

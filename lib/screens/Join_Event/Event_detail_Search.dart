@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, unused_import, camel_case_types, must_be_immutable, avoid_unnecessary_containers
+
 import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -144,6 +146,8 @@ class _eventdetailState extends State<eventdetail> {
           ),
         ]),
       ),
+
+      //ปุ่มจอย++++++++++++++++++++++++++++++++++++++
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           await FirebaseFirestore.instance
@@ -195,7 +199,7 @@ class _eventdetailState extends State<eventdetail> {
             Fluttertoast.showToast(
                 msg: "เข้าร่วมกิจกรรมแล้ว!", gravity: ToastGravity.CENTER);
             Navigator.pop(
-                context, MaterialPageRoute(builder: (context) => SearchBar()));
+                context, MaterialPageRoute(builder: (context) => const SearchBar()));
           });
         },
         label: const Text('JOIN'),
