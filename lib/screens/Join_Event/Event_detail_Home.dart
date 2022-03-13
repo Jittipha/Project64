@@ -197,6 +197,7 @@ class _eventdetailhomeState extends State<eventdetailhome> {
             "Name": widget.snap["Name"],
             "Description": widget.snap["Description"],
             "Time": widget.snap["Time"],
+            "date": widget.snap["date"],
             "Location": widget.snap["Location"],
             "Host": [
               {

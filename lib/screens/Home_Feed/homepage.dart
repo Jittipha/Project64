@@ -86,7 +86,7 @@ class _HomeState extends State<Home> {
           //   ),
           // ),
           Container(
-              height: MediaQuery.of(context).size.height * 0.741,
+              height: MediaQuery.of(context).size.height * 0.765,
               padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance

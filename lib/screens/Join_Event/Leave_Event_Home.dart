@@ -7,9 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project/algolia/searchpage.dart';
 
-
-
-
 class Leaveeventhome extends StatefulWidget {
   Leaveeventhome({Key? key, required this.snap}) : super(key: key);
   QueryDocumentSnapshot snap;
@@ -40,14 +37,22 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.fromLTRB(10, 23, 10, 15),
-            child: Text(
-              widget.snap["Name"],
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Raleway',
-                  fontSize: 25),
-            ),
+            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+            decoration: const BoxDecoration(
+                border: Border(
+              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+            )),
+            child: ListTile(
+                leading: const Icon(Icons.date_range, size: 30),
+                title: Text(
+                  widget.snap["date"] + '     ' + widget.snap["Time"],
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'Raleway',
+                    fontWeight: FontWeight.w400,
+                  ),
+                  textAlign: TextAlign.start,
+                )),
           ),
           Container(
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
@@ -55,10 +60,10 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                 border: Border(
               bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
             )),
-            child:  ListTile(
+            child: ListTile(
                 leading: const Icon(Icons.date_range, size: 30),
                 title: Text(
-                widget.snap["date"],
+                  widget.snap["Time"],
                   style: const TextStyle(
                     fontSize: 18,
                     fontFamily: 'Raleway',
@@ -144,7 +149,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                   textAlign: TextAlign.start,
                 )),
           ),
-           Container(
+          Container(
             padding: const EdgeInsets.fromLTRB(15, 13, 10, 2),
             child: const ListTile(
               title: Text("Joined",
@@ -160,7 +165,6 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                 border: Border(
               bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
             )),
-            
             child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('Event')
@@ -171,18 +175,22 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                   if (!snapshot.hasData) {
                     return const CircularProgressIndicator();
                   }
-                  return SizedBox(height: 300,
+                  return SizedBox(
+                    height: 300,
                     child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      
+                        scrollDirection: Axis.horizontal,
                         children: snapshot.data!.docs.map((doc) {
-                      return SizedBox(height: 20,width: 300,
-                        child: ListTile(
-                          leading: CircleAvatar(backgroundImage: NetworkImage(doc['Photo']),),
-                          title: Text(doc['Name']),
-                        ),
-                      );
-                    }).toList()),
+                          return SizedBox(
+                            height: 20,
+                            width: 300,
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(doc['Photo']),
+                              ),
+                              title: Text(doc['Name']),
+                            ),
+                          );
+                        }).toList()),
                   );
                 }),
           )
