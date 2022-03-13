@@ -65,11 +65,13 @@ class _LeaveeventState extends State<Leaveevent> {
                       border: Border(
                     bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
                   )),
-                  child: const ListTile(
-                      leading: Icon(Icons.date_range, size: 30),
+                  child: ListTile(
+                      leading: const Icon(Icons.date_range, size: 30),
                       title: Text(
-                        "",
-                        style: TextStyle(
+                        widget.snap.data["date"] +
+                            '     ' +
+                            widget.snap.data["Time"],
+                        style: const TextStyle(
                           fontSize: 18,
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.w400,

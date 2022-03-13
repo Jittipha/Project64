@@ -3,16 +3,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:project/components/fill_outline_button.dart';
 import 'package:project/screens/Home_Feed/thisweek.dart';
+import 'package:project/screens/Home_Feed/today.dart';
+import 'package:project/screens/Home_Feed/tomorrow.dart';
 import 'package:project/screens/Join_Event/Event_detail_Home.dart';
 import 'package:project/screens/Join_Event/Event_detail_Search.dart';
 import 'package:project/screens/Join_Event/Leave_Event_Home.dart';
 import 'package:project/screens/Join_Event/Leave_Event_Search.dart';
+import 'package:project/screens/Myevents.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
-
+  Home({Key? key, required this.body}) : super(key: key);
+  String body;
   @override
   _HomeState createState() => _HomeState();
 }
@@ -20,15 +24,15 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   String Category = "";
   String Category_id = "";
-
+  String body = "Home";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: const Color(0xFF00BF6D),
-          title: const Text(
-            'Home',
-            style: TextStyle(
+          title: Text(
+            body,
+            style: const TextStyle(
               fontSize: 22,
               fontFamily: 'Raleway',
               fontWeight: FontWeight.w600,
@@ -49,7 +53,7 @@ class _HomeState extends State<Home> {
                     ),
                     const PopupMenuItem<int>(
                       value: 2,
-                      child: Text("Thisweek"),
+                      child: Text("This week"),
                     ),
                     const PopupMenuDivider(),
                     const PopupMenuItem<int>(
@@ -100,176 +104,182 @@ class _HomeState extends State<Home> {
                         child: CircularProgressIndicator(),
                       );
                     } else {
-                      return ListView(
-                          scrollDirection: Axis.vertical,
-                          children: snapshot.data!.docs.map((cate) {
-                            Category = cate["Name"];
-                            Category_id = cate["Category_id"];
-                            return Column(children: <Widget>[
-                              Container(
-                                  child: ListTile(
-                                title: Text(
-                                  "    " + cate["Name"],
-                                  style: const TextStyle(
-                                    fontSize: 22,
-                                    fontFamily: 'Raleway',
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              )),
-                              Container(
-                                  child: Row(children: <Widget>[
-                                Expanded(
-                                  child: StreamBuilder(
-                                    stream: FirebaseFirestore.instance
-                                        .collection("Event")
-                                        //where อาเรย์
-                                        .where("Interests", arrayContainsAny: [
-                                      Category_id
-                                    ]).snapshots(),
-                                    builder: (context,
-                                        AsyncSnapshot<QuerySnapshot>
-                                            snapshots) {
-                                      if (snapshots.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const Center(
-                                          child: CircularProgressIndicator(),
-                                        );
-                                      } else {
-                                        return SizedBox(
-                                            height: 239,
-                                            width: 220,
-                                            child: ListView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                children: snapshots.data!.docs
-                                                    .map((Event) {
-                                                  return Container(
-                                                      padding: const EdgeInsets
-                                                              .fromLTRB(
-                                                          10, 15, 10, 10),
-                                                      child: SizedBox(
-                                                        height: 234,
-                                                        width: 220,
-                                                        child: Card(
-                                                          shape: const RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          8.0))),
-                                                          child: InkWell(
-                                                            onTap: () async => {
-                                                              await FirebaseFirestore
-                                                                  .instance
-                                                                  .collection(
-                                                                      "Student")
-                                                                  .doc(FirebaseAuth
-                                                                      .instance
-                                                                      .currentUser
-                                                                      ?.uid)
-                                                                  .collection(
-                                                                      "Posts")
-                                                                  //where เช็คค่า
-                                                                  .where(
-                                                                      "Event_id",
-                                                                      isEqualTo:
-                                                                          Event
-                                                                              .id)
-                                                                  .get()
-                                                                  .then(
-                                                                      (value) async =>
-                                                                          {
-                                                                            if (value.docs.isEmpty)
-                                                                              {
-                                                                                await FirebaseFirestore.instance.collection("Event").doc(Event.id).collection("Joined").where("Student_id", isEqualTo: FirebaseAuth.instance.currentUser?.uid).get().then((docsnapshot) => {
-                                                                                      // ignore: avoid_print
-                                                                                      print(docsnapshot.docs.length),
-                                                                                      if (docsnapshot.docs.isEmpty)
-                                                                                        // ignore: avoid_print
-                                                                                        {
-                                                                                          print("dont have"),
-                                                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => eventdetailhome(snap: Event)))
-                                                                                        }
-                                                                                      else
-                                                                                        // ignore: avoid_print
-                                                                                        {
-                                                                                          print("had"),
-                                                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => Leaveeventhome(snap: Event)))
-                                                                                        }
-                                                                                    })
-                                                                              }
-                                                                            else
-                                                                              {
-                                                                                print("Your Event")
-                                                                              }
-                                                                          })
-                                                            },
-                                                            child: Column(
-                                                              children: <
-                                                                  Widget>[
-                                                                ClipRRect(
-                                                                  borderRadius:
-                                                                      const BorderRadius
-                                                                          .only(
-                                                                    topLeft: Radius
-                                                                        .circular(
-                                                                            8.0),
-                                                                    topRight: Radius
-                                                                        .circular(
-                                                                            8.0),
-                                                                  ),
-                                                                  child: Image.network(
-                                                                      Event[
-                                                                          "Image"],
-                                                                      width: double
-                                                                          .infinity,
-                                                                      height:
-                                                                          150,
-                                                                      fit: BoxFit
-                                                                          .fill),
-                                                                ),
-                                                                ListTile(
-                                                                  title: Text(
-                                                                      Event[
-                                                                          "Name"],
-                                                                      style: const TextStyle(
-                                                                          fontFamily:
-                                                                              'Raleway')),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ));
-                                                }).toList()));
-                                      }
-                                    },
-                                  ),
-                                )
-                              ]))
-                            ]);
-                          }).toList());
+                      print(widget.body);
+                      if (body == "Home") {
+                        return HomeBody(snapshot);
+                      } else if (body == "Today") {
+                        return Today();
+                      } else if (body == "Tomorrow") {
+                        return Tomorrow();
+                      } else if (body == "This Week") {
+                        return thisweek();
+                      }
                     }
+                    return MyEvent();
                   }))
         ]));
   }
-}
 
-Selecteditem(BuildContext context, item) {
-  switch (item) {
-    case 0:
-      print("Today");
-      break;
-    case 1:
-      print("Tomorrow");
-      break;
-    case 2:
-      print("Thisweek");
-      break;
-    case 3:
-      print("Default");
-      break;
+  HomeBody(snapshot) {
+    return ListView(
+        scrollDirection: Axis.vertical,
+        children: snapshot.data!.docs.map<Widget>((cate) {
+          Category = cate["Name"];
+          Category_id = cate["Category_id"];
+          return Column(children: <Widget>[
+            Container(
+                child: ListTile(
+              title: Text(
+                "    " + cate["Name"],
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontFamily: 'Raleway',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            )),
+            Container(
+                child: Row(children: <Widget>[
+              Expanded(
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance.collection("Event")
+                      //where อาเรย์
+                      .where("Interests",
+                          arrayContainsAny: [Category_id]).snapshots(),
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshots) {
+                    if (snapshots.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      return SizedBox(
+                          height: 239,
+                          width: 220,
+                          child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: snapshots.data!.docs.map((Event) {
+                                return Container(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        10, 15, 10, 10),
+                                    child: SizedBox(
+                                      height: 234,
+                                      width: 220,
+                                      child: Card(
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(8.0))),
+                                        child: InkWell(
+                                          onTap: () async => {
+                                            await FirebaseFirestore.instance
+                                                .collection("Student")
+                                                .doc(FirebaseAuth
+                                                    .instance.currentUser?.uid)
+                                                .collection("Posts")
+                                                //where เช็คค่า
+                                                .where("Event_id",
+                                                    isEqualTo: Event.id)
+                                                .get()
+                                                .then((value) async => {
+                                                      if (value.docs.isEmpty)
+                                                        {
+                                                          await FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  "Event")
+                                                              .doc(Event.id)
+                                                              .collection(
+                                                                  "Joined")
+                                                              .where(
+                                                                  "Student_id",
+                                                                  isEqualTo: FirebaseAuth
+                                                                      .instance
+                                                                      .currentUser
+                                                                      ?.uid)
+                                                              .get()
+                                                              .then(
+                                                                  (docsnapshot) =>
+                                                                      {
+                                                                        // ignore: avoid_print
+                                                                        print(docsnapshot
+                                                                            .docs
+                                                                            .length),
+                                                                        if (docsnapshot
+                                                                            .docs
+                                                                            .isEmpty)
+                                                                          // ignore: avoid_print
+                                                                          {
+                                                                            print("dont have"),
+                                                                            Navigator.push(context,
+                                                                                MaterialPageRoute(builder: (context) => eventdetailhome(snap: Event)))
+                                                                          }
+                                                                        else
+                                                                          // ignore: avoid_print
+                                                                          {
+                                                                            print("had"),
+                                                                            Navigator.push(context,
+                                                                                MaterialPageRoute(builder: (context) => Leaveeventhome(snap: Event)))
+                                                                          }
+                                                                      })
+                                                        }
+                                                      else
+                                                        {print("Your Event")}
+                                                    })
+                                          },
+                                          child: Column(
+                                            children: <Widget>[
+                                              ClipRRect(
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  topLeft: Radius.circular(8.0),
+                                                  topRight:
+                                                      Radius.circular(8.0),
+                                                ),
+                                                child: Image.network(
+                                                    Event["Image"],
+                                                    width: double.infinity,
+                                                    height: 150,
+                                                    fit: BoxFit.fill),
+                                              ),
+                                              ListTile(
+                                                title: Text(Event["Name"],
+                                                    style: const TextStyle(
+                                                        fontFamily: 'Raleway')),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ));
+                              }).toList()));
+                    }
+                  },
+                ),
+              )
+            ]))
+          ]);
+        }).toList());
+  }
+
+  Selecteditem(BuildContext context, item) {
+    switch (item) {
+      case 0:
+        body = 'Today';
+        // print(body);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Today()));
+        break;
+      case 1:
+        body = 'Tomorrow';
+        // print(body);
+        return Tomorrow();
+      case 2:
+        body = 'This Week';
+        // print(body);
+        return build(context);
+      case 3:
+        body = 'Home';
+        // print(body);
+        return build(context);
+    }
   }
 }
-
-BodyToday() {}

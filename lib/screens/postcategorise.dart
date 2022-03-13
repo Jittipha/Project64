@@ -105,7 +105,7 @@ class _PostState extends State<Post> {
       lastDate: DateTime(DateTime.now().year + 6),
     );
     if (newDate == null) return;
-    String stDate = DateFormat('MM/dd/yyyy').format(newDate);
+    String stDate = DateFormat('dd/MM/yyyy').format(newDate);
 
     setState(() {
       date = stDate;
@@ -132,7 +132,6 @@ class _PostState extends State<Post> {
         context: context, initialTime: time ?? initialTime);
 
     if (newTime == null) return;
-    
 
     setState(() {
       time = newTime;
