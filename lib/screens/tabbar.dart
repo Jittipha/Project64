@@ -7,7 +7,6 @@ import 'package:project/screens/mainpage.dart';
 import 'Home_Feed/homepage.dart';
 import 'mainpage.dart';
 
-
 class Tabbar extends StatefulWidget {
   const Tabbar({Key? key}) : super(key: key);
 
@@ -16,17 +15,18 @@ class Tabbar extends StatefulWidget {
 }
 
 class _TabbarState extends State<Tabbar> {
+  String body = "Home";
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Home(),
+  // ignore: prefer_final_fields
+  static List<Widget> _widgetOptions = <Widget>[
+    Home(body: "Home"),
     SearchBar(),
     Text(
       'Index 2:Notification',
       style: optionStyle,
     ),
-    
     MainPage(),
   ];
 
