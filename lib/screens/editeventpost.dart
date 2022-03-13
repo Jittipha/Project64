@@ -286,10 +286,10 @@ class _EditEventState extends State<EditEvent> {
                                             .doc(widget
                                                 .studenthasposts["Event_id"])
                                             .update({
-                                          //"Image": event.Image,
+                                          "Image": event.Image,
                                           "Name": event.Name,
                                           "Description": event.Description,
-                                          //"Time": event.Time,
+                                          "Time": event.Time,
                                           "Location": event.Location,
                                         });
 
@@ -321,7 +321,7 @@ class _EditEventState extends State<EditEvent> {
                                         //  เวลาแจ้งเตือน //
                                         String Time = DateFormat("hh:mm:ss")
                                             .format(DateTime.now());
-                                        String date = DateFormat("yyyy-MM-dd")
+                                        String date = DateFormat("dd/MM/yyyy")
                                             .format(DateTime.now());
                                         print(Time + date);
                                         print(event.Name);
