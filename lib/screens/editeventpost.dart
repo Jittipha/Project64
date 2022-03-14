@@ -55,7 +55,7 @@ class _EditEventState extends State<EditEvent> {
       lastDate: DateTime(DateTime.now().year + 5),
     );
     if (newDate == null) return;
-    String stDate = DateFormat('MM/dd/yyyy').format(newDate);
+    String stDate = DateFormat('dd/MM/yyyy').format(newDate);
 
     setState(() {
       date = stDate;
@@ -286,11 +286,12 @@ class _EditEventState extends State<EditEvent> {
                                             .doc(widget
                                                 .studenthasposts["Event_id"])
                                             .update({
-                                          //"Image": event.Image,
+                                          "Image": event.Image,
                                           "Name": event.Name,
                                           "Description": event.Description,
-                                          //"Time": event.Time,
+                                          "Time": event.Time,
                                           "Location": event.Location,
+                                          "date": event.Date
                                         });
 
                                         await FirebaseFirestore.instance
@@ -304,7 +305,8 @@ class _EditEventState extends State<EditEvent> {
                                           "Name": event.Name,
                                           "Description": event.Description,
                                           "Time": event.Time,
-                                          "Location": event.Location
+                                          "Location": event.Location,
+                                          "date": event.Date
                                         }).then((value) => {
                                                   Fluttertoast.showToast(
                                                       msg: "Success!",
@@ -321,7 +323,7 @@ class _EditEventState extends State<EditEvent> {
                                         //  เวลาแจ้งเตือน //
                                         String Time = DateFormat("hh:mm:ss")
                                             .format(DateTime.now());
-                                        String date = DateFormat("yyyy-MM-dd")
+                                        String date = DateFormat("dd/MM/yyyy")
                                             .format(DateTime.now());
                                         print(Time + date);
                                         print(event.Name);
@@ -343,7 +345,6 @@ class _EditEventState extends State<EditEvent> {
                                             "Status": "edited",
                                             "Time": Time,
                                             "date": date,
-                                            
                                           }).then((value) => {
                                                     Fluttertoast.showToast(
                                                         msg: "Success!",
@@ -387,7 +388,22 @@ class _EditEventState extends State<EditEvent> {
                                         .collection('Posts')
                                         .doc(widget.studenthasposts.id)
                                         .delete();
-
+                                    QuerySnapshot snaps =
+                                        await FirebaseFirestore.instance
+                                            .collection("Event")
+                                            .doc(widget
+                                                .studenthasposts["Event_id"])
+                                            .collection("Joined")
+                                            .get();
+                                    snaps.docs.forEach((element) async {
+                                      await FirebaseFirestore.instance
+                                          .collection("Student")
+                                          .doc(element.id)
+                                          .collection("Joined")
+                                          .doc(widget
+                                              .studenthasposts["Event_id"])
+                                          .delete();
+                                    });
                                     await FirebaseFirestore.instance
                                         .collection('Event')
                                         .doc(widget.studenthasposts["Event_id"])

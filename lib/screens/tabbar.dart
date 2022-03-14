@@ -21,7 +21,7 @@ class _TabbarState extends State<Tabbar> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black);
   // ignore: prefer_final_fields
   static List<Widget> _widgetOptions = <Widget>[
-    Home(body: "Home"),
+    Homefeed(),
     SearchBar(),
     Text(
       'Index 2:Notification',

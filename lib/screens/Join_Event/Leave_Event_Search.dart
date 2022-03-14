@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, unused_import, must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors
+// ignore_for_file: file_names, unused_import, must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, deprecated_member_use
 
 import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -187,31 +187,7 @@ class _LeaveeventState extends State<Leaveevent> {
           }),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          await FirebaseFirestore.instance
-              .collection("Event")
-              .doc(widget.snap.objectID)
-              .collection("Joined")
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .delete();
-          await FirebaseFirestore.instance
-              .collection("Notification")
-              .doc(widget.snap.objectID)
-              .update({
-            'Student_id':
-                FieldValue.arrayRemove([FirebaseAuth.instance.currentUser?.uid])
-          });
-          await FirebaseFirestore.instance
-              .collection("Student")
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .collection("Joined")
-              .doc(widget.snap.objectID)
-              .delete()
-              .then((value) {
-            Fluttertoast.showToast(
-                msg: "ออกจากกิจกรรมแล้ว!", gravity: ToastGravity.CENTER);
-            Navigator.pop(
-                context, MaterialPageRoute(builder: (context) => SearchBar()));
-          });
+          showAlertDialog(context);
         },
         label: const Text(
           'LEAVE',
@@ -220,6 +196,61 @@ class _LeaveeventState extends State<Leaveevent> {
         icon: const Icon(Icons.exit_to_app_outlined),
         backgroundColor: Colors.pink[400],
       ),
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () async {
+        await FirebaseFirestore.instance
+            .collection("Event")
+            .doc(widget.snap.objectID)
+            .collection("Joined")
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .delete();
+        await FirebaseFirestore.instance
+            .collection("Notification")
+            .doc(widget.snap.objectID)
+            .update({
+          'Student_id':
+              FieldValue.arrayRemove([FirebaseAuth.instance.currentUser?.uid])
+        });
+        await FirebaseFirestore.instance
+            .collection("Student")
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .collection("Joined")
+            .doc(widget.snap.objectID)
+            .delete()
+            .then((value) {
+          Fluttertoast.showToast(
+              msg: "ออกจากกิจกรรมแล้ว!", gravity: ToastGravity.CENTER);
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });
+      },
+    );
+    Widget cancleButton = FlatButton(
+      child: Text("CANCLE"),
+      onPressed: () {
+        Navigator.pop(context, 'Cancel');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("LEAVE EVENT !"),
+      content: Text("Are you sure?"),
+      actions: [cancleButton, okButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

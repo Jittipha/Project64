@@ -198,8 +198,7 @@ class _eventdetailState extends State<eventdetail> {
           }).then((value) {
             Fluttertoast.showToast(
                 msg: "เข้าร่วมกิจกรรมแล้ว!", gravity: ToastGravity.CENTER);
-            Navigator.pop(context,
-                MaterialPageRoute(builder: (context) => const SearchBar()));
+            Navigator.pop(context);
           });
         },
         label: const Text('JOIN'),
