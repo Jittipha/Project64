@@ -14,7 +14,7 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:project/Model/Event.dart';
 import 'package:project/screens/Myevents.dart';
-import 'package:project/screens/addcategorise.dart';
+
 import 'package:project/screens/tabbar.dart';
 import 'package:project/Model/Student.dart';
 
@@ -285,8 +285,7 @@ class _PostState extends State<Post> {
                                 .instance
                                 .collection('Event')
                                 .where("Name", isEqualTo: event.Name)
-                                .where("Description",
-                                    isEqualTo: event.Description)
+                                .where("Location", isEqualTo: event.Location)
                                 .get();
                             snap.docs.forEach((document) async {
                               await FirebaseFirestore.instance

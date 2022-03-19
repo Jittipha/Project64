@@ -19,8 +19,10 @@ class Tomorrow extends StatefulWidget {
 }
 
 class _TomorrowState extends State<Tomorrow> {
-  String Day = DateFormat('E').format(DateTime.now());
-  String dateshow = DateFormat.yMMMMd('en_US').format(DateTime.now());
+  String Day =
+      DateFormat('E').format(DateTime.now().add(const Duration(days: 1)));
+  String dateshow = DateFormat.yMMMMd('en_US')
+      .format(DateTime.now().add(const Duration(days: 1)));
 
   String date = DateFormat("dd/MM/yyyy")
       .format(DateTime.now().add(const Duration(days: 1)));
@@ -68,12 +70,11 @@ class _TomorrowState extends State<Tomorrow> {
               .where("date", isEqualTo: date)
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            print(date);
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (snapshot.data?.docs.length == 0) {
+            } else if (snapshot.data!.docs.isEmpty) {
               return Container(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: const Center(

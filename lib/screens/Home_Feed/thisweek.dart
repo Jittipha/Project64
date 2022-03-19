@@ -1,15 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:project/screens/Home_Feed/thisweek.dart';
+
 import 'package:project/screens/Home_Feed/today.dart';
 import 'package:project/screens/Home_Feed/tomorrow.dart';
 import 'package:project/screens/Join_Event/Event_detail_Home.dart';
-import 'package:project/screens/homepage.dart';
 
 import 'package:flutter/material.dart';
 
 import '../tabbar.dart';
-import 'homepage.dart';
 
 class thisweek extends StatefulWidget {
   const thisweek({Key? key}) : super(key: key);
@@ -19,24 +17,9 @@ class thisweek extends StatefulWidget {
 }
 
 class _thisweekState extends State<thisweek> {
-  String Day = DateFormat('E').format(DateTime.now());
-  String dateshow = DateFormat.yMMMMd('en_US').format(DateTime.now());
-
-  String date1 = DateFormat("dd/MM/yyyy")
-      .format(DateTime.now().add(const Duration(days: 1)));
-  String date2 = DateFormat("dd/MM/yyyy")
-      .format(DateTime.now().add(const Duration(days: 2)));
-  String date3 = DateFormat("dd/MM/yyyy")
-      .format(DateTime.now().add(const Duration(days: 3)));
-  String date4 = DateFormat("dd/MM/yyyy")
-      .format(DateTime.now().add(const Duration(days: 4)));
-  String date5 = DateFormat("dd/MM/yyyy")
-      .format(DateTime.now().add(const Duration(days: 5)));
-  String date6 = DateFormat("dd/MM/yyyy")
-      .format(DateTime.now().add(const Duration(days: 6)));
   String date7 = DateFormat("dd/MM/yyyy")
       .format(DateTime.now().add(const Duration(days: 7)));
-
+  String date = DateFormat("dd/MM/yyyy").format(DateTime.now());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +60,11 @@ class _thisweekState extends State<thisweek> {
         body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection("Event")
-              .where("date", whereIn: []).snapshots(),
+              // .where("date", whereIn: ['19/03/2022'])
+              .where("date",
+                  isLessThanOrEqualTo: date7, isGreaterThanOrEqualTo: date)
+              .orderBy("date")
+              .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -124,11 +111,8 @@ class _thisweekState extends State<thisweek> {
                                       MediaQuery.of(context).size.width * 0.63,
                                   child: ListBody(children: <Widget>[
                                     Text(
-                                      Day +
-                                          ' , ' +
-                                          dateshow +
-                                          " , " +
-                                          Eventjusttoday["Time"],
+                                      Conditiondays(Eventjusttoday["date"],
+                                          Eventjusttoday["Time"]),
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontFamily: 'Raleway',
@@ -192,13 +176,80 @@ class _thisweekState extends State<thisweek> {
             context, MaterialPageRoute(builder: (context) => const Tomorrow()));
         break;
       case 2:
-
-        // print(body);
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => Tabbar()),
+          MaterialPageRoute(builder: (context) => const Tabbar()),
           (Route<dynamic> route) => false,
         );
+    }
+  }
+
+  Conditiondays(getday, time) {
+    String date = DateFormat("dd/MM/yyyy").format(DateTime.now());
+    String date1 = DateFormat("dd/MM/yyyy")
+        .format(DateTime.now().add(const Duration(days: 1)));
+    String date2 = DateFormat("dd/MM/yyyy")
+        .format(DateTime.now().add(const Duration(days: 2)));
+    String date3 = DateFormat("dd/MM/yyyy")
+        .format(DateTime.now().add(const Duration(days: 3)));
+    String date4 = DateFormat("dd/MM/yyyy")
+        .format(DateTime.now().add(const Duration(days: 4)));
+    String date5 = DateFormat("dd/MM/yyyy")
+        .format(DateTime.now().add(const Duration(days: 5)));
+    String date6 = DateFormat("dd/MM/yyyy")
+        .format(DateTime.now().add(const Duration(days: 6)));
+    String date7 = DateFormat("dd/MM/yyyy")
+        .format(DateTime.now().add(const Duration(days: 7)));
+    String Day;
+    String Text;
+    String dateshow;
+    if (getday == date) {
+      Day = DateFormat('E').format(DateTime.now());
+      dateshow = DateFormat.yMMMMd('en_US').format(DateTime.now());
+      Text = Day + ' , ' + dateshow + " , " + time;
+      return Text;
+    } else if (getday == date1) {
+      Day = DateFormat('E').format(DateTime.now().add(const Duration(days: 1)));
+      dateshow = DateFormat.yMMMMd('en_US')
+          .format(DateTime.now().add(const Duration(days: 1)));
+      Text = Day + ' , ' + dateshow + " , " + time;
+      return Text;
+    } else if (getday == date2) {
+      Day = DateFormat('E').format(DateTime.now().add(const Duration(days: 2)));
+      dateshow = DateFormat.yMMMMd('en_US')
+          .format(DateTime.now().add(const Duration(days: 2)));
+      Text = Day + ' , ' + dateshow + " , " + time;
+      return Text;
+    } else if (getday == date3) {
+      Day = DateFormat('E').format(DateTime.now().add(const Duration(days: 3)));
+      dateshow = DateFormat.yMMMMd('en_US')
+          .format(DateTime.now().add(const Duration(days: 3)));
+      Text = Day + ' , ' + dateshow + " , " + time;
+      return Text;
+    } else if (getday == date4) {
+      Day = DateFormat('E').format(DateTime.now().add(const Duration(days: 4)));
+      dateshow = DateFormat.yMMMMd('en_US')
+          .format(DateTime.now().add(const Duration(days: 4)));
+      Text = Day + ' , ' + dateshow + " , " + time;
+      return Text;
+    } else if (getday == date5) {
+      Day = DateFormat('E').format(DateTime.now().add(const Duration(days: 5)));
+      dateshow = DateFormat.yMMMMd('en_US')
+          .format(DateTime.now().add(const Duration(days: 5)));
+      Text = Day + ' , ' + dateshow + " , " + time;
+      return Text;
+    } else if (getday == date6) {
+      Day = DateFormat('E').format(DateTime.now().add(const Duration(days: 6)));
+      dateshow = DateFormat.yMMMMd('en_US')
+          .format(DateTime.now().add(const Duration(days: 6)));
+      Text = Day + ' , ' + dateshow + " , " + time;
+      return Text;
+    } else if (getday == date7) {
+      Day = DateFormat('E').format(DateTime.now().add(const Duration(days: 7)));
+      dateshow = DateFormat.yMMMMd('en_US')
+          .format(DateTime.now().add(const Duration(days: 7)));
+      Text = Day + ' , ' + dateshow + " , " + time;
+      return Text;
     }
   }
 }
