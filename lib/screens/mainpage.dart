@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:project/blocs/auth_bloc.dart';
+import 'package:project/screens/AddCategories.dart';
 import 'package:project/screens/Myevents.dart';
 import 'package:project/screens/home.dart';
 import 'package:provider/provider.dart';
 
-import 'addcategorise.dart';
 import 'postcategorise.dart';
 //import 'package:flutter_application_1/screen/createeventspost.dart';
 
@@ -23,7 +23,7 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "MENU",
+          "Menu",
           style: TextStyle(
             fontSize: 25,
             fontFamily: 'Raleway',
@@ -43,7 +43,7 @@ class MainPage extends StatelessWidget {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Colors.green.shade200)),
                   child: const Text(
-                    "Create Categories",
+                    "Create Category",
                     style: TextStyle(
                         fontSize: 20,
                         fontFamily: 'RobotoMono',
@@ -52,7 +52,7 @@ class MainPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return const AddCategorise();
+                      return const addcate();
                     }));
                   }),
             ),

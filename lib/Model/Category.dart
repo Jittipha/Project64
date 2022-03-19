@@ -3,11 +3,13 @@
 import 'package:flutter/material.dart';
 
 class Cates {
+  String? urlImage;
   String? Cid;
   String? Name;
   String? Description;
 
   Cates({
+    this.urlImage,
     this.Cid,
     this.Name,
     // ignore: non_constant_identifier_names
