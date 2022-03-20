@@ -7,7 +7,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 
 import 'package:project/Model/Event.dart';
 
-import 'package:project/screens/DetailCate.dart';
+import 'package:project/screens/Categories/DetailCate.dart';
 import 'package:project/Model/Category.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:project/screens/editeventpost.dart';

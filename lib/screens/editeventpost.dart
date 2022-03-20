@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, must_be_immutable, avoid_unnecessary_containers, override_on_non_overriding_member, avoid_print, non_constant_identifier_names, duplicate_import, prefer_const_constructors, unused_local_variable, equal_keys_in_map
+// ignore_for_file: unused_import, must_be_immutable, avoid_unnecessary_containers, override_on_non_overriding_member, avoid_print, non_constant_identifier_names, duplicate_import, prefer_const_constructors, unused_local_variable, equal_keys_in_map, avoid_function_literals_in_foreach_calls
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,12 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:intl/intl.dart';
-
 import 'package:project/Model/Event.dart';
 import 'package:project/Notification/services/notification.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-
 import 'Interests/editinterests.dart';
 import 'Myevents.dart';
 import 'Home_Feed/homepage.dart';
@@ -55,7 +53,7 @@ class _EditEventState extends State<EditEvent> {
       lastDate: DateTime(DateTime.now().year + 5),
     );
     if (newDate == null) return;
-    String stDate = DateFormat('MM/dd/yyyy').format(newDate);
+    String stDate = DateFormat('dd/MM/yyyy').format(newDate);
 
     setState(() {
       date = stDate;
@@ -291,7 +289,7 @@ class _EditEventState extends State<EditEvent> {
                                           "Description": event.Description,
                                           "Time": event.Time?.format(context),
                                           "Location": event.Location,
-                                          "date": event.Date,
+                                          "date": event.Date
                                         });
 
                                         await FirebaseFirestore.instance
@@ -307,7 +305,18 @@ class _EditEventState extends State<EditEvent> {
                                           "Time": event.Time?.format(context),
                                           "Location": event.Location,
                                           "date": event.Date,
-                                        });
+                                        }).then((value) => {
+                                                  Fluttertoast.showToast(
+                                                      msg: "Success!",
+                                                      gravity:
+                                                          ToastGravity.CENTER),
+                                                  Navigator.push(context,
+                                                      MaterialPageRoute(
+                                                    builder: (context) {
+                                                      return const MyEvent();
+                                                    },
+                                                  ))
+                                                });
 
                                         //  เวลาแจ้งเตือน //
                                         String Time = DateFormat("hh:mm:ss")
@@ -327,7 +336,6 @@ class _EditEventState extends State<EditEvent> {
                                             "Status": "edited",
                                             "Time": Time,
                                             "date": date,
-                                            
                                           }).then((value) => {
                                                     Fluttertoast.showToast(
                                                         msg: "Success!",
@@ -371,7 +379,22 @@ class _EditEventState extends State<EditEvent> {
                                         .collection('Posts')
                                         .doc(widget.studenthasposts.id)
                                         .delete();
-
+                                    QuerySnapshot snaps =
+                                        await FirebaseFirestore.instance
+                                            .collection("Event")
+                                            .doc(widget
+                                                .studenthasposts["Event_id"])
+                                            .collection("Joined")
+                                            .get();
+                                    snaps.docs.forEach((element) async {
+                                      await FirebaseFirestore.instance
+                                          .collection("Student")
+                                          .doc(element.id)
+                                          .collection("Joined")
+                                          .doc(widget
+                                              .studenthasposts["Event_id"])
+                                          .delete();
+                                    });
                                     await FirebaseFirestore.instance
                                         .collection('Event')
                                         .doc(widget.studenthasposts["Event_id"])

@@ -2,8 +2,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../main.dart';
-import 'package:project/screens/listcate.dart';
+import '../../main.dart';
+import 'package:project/screens/Categories/listcate.dart';
 import 'package:project/Model/Category.dart';
 
 class Detail_Cate extends StatefulWidget {
