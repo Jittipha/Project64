@@ -289,9 +289,9 @@ class _EditEventState extends State<EditEvent> {
                                           "Image": event.Image,
                                           "Name": event.Name,
                                           "Description": event.Description,
-                                           "Time": event.Time,
+                                          "Time": event.Time?.format(context),
                                           "Location": event.Location,
-                                           "date": event.Date,
+                                          "date": event.Date,
                                         });
 
                                         await FirebaseFirestore.instance
@@ -304,7 +304,7 @@ class _EditEventState extends State<EditEvent> {
                                           "Image": event.Image,
                                           "Name": event.Name,
                                           "Description": event.Description,
-                                           "Time": event.Time,
+                                          "Time": event.Time?.format(context),
                                           "Location": event.Location,
                                           "date": event.Date,
                                         });

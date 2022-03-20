@@ -3,10 +3,13 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+// import 'package:project/Notification/views/HomeNotification.dart';
 // import 'package:project/Notification/services/notification.dart';
 // import 'package:project/Notification/views/home_view.dart';
 import 'package:project/blocs/auth_bloc.dart';
 import 'package:project/screens/login.dart';
+// import 'package:project/screens/Home_Feed/today.dart';
+// import 'package:project/screens/login.dart';
 // import 'package:project/screens/editeventpost.dart';
 // import 'package:project/screens/login.dart';
 // import 'package:project/blocs/auth_bloc.dart';
@@ -15,7 +18,6 @@ import 'package:project/screens/login.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
- 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
@@ -33,10 +35,8 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.grey,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: const LoginScreen(),
-  
+        home:  const LoginScreen(),
       ),
-
     );
   }
 }

@@ -1,15 +1,3 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: non_constant_identifier_names
 
-class Tomorrow extends StatefulWidget {
-  const Tomorrow({Key? key}) : super(key: key);
-
-  @override
-  _TomorrowState createState() => _TomorrowState();
-}
-
-class _TomorrowState extends State<Tomorrow> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
+Tomorrow() {}

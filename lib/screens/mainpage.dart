@@ -21,7 +21,9 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final authBloc = Provider.of<AuthBloc>(context);
     return Scaffold(
+      
       appBar: AppBar(
+        backgroundColor: const Color(0xFF00BF6D),
         title: const Text(
           "MENU",
           style: TextStyle(

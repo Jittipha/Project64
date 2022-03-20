@@ -1,12 +1,12 @@
 // ignore: unused_import
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unused_field
 
 import 'package:flutter/material.dart';
+import 'package:project/Notification/views/HomeNotification.dart';
 import 'package:project/algolia/searchpage.dart';
 import 'package:project/screens/mainpage.dart';
 import 'Home_Feed/homepage.dart';
 import 'mainpage.dart';
-
 
 class Tabbar extends StatefulWidget {
   const Tabbar({Key? key}) : super(key: key);
@@ -16,17 +16,19 @@ class Tabbar extends StatefulWidget {
 }
 
 class _TabbarState extends State<Tabbar> {
+  String body = "Home";
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Home(),
+  // ignore: prefer_final_fields
+  static List<Widget> _widgetOptions = <Widget>[
+    Home(body: "Home"),
     SearchBar(),
-    Text(
-      'Index 2:Notification',
-      style: optionStyle,
-    ),
-    
+    HomeNotification(),
+    // Text(
+    //   'Index 2:Notification',
+    //   style: optionStyle,
+    // ),
     MainPage(),
   ];
 
@@ -46,26 +48,26 @@ class _TabbarState extends State<Tabbar> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: const Icon(Icons.home),
+            icon: Icon(Icons.home),
             label: 'Home',
-            backgroundColor: Colors.green.shade400,
+           backgroundColor: Color(0xFF00BF6D),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Search',
-            backgroundColor: Colors.green.shade400,
+            backgroundColor: Color(0xFF00BF6D),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
             label: 'Notification',
-            backgroundColor: Colors.green.shade400,
+            backgroundColor: Color(0xFF00BF6D),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.menu),
             label: 'Menu',
-            backgroundColor: Colors.green.shade400,
+            backgroundColor: Color(0xFF00BF6D),
           ),
         ],
         currentIndex: _selectedIndex,

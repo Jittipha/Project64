@@ -1,6 +1,5 @@
 // ignore_for_file: unnecessary_new, unnecessary_const, unused_local_variable, unused_label, null_check_always_fails, avoid_print, non_constant_identifier_names
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // import 'package:project/Notification/views/home_view.dart';
 // import 'package:snapshot/snapshot.dart';
 import 'package:project/Model/Event.dart';
-
 
 class NotificationService extends ChangeNotifier {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
@@ -22,7 +20,7 @@ class NotificationService extends ChangeNotifier {
   Future initialize() async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
-         
+
     AndroidInitializationSettings androidInitializationSettings =
         const AndroidInitializationSettings("ic_launcher");
 
@@ -52,12 +50,10 @@ class NotificationService extends ChangeNotifier {
 
   //Image notification
   Future imageNotification(event) async {
-    
-    
     var bigPicture = const BigPictureStyleInformation(
         const DrawableResourceAndroidBitmap("ic_launcher"),
         largeIcon:const DrawableResourceAndroidBitmap("ic_launcher"),
-    
+
         // contentTitle:"valo",
         // summaryText: "อีเว้นนี้มีการเปลี่ยนแปลง",
         htmlFormatContent: true,

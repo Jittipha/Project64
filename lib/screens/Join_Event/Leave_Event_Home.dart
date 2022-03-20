@@ -55,24 +55,6 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                 )),
           ),
           Container(
-            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
-            decoration: const BoxDecoration(
-                border: Border(
-              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
-            )),
-            child: ListTile(
-                leading: const Icon(Icons.date_range, size: 30),
-                title: Text(
-                  widget.snap["Time"],
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'Raleway',
-                    fontWeight: FontWeight.w400,
-                  ),
-                  textAlign: TextAlign.start,
-                )),
-          ),
-          Container(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
             decoration: const BoxDecoration(
                 border: Border(
