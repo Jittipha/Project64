@@ -1,4 +1,6 @@
+
 // ignore_for_file: unused_import, must_be_immutable, avoid_unnecessary_containers, override_on_non_overriding_member, avoid_print, non_constant_identifier_names, duplicate_import, prefer_const_constructors, unused_local_variable, equal_keys_in_map, deprecated_member_use
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,12 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:intl/intl.dart';
-
 import 'package:project/Model/Event.dart';
 import 'package:project/Notification/services/notification.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-
 import 'Interests/editinterests.dart';
 import 'Myevents.dart';
 import 'Home_Feed/homepage.dart';
@@ -179,7 +179,7 @@ class _EditEventState extends State<EditEvent> {
                               onPressed: () => pickDate(context),
                               child: Text(getTextDate()),
                               style: ElevatedButton.styleFrom(
-                                  primary: Colors.white)),
+                                  primary: Colors.white)), 
                         ),
                         const SizedBox(
                           height: 10,
@@ -291,7 +291,10 @@ class _EditEventState extends State<EditEvent> {
                                           "Description": event.Description,
                                           "Time": event.Time?.format(context),
                                           "Location": event.Location,
+
                                           "date": event.Date,
+
+
                                         });
 
                                         await FirebaseFirestore.instance
@@ -328,13 +331,6 @@ class _EditEventState extends State<EditEvent> {
                                         print(Time + date);
                                         print(event.Name);
 
-                                        var checkid = await FirebaseFirestore
-                                            .instance
-                                            .collection("Notification")
-                                            .doc(widget
-                                                .studenthasposts["Event_id"])
-                                            .get();
-                                        if (checkid.exists) {
                                           await FirebaseFirestore.instance
                                               .collection("Notification")
                                               .doc(widget
@@ -357,7 +353,7 @@ class _EditEventState extends State<EditEvent> {
                                                       },
                                                     ))
                                                   });
-                                        }
+                                        
                                       } on FirebaseAuthException catch (err) {
                                         Fluttertoast.showToast(
                                             msg: err.message!);
@@ -381,6 +377,7 @@ class _EditEventState extends State<EditEvent> {
                                           fontSize: 20, color: Colors.black),
                                       textAlign: TextAlign.right),
                                   onPressed: () async {
+
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
@@ -450,6 +447,45 @@ class _EditEventState extends State<EditEvent> {
                                     //       return const MyEvent();
                                     //     },
                                     //   ));
+
+                                    await FirebaseFirestore.instance
+                                        .collection('Student')
+                                        .doc(FirebaseAuth
+                                            .instance.currentUser?.uid)
+                                        .collection('Posts')
+                                        .doc(widget.studenthasposts.id)
+                                        .delete();
+                                    QuerySnapshot snaps =
+                                        await FirebaseFirestore.instance
+                                            .collection("Event")
+                                            .doc(widget
+                                                .studenthasposts["Event_id"])
+                                            .collection("Joined")
+                                            .get();
+                                    snaps.docs.forEach((element) async {
+                                      await FirebaseFirestore.instance
+                                          .collection("Student")
+                                          .doc(element.id)
+                                          .collection("Joined")
+                                          .doc(widget
+                                              .studenthasposts["Event_id"])
+                                          .delete();
+                                    });
+                                    await FirebaseFirestore.instance
+                                        .collection('Event')
+                                        .doc(widget.studenthasposts["Event_id"])
+                                        .delete()
+                                        .then((value) {
+                                      Fluttertoast.showToast(
+                                          msg: "Delete Success!",
+                                          gravity: ToastGravity.CENTER);
+                                      Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) {
+                                          return const MyEvent();
+                                        },
+                                      ));
+                                    });
+
                                   }),
                             ],
                           ),

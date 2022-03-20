@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, non_constant_identifier_names, avoid_unnecessary_containers, avoid_print, duplicate_ignore
+// ignore_for_file: unused_import, non_constant_identifier_names, avoid_unnecessary_containers, avoid_print, duplicate_ignore, must_be_immutable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,14 +14,12 @@ import 'package:project/screens/Join_Event/Leave_Event_Home.dart';
 import 'package:project/screens/Join_Event/Leave_Event_Search.dart';
 import 'package:project/screens/Myevents.dart';
 
-class Home extends StatefulWidget {
-  Home({Key? key, required this.body}) : super(key: key);
-  String body;
+class Homefeed extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _HomefeedState createState() => _HomefeedState();
 }
 
-class _HomeState extends State<Home> {
+class _HomefeedState extends State<Homefeed> {
   String Category = "";
   String Category_id = "";
   String body = "Home";
@@ -44,6 +42,11 @@ class _HomeState extends State<Home> {
                 child: PopupMenuButton<int>(
                   itemBuilder: (context) => [
                     const PopupMenuItem<int>(
+                      value: 4,
+                      child: Text("Starting soon!"),
+                    ),
+                    const PopupMenuDivider(),
+                    const PopupMenuItem<int>(
                       value: 0,
                       child: Text("Today"),
                     ),
@@ -55,11 +58,11 @@ class _HomeState extends State<Home> {
                       value: 2,
                       child: Text("This week"),
                     ),
-                    const PopupMenuDivider(),
-                    const PopupMenuItem<int>(
-                      value: 3,
-                      child: Text("Default"),
-                    ),
+                    // const PopupMenuDivider(),
+                    // const PopupMenuItem<int>(
+                    //   value: 3,
+                    //   child: Text("Default"),
+                    // ),
                   ],
                   onSelected: (item) => Selecteditem(context, item),
                 ))
@@ -104,18 +107,8 @@ class _HomeState extends State<Home> {
                         child: CircularProgressIndicator(),
                       );
                     } else {
-                      print(widget.body);
-                      if (body == "Home") {
-                        return HomeBody(snapshot);
-                      } else if (body == "Today") {
-                        return Today();
-                      } else if (body == "Tomorrow") {
-                        return Tomorrow();
-                      } else if (body == "This Week") {
-                        return thisweek();
-                      }
+                      return HomeBody(snapshot);
                     }
-                    return MyEvent();
                   }))
         ]));
   }
@@ -266,20 +259,17 @@ class _HomeState extends State<Home> {
         body = 'Today';
         // print(body);
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Today()));
+            context, MaterialPageRoute(builder: (context) => const Today()));
         break;
       case 1:
         body = 'Tomorrow';
-        // print(body);
-        return Tomorrow();
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const Tomorrow()));
+        break;
       case 2:
         body = 'This Week';
-        // print(body);
-        return build(context);
-      case 3:
-        body = 'Home';
-        // print(body);
-        return build(context);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const thisweek()));
     }
   }
 }

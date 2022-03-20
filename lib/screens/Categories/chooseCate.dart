@@ -1,14 +1,12 @@
-
 // ignore_for_file: file_names, unused_import, unused_local_variable, unused_element
 
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:project/screens/DetailCate.dart';
+import 'package:project/screens/Categories/DetailCate.dart';
 import 'package:project/main.dart';
 import 'package:snapshot/snapshot.dart';
 import 'package:http/http.dart' as http;

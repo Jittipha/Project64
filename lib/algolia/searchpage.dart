@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_const, curly_braces_in_flow_control_structures, unnecessary_new, non_constant_identifier_names, use_key_in_widget_constructors, must_be_immutable, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, await_only_futures, deprecated_member_use, prefer_is_empty, prefer_final_fields, unused_field, unused_element, unrelated_type_equality_checks, unused_import, avoid_print, duplicate_ignore, empty_statements, dead_code
+// ignore_for_file: unnecessary_const, curly_braces_in_flow_control_structures, unnecessary_new, non_constant_identifier_names, use_key_in_widget_constructors, must_be_immutable, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, await_only_futures, deprecated_member_use, prefer_is_empty, prefer_final_fields, unused_field, unused_element, unrelated_type_equality_checks, unused_import, avoid_print, duplicate_ignore, empty_statements, dead_code, avoid_unnecessary_containers
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -45,8 +45,12 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          title: const Text('Search'),
+           backgroundColor: const Color(0xFF00BF6D),
+        ),
       body: Container(
-        padding: const EdgeInsets.fromLTRB(15, 75, 15, 0),
+        // padding: const EdgeInsets.fromLTRB(15, 75, 15, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

@@ -8,6 +8,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // import 'package:project/Notification/views/home_view.dart';
 // import 'package:snapshot/snapshot.dart';
 import 'package:project/Model/Event.dart';
+import 'package:project/screens/Join_Event/Leave_Event_Home.dart';
 
 class NotificationService extends ChangeNotifier {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =

@@ -6,6 +6,7 @@ class comment {
   String? sId;
   String? text;
   TimeOfDay? time;
+
   comment(
       {this.eId,
       this.date,
@@ -14,3 +15,5 @@ class comment {
       this.time,
       });
 }
+
+ 

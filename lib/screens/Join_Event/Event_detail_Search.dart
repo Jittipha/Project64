@@ -174,6 +174,7 @@ class _eventdetailState extends State<eventdetail> {
               .update({
             'Student_id':
                 FieldValue.arrayUnion([FirebaseAuth.instance.currentUser?.uid])
+
           });
           await FirebaseFirestore.instance
               .collection("Student")
@@ -198,8 +199,7 @@ class _eventdetailState extends State<eventdetail> {
           }).then((value) {
             Fluttertoast.showToast(
                 msg: "เข้าร่วมกิจกรรมแล้ว!", gravity: ToastGravity.CENTER);
-            Navigator.pop(context,
-                MaterialPageRoute(builder: (context) => const SearchBar()));
+            Navigator.pop(context);
           });
         },
         label: const Text('JOIN'),

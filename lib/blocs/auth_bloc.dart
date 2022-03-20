@@ -8,9 +8,9 @@ import 'package:get/get.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project/screens/home.dart';
-import 'package:project/screens/listcate.dart';
+import 'package:project/screens/Categories/listcate.dart';
 import 'package:project/services/auth_service.dart';
-import 'package:project/chooseCate.dart';
+import 'package:project/screens/Categories/chooseCate.dart';
 import 'package:flutter/material.dart';
 import 'package:project/screens/tabbar.dart';
 import 'package:project/Model/Student.dart';
@@ -38,7 +38,6 @@ class AuthBloc {
       students.uid = result.user?.uid;
       students.Photo = result.user?.photoURL;
 
-      
       // ignore: avoid_print
       print('${result.user?.displayName}');
 

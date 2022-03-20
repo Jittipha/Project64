@@ -5,10 +5,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:project/Model/Comment.dart';
 
+
+import 'package:project/Model/Comment.dart';
+
 import 'package:project/algolia/searchpage.dart';
+import 'package:project/screens/Home_Feed/homepage.dart';
+import 'package:project/screens/Myevents.dart';
+import 'package:project/screens/homepage.dart';
+
+import '../tabbar.dart';
+import 'Event_detail_Home.dart';
 
 class Leaveeventhome extends StatefulWidget {
   Leaveeventhome({Key? key, required this.snap}) : super(key: key);
@@ -19,12 +29,21 @@ class Leaveeventhome extends StatefulWidget {
 }
 
 class _LeaveeventhomeState extends State<Leaveeventhome> {
+  String Length = "";
   final _formKey = GlobalKey<FormState>();
   comment comments = comment();
-  //count join
-  //final firebase = FirebaseFirestore.instance.collection("Event").doc(widget.snap['eid']);
-  
+
   @override
+  void initState() {
+    super.initState();
+    getLength();
+  }
+
+  Future<void> getLength() async {
+    Length = await getArrayLength();
+    setState(() {});
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -45,10 +64,20 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             ),
           ),
           Container(
+            padding: const EdgeInsets.fromLTRB(10, 23, 10, 15),
+            child: Text(
+              widget.snap["Name"],
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Raleway',
+                  fontSize: 25),
+            ),
+          ),
+          Container(
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(width: 0.25, color: Color(0xFF7F7F7F)),
             )),
             child: ListTile(
                 leading: const Icon(Icons.date_range, size: 30),
@@ -66,7 +95,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(width: 0.25, color: Color(0xFF7F7F7F)),
             )),
             child: ListTile(
                 leading: const Icon(Icons.location_on_outlined, size: 30),
@@ -94,7 +123,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             padding: const EdgeInsets.fromLTRB(28, 0, 10, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(width: 0.25, color: Color(0xFF7F7F7F)),
             )),
             child: ListTile(
                 title: Text(
@@ -120,7 +149,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             padding: const EdgeInsets.fromLTRB(13, 0, 0, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(width: 0.25, color: Color(0xFF7F7F7F)),
             )),
             child: ListTile(
                 leading: CircleAvatar(
@@ -140,21 +169,31 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                 )),
           ),
           Container(
-            padding: const EdgeInsets.fromLTRB(15, 13, 10, 2),
-            child: const ListTile(
-              title: Text("Joined",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Raleway',
-                      fontSize: 25)),
-            ),
-          ),
-          
+              padding: const EdgeInsets.fromLTRB(13, 13, 22, 10),
+              child: ListTile(
+                  trailing: CircleAvatar(
+                      backgroundColor: Colors.blueGrey[100],
+                      radius: 19,
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Text(Length,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Raleway',
+                                fontSize: 25),
+                            textAlign: TextAlign.start),
+                      )),
+                  title: Text("Joined",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Raleway',
+                          fontSize: 25)))),
+
           Container(
-            padding: const EdgeInsets.fromLTRB(13, 0, 0, 10),
+            padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(width: 0.25, color: Color(0xFF7F7F7F)),
             )),
             child: StreamBuilder(
                 stream: FirebaseFirestore.instance
@@ -167,7 +206,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                     return const CircularProgressIndicator();
                   }
                   return SizedBox(
-                    height: 50,
+                    height: 75,
                     child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: snapshot.data!.docs.map((doc) {
@@ -202,23 +241,27 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
               children: [
                 TextFormField(
                   decoration: const InputDecoration(
-                      icon: Icon(Icons.comment), hintText: 'Text',hintMaxLines: 5),
+
+                      icon: Icon(Icons.comment),
+                      hintText: 'Text',
+                      hintMaxLines: 5),
                   onSaved: (value) {
                     comments.text = value;
                   },
                 ),
-                FlatButton(onPressed: () {
-                  FirebaseFirestore.instance
-                  .collection('Comment')
-                  .doc(widget.snap.id)
-                  .set({
-                    "text" : comments.text ,
-                    "eId" : widget.snap.id,
-                    "sId" : FirebaseAuth.instance.currentUser?.uid,
-                    "time" : Timestamp.now().toString()
-                  }
-                  );
-                }, child: Text("Post"))
+                FlatButton(
+                    onPressed: () {
+                      FirebaseFirestore.instance
+                          .collection('Comment')
+                          .doc(widget.snap.id)
+                          .set({
+                        "text": comments.text,
+                        "eId": widget.snap.id,
+                        "sId": FirebaseAuth.instance.currentUser?.uid,
+                        "time": Timestamp.now().toString()
+                      });
+                    },
+                    child: Text("Post"))
               ],
             ),
           )
@@ -226,34 +269,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          
-
-          await FirebaseFirestore.instance
-              .collection("Event")
-              .doc(widget.snap.id)
-              .collection("Joined")
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .delete();
-          await FirebaseFirestore.instance
-              .collection("Notification")
-              .doc(widget.snap.id)
-              .update({
-            'Student_id':
-                FieldValue.arrayRemove([FirebaseAuth.instance.currentUser?.uid])
-          });
-
-          await FirebaseFirestore.instance
-              .collection("Student")
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .collection("Joined")
-              .doc(widget.snap.id)
-              .delete()
-              .then((value) {
-            Fluttertoast.showToast(
-                msg: "ออกจากกิจกรรมแล้ว!", gravity: ToastGravity.CENTER);
-            Navigator.pop(context,
-                MaterialPageRoute(builder: (context) => const SearchBar()));
-          });
+          showAlertDialog(context);
         },
         label: const Text(
           'LEAVE',
@@ -263,5 +279,80 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
         backgroundColor: Colors.pink[400],
       ),
     );
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () async {
+        await FirebaseFirestore.instance
+            .collection("Event")
+            .doc(widget.snap.id)
+            .collection("Joined")
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .delete();
+        await FirebaseFirestore.instance
+            .collection("Notification")
+            .doc(widget.snap.id)
+            .update({
+          'Student_id':
+              FieldValue.arrayRemove([FirebaseAuth.instance.currentUser?.uid])
+        });
+
+        await FirebaseFirestore.instance
+            .collection("Student")
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .collection("Joined")
+            .doc(widget.snap.id)
+            .delete()
+            .then((value) async {
+          Fluttertoast.showToast(
+              msg: "ออกจากกิจกรรมแล้ว!", gravity: ToastGravity.CENTER);
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });
+      },
+    );
+    Widget cancleButton = FlatButton(
+      child: Text("CANCLE"),
+      onPressed: () {
+        Navigator.pop(context, 'Cancel');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("LEAVE EVENT !"),
+      content: Text("Are you sure?"),
+      actions: [cancleButton, okButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  // Getjoinedlength(String Joinedlength) {
+  //    QuerySnapshot snaps = await FirebaseFirestore.instance
+  //        .collection('Event')
+  //       .where("Name", isEqualTo: widget.snap["Name"])
+  //       .where("Location", isEqualTo: widget.snap["Location"])
+  //        .get();
+  //   Joinedlenght = snaps.docs.length.toString();
+  //   Joinedlength = "olo";
+  //   return Joinedlength;
+  // }
+  Future<String> getArrayLength() async {
+    QuerySnapshot snaps = await FirebaseFirestore.instance
+        .collection('Event')
+        .doc(widget.snap.id)
+        .collection("Joined")
+        .get();
+    return snaps.docs.length.toString();
   }
 }
