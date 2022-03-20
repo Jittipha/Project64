@@ -43,6 +43,16 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             ),
           ),
           Container(
+            padding: const EdgeInsets.fromLTRB(10, 23, 10, 15),
+            child: Text(
+              widget.snap["Name"],
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Raleway',
+                  fontSize: 25),
+            ),
+          ),
+          Container(
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
             decoration: const BoxDecoration(
                 border: Border(

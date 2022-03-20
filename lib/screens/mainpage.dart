@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:project/blocs/auth_bloc.dart';
-import 'package:project/screens/AddCategories.dart';
+import 'package:project/screens/Categories/AddCategories.dart';
 import 'package:project/screens/Myevents.dart';
 import 'package:project/screens/home.dart';
 import 'package:provider/provider.dart';
