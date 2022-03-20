@@ -1,10 +1,13 @@
-// ignore_for_file: file_names, must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, unused_import
+// ignore_for_file: file_names, must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, unused_import, deprecated_member_use
 
 import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:project/Model/Comment.dart';
+
 import 'package:project/algolia/searchpage.dart';
 
 class Leaveeventhome extends StatefulWidget {
@@ -16,6 +19,11 @@ class Leaveeventhome extends StatefulWidget {
 }
 
 class _LeaveeventhomeState extends State<Leaveeventhome> {
+  final _formKey = GlobalKey<FormState>();
+  comment comments = comment();
+  //count join
+  //final firebase = FirebaseFirestore.instance.collection("Event").doc(widget.snap['eid']);
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,6 +149,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                       fontSize: 25)),
             ),
           ),
+          
           Container(
             padding: const EdgeInsets.fromLTRB(13, 0, 0, 10),
             decoration: const BoxDecoration(
@@ -158,13 +167,13 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                     return const CircularProgressIndicator();
                   }
                   return SizedBox(
-                    height: 300,
+                    height: 50,
                     child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: snapshot.data!.docs.map((doc) {
                           return SizedBox(
-                            height: 20,
-                            width: 300,
+                            height: 10,
+                            width: 400,
                             child: ListTile(
                               leading: CircleAvatar(
                                 backgroundImage: NetworkImage(doc['Photo']),
@@ -175,11 +184,50 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                         }).toList()),
                   );
                 }),
+          ),
+          //Comment
+          Container(
+            padding: const EdgeInsets.fromLTRB(15, 13, 10, 2),
+            child: const ListTile(
+              title: Text("Comment",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'Raleway',
+                      fontSize: 25)),
+            ),
+          ),
+          Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  decoration: const InputDecoration(
+                      icon: Icon(Icons.comment), hintText: 'Text',hintMaxLines: 5),
+                  onSaved: (value) {
+                    comments.text = value;
+                  },
+                ),
+                FlatButton(onPressed: () {
+                  FirebaseFirestore.instance
+                  .collection('Comment')
+                  .doc(widget.snap.id)
+                  .set({
+                    "text" : comments.text ,
+                    "eId" : widget.snap.id,
+                    "sId" : FirebaseAuth.instance.currentUser?.uid,
+                    "time" : Timestamp.now().toString()
+                  }
+                  );
+                }, child: Text("Post"))
+              ],
+            ),
           )
         ]),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
+          
+
           await FirebaseFirestore.instance
               .collection("Event")
               .doc(widget.snap.id)
