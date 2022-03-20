@@ -1,9 +1,9 @@
 // ignore_for_file: file_names, non_constant_identifier_names, avoid_print, duplicate_ignore
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:project/screens/Join_Event/Leave_Event_Home.dart';
 
 class HomeNotification extends StatefulWidget {
@@ -42,12 +42,8 @@ class _HomeNotificationState extends State<HomeNotification> {
                         padding: const EdgeInsets.fromLTRB(10, 15, 10, 10),
                         child: SizedBox(
                           child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>  Leaveeventhome(snap: getsnap(context, document),)),
-                              );
+                            onTap: () async {
+                              getsnap(context, document);
                             },
                             child: Row(
                               children: <Widget>[
@@ -102,9 +98,19 @@ class _HomeNotificationState extends State<HomeNotification> {
       ),
     );
   }
-  getsnap(BuildContext context,document) async {
-  QueryDocumentSnapshot<Object?> snap =
-      FirebaseFirestore.instance.collection("Event").doc(document.id) as QueryDocumentSnapshot<Object?>;
-   return snap;
-}
+
+  getsnap(BuildContext context, document) async {
+    QuerySnapshot snaps = await FirebaseFirestore.instance
+        .collection('Event')
+        .where("Name", isEqualTo: document["Name"])
+        .where("Image", isEqualTo: document["Photo"])
+        .get();
+
+    snaps.docs.forEach((element) async {
+      await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Leaveeventhome(snap: element)));
+    });
+  }
 }

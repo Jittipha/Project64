@@ -8,6 +8,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // import 'package:project/Notification/views/home_view.dart';
 // import 'package:snapshot/snapshot.dart';
 import 'package:project/Model/Event.dart';
+import 'package:project/screens/Join_Event/Leave_Event_Home.dart';
 
 class NotificationService extends ChangeNotifier {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
@@ -52,7 +53,7 @@ class NotificationService extends ChangeNotifier {
   Future imageNotification(event) async {
     var bigPicture = const BigPictureStyleInformation(
         const DrawableResourceAndroidBitmap("ic_launcher"),
-        largeIcon:const DrawableResourceAndroidBitmap("ic_launcher"),
+        largeIcon: const DrawableResourceAndroidBitmap("ic_launcher"),
 
         // contentTitle:"valo",
         // summaryText: "อีเว้นนี้มีการเปลี่ยนแปลง",
@@ -67,7 +68,7 @@ class NotificationService extends ChangeNotifier {
     );
 
     await _flutterLocalNotificationsPlugin.show(
-      0, (event.Name), "This event has changed.", platform,
+      1, (event.Name), "This event has changed.", platform,
       //payload: ("Welcome to demo app")
     );
     print(event.Name);
