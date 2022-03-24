@@ -5,7 +5,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:project/Model/Comment.dart';
+
+
+import 'package:project/Model/Comment.dart';
+
 import 'package:project/algolia/searchpage.dart';
 import 'package:project/screens/Home_Feed/homepage.dart';
 import 'package:project/screens/Myevents.dart';
@@ -26,6 +32,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
   String Length = "";
   final _formKey = GlobalKey<FormState>();
   comment comments = comment();
+
   @override
   void initState() {
     super.initState();
@@ -181,6 +188,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                           fontWeight: FontWeight.w500,
                           fontFamily: 'Raleway',
                           fontSize: 25)))),
+
           Container(
             padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
             decoration: const BoxDecoration(
@@ -203,8 +211,8 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                         scrollDirection: Axis.horizontal,
                         children: snapshot.data!.docs.map((doc) {
                           return SizedBox(
-                            height: 20,
-                            width: 300,
+                            height: 10,
+                            width: 400,
                             child: ListTile(
                               leading: CircleAvatar(
                                 backgroundImage: NetworkImage(doc['Photo']),
@@ -233,6 +241,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
               children: [
                 TextFormField(
                   decoration: const InputDecoration(
+
                       icon: Icon(Icons.comment),
                       hintText: 'Text',
                       hintMaxLines: 5),

@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, must_be_immutable, avoid_unnecessary_containers, override_on_non_overriding_member, avoid_print, non_constant_identifier_names, duplicate_import, prefer_const_constructors, unused_local_variable, equal_keys_in_map, avoid_function_literals_in_foreach_calls
+// ignore_for_file: unused_import, must_be_immutable, avoid_unnecessary_containers, override_on_non_overriding_member, avoid_print, non_constant_identifier_names, duplicate_import, prefer_const_constructors, unused_local_variable, equal_keys_in_map, deprecated_member_use
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -274,8 +274,9 @@ class _EditEventState extends State<EditEvent> {
                                           fontSize: 20, color: Colors.black),
                                       textAlign: TextAlign.right),
                                   onPressed: () async {
-                                    // await model.imageNotification();
+                                    //  await model.imageNotification();
                                     isLoading = true;
+
                                     //เรียก method editdatatoFirebase
                                     editdatatoFirebase();
                                     //  เวลาแจ้งเตือน //
@@ -324,6 +325,76 @@ class _EditEventState extends State<EditEvent> {
                                           fontSize: 20, color: Colors.black),
                                       textAlign: TextAlign.right),
                                   onPressed: () async {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text("Are you sure?"),
+                                            content: Text(""),
+                                            actions: [
+                                              FlatButton(
+                                                onPressed: () {
+                                                  FirebaseFirestore.instance
+                                                      .collection('Student')
+                                                      .doc(FirebaseAuth.instance
+                                                          .currentUser?.uid)
+                                                      .collection('Posts')
+                                                      .doc(widget
+                                                          .studenthasposts.id)
+                                                      .delete();
+
+                                                  FirebaseFirestore.instance
+                                                      .collection('Event')
+                                                      .doc(widget
+                                                              .studenthasposts[
+                                                          "Event_id"])
+                                                      .delete()
+                                                      .then((value) {
+                                                    Fluttertoast.showToast(
+                                                        msg: "Delete Success!",
+                                                        gravity: ToastGravity
+                                                            .CENTER);
+                                                    Navigator.push(context,
+                                                        MaterialPageRoute(
+                                                      builder: (context) {
+                                                        return const MyEvent();
+                                                      },
+                                                    ));
+                                                  });
+                                                },
+                                                child: Text('Yes'),
+                                              ),
+                                              FlatButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text("Cencle"))
+                                            ],
+                                          );
+                                        });
+
+                                    // await FirebaseFirestore.instance
+                                    //     .collection('Student')
+                                    //     .doc(FirebaseAuth
+                                    //         .instance.currentUser?.uid)
+                                    //     .collection('Posts')
+                                    //     .doc(widget.studenthasposts.id)
+                                    //     .delete();
+
+                                    // await FirebaseFirestore.instance
+                                    //     .collection('Event')
+                                    //     .doc(widget.studenthasposts["Event_id"])
+                                    //     .delete()
+                                    //     .then((value) {
+                                    //   Fluttertoast.showToast(
+                                    //       msg: "Delete Success!",
+                                    //       gravity: ToastGravity.CENTER);
+                                    //   Navigator.push(context, MaterialPageRoute(
+                                    //     builder: (context) {
+                                    //       return const MyEvent();
+                                    //     },
+                                    //   ));
+
                                     await FirebaseFirestore.instance
                                         .collection('Student')
                                         .doc(FirebaseAuth
@@ -378,7 +449,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          // await model.imageNotification(event);
+          await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -421,7 +492,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          // await model.imageNotification(event);
+          await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -465,7 +536,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          // await model.imageNotification(event);
+          await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -509,7 +580,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          // await model.imageNotification(event);
+          await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
