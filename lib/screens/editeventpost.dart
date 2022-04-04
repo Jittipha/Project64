@@ -1,10 +1,11 @@
 
-// ignore_for_file: unused_import, must_be_immutable, avoid_unnecessary_containers, override_on_non_overriding_member, avoid_print, non_constant_identifier_names, duplicate_import, prefer_const_constructors, unused_local_variable, equal_keys_in_map, deprecated_member_use, avoid_function_literals_in_foreach_calls
 
+// ignore_for_file: unused_import, must_be_immutable, avoid_unnecessary_containers, override_on_non_overriding_member, avoid_print, non_constant_identifier_names, duplicate_import, prefer_const_constructors, unused_local_variable, equal_keys_in_map, deprecated_member_use, avoid_function_literals_in_foreach_calls
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:intl/intl.dart';
@@ -40,6 +41,7 @@ class _EditEventState extends State<EditEvent> {
   String? date;
   String getTextDate() {
     if (date == null) {
+      date = widget.studenthasposts['date'];
       return widget.studenthasposts['date'];
     } else {
       return date!;
@@ -65,9 +67,9 @@ class _EditEventState extends State<EditEvent> {
 
   //set time
   TimeOfDay? time;
-  String getTextTime() {
+  getTextTime() {
     if (time == null) {
-      return widget.studenthasposts['Time'];
+      return widget.studenthasposts["Time"];
     } else {
       final hours = time?.hour.toString().padLeft(2, '0');
       final minutes = time?.minute.toString().padLeft(2, '0');
@@ -179,7 +181,7 @@ class _EditEventState extends State<EditEvent> {
                               onPressed: () => pickDate(context),
                               child: Text(getTextDate()),
                               style: ElevatedButton.styleFrom(
-                                  primary: Colors.white)), 
+                                  primary: Colors.white)),
                         ),
                         const SizedBox(
                           height: 10,
@@ -274,90 +276,38 @@ class _EditEventState extends State<EditEvent> {
                                           fontSize: 20, color: Colors.black),
                                       textAlign: TextAlign.right),
                                   onPressed: () async {
+
                                     isLoading = true;
-                                    if (_formKey.currentState!.validate()) {
-                                      _formKey.currentState!.save();
-                                      try {
-                                        await model.imageNotification(event);
-                                        
-                                        await FirebaseFirestore.instance
-                                            .collection('Event')
-                                            .doc(widget
-                                                .studenthasposts["Event_id"])
-                                            .update({
-                                          "Image": event.Image,
-                                          "Name": event.Name,
-                                          "Description": event.Description,
-                                          "Time": event.Time?.format(context),
-                                          "Location": event.Location,
+                                    //เรียก method editdatatoFirebase
+                                    editdatatoFirebase();
+                                    //  เวลาแจ้งเตือน //
+                                    String Time = DateFormat("hh:mm:ss")
+                                        .format(DateTime.now());
+                                    String date = DateFormat("dd/MM/yyyy")
+                                        .format(DateTime.now());
+                                    print(Time + date);
+                                    print(event.Name);
 
-                                          "date": event.Date,
-
-
-                                        });
-
-                                        await FirebaseFirestore.instance
-                                            .collection('Student')
-                                            .doc(FirebaseAuth
-                                                .instance.currentUser?.uid)
-                                            .collection('Posts')
-                                            .doc(widget.studenthasposts.id)
-                                            .update({
-                                          "Image": event.Image,
-                                          "Name": event.Name,
-                                          "Description": event.Description,
-                                          "Time": event.Time?.format(context),
-                                          "Location": event.Location,
-                                          "date": event.Date,
-                                        }).then((value) => {
-                                                  Fluttertoast.showToast(
-                                                      msg: "Success!",
-                                                      gravity:
-                                                          ToastGravity.CENTER),
-                                                  Navigator.push(context,
-                                                      MaterialPageRoute(
-                                                    builder: (context) {
-                                                      return const MyEvent();
-                                                    },
-                                                  ))
-                                                });
-
-                                        //  เวลาแจ้งเตือน //
-                                        String Time = DateFormat("hh:mm:ss")
-                                            .format(DateTime.now());
-                                        String date = DateFormat("dd/MM/yyyy")
-                                            .format(DateTime.now());
-                                        print(Time + date);
-                                        print(event.Name);
-
-                                          await FirebaseFirestore.instance
-                                              .collection("Notification")
-                                              .doc(widget
-                                                  .studenthasposts["Event_id"])
-                                              .update({
-                                            "Photo": event.Image,
-                                            "Name": event.Name,
-                                            "Status": "edited",
-                                            "Time": Time,
-                                            "date": date,
-                                          }).then((value) => {
-                                                    Fluttertoast.showToast(
-                                                        msg: "Success!",
-                                                        gravity: ToastGravity
-                                                            .CENTER),
-                                                    Navigator.push(context,
-                                                        MaterialPageRoute(
-                                                      builder: (context) {
-                                                        return const MyEvent();
-                                                      },
-                                                    ))
-                                                  });
-                                        
-                                      } on FirebaseAuthException catch (err) {
-                                        Fluttertoast.showToast(
-                                            msg: err.message!);
-                                      }
-                                    }
+                                    await FirebaseFirestore.instance
+                                        .collection("Notification")
+                                        .doc(widget.studenthasposts["Event_id"])
+                                        .update({
+                                      "Photo": event.Image,
+                                      "Name": event.Name,
+                                      "Status": "edited",
+                                      "Time": Time,
+                                      "date": date,
+                                    }).then((value) => {
+                                              Fluttertoast.showToast(
+                                                  msg: "Success!",
+                                                  gravity: ToastGravity.CENTER),
+                                              Navigator.push(context,
+                                                  MaterialPageRoute(
+                                                builder: (context) {
+                                                  return const MyEvent();
+                                                },
+                                              ))
+                                            });
                                   }),
                               ElevatedButton(
                                   style: ButtonStyle(
@@ -376,7 +326,6 @@ class _EditEventState extends State<EditEvent> {
                                           fontSize: 20, color: Colors.black),
                                       textAlign: TextAlign.right),
                                   onPressed: () async {
-
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
@@ -484,12 +433,193 @@ class _EditEventState extends State<EditEvent> {
                                         },
                                       ));
                                     });
-
                                   }),
                             ],
                           ),
                         )
                       ]))));
         });
+  }
+
+  editdatatoFirebase() async {
+    if (event.Time == null && event.Date == null) {
+      // event.Time =
+      //     widget.studenthasposts["Time"];
+      // event.Date =
+      //     widget.studenthasposts["date"];if (_formKey.currentState!.validate()) {
+      if (_formKey.currentState!.validate()) {
+        _formKey.currentState!.save();
+        try {
+          await model.imageNotification(event);
+
+          await FirebaseFirestore.instance
+              .collection('Event')
+              .doc(widget.studenthasposts["Event_id"])
+              .update({
+            "Image": event.Image,
+            "Name": event.Name,
+            "Description": event.Description,
+            "Time": widget.studenthasposts["Time"],
+            "Location": event.Location,
+            "date": widget.studenthasposts["date"]
+          });
+
+          await FirebaseFirestore.instance
+              .collection('Student')
+              .doc(FirebaseAuth.instance.currentUser?.uid)
+              .collection('Posts')
+              .doc(widget.studenthasposts.id)
+              .update({
+            "Image": event.Image,
+            "Name": event.Name,
+            "Description": event.Description,
+            "Time": widget.studenthasposts["Time"],
+            "Location": event.Location,
+            "date": widget.studenthasposts["date"],
+          }).then((value) => {
+                    Fluttertoast.showToast(
+                        msg: "Success!", gravity: ToastGravity.CENTER),
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return const MyEvent();
+                      },
+                    ))
+                  });
+        } on FirebaseAuthException catch (err) {
+          Fluttertoast.showToast(msg: err.message!);
+        }
+      }
+    } else if (event.Time != null && event.Date != null) {
+      if (_formKey.currentState!.validate()) {
+        _formKey.currentState!.save();
+        try {
+          await model.imageNotification(event);
+
+          await FirebaseFirestore.instance
+              .collection('Event')
+              .doc(widget.studenthasposts["Event_id"])
+              .update({
+            "Image": event.Image,
+            "Name": event.Name,
+            "Description": event.Description,
+            "Time": event.Time?.format(context),
+            "Location": event.Location,
+            "date": event.Date
+          });
+
+          await FirebaseFirestore.instance
+              .collection('Student')
+              .doc(FirebaseAuth.instance.currentUser?.uid)
+              .collection('Posts')
+              .doc(widget.studenthasposts.id)
+              .update({
+            "Image": event.Image,
+            "Name": event.Name,
+            "Description": event.Description,
+            "Time": event.Time?.format(context),
+            "Location": event.Location,
+            "date": event.Date,
+          }).then((value) => {
+                    Fluttertoast.showToast(
+                        msg: "Success!", gravity: ToastGravity.CENTER),
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return const MyEvent();
+                      },
+                    ))
+                  });
+        } on FirebaseAuthException catch (err) {
+          Fluttertoast.showToast(msg: err.message!);
+        }
+      }
+      // Time มีค่า  แต่ date ไม่มีค่า
+    } else if (event.Time != null && event.Date == null) {
+      if (_formKey.currentState!.validate()) {
+        _formKey.currentState!.save();
+        try {
+          await model.imageNotification(event);
+
+          await FirebaseFirestore.instance
+              .collection('Event')
+              .doc(widget.studenthasposts["Event_id"])
+              .update({
+            "Image": event.Image,
+            "Name": event.Name,
+            "Description": event.Description,
+            "Time": event.Time?.format(context),
+            "Location": event.Location,
+            "date": widget.studenthasposts["date"]
+          });
+
+          await FirebaseFirestore.instance
+              .collection('Student')
+              .doc(FirebaseAuth.instance.currentUser?.uid)
+              .collection('Posts')
+              .doc(widget.studenthasposts.id)
+              .update({
+            "Image": event.Image,
+            "Name": event.Name,
+            "Description": event.Description,
+            "Time": event.Time?.format(context),
+            "Location": event.Location,
+            "date": widget.studenthasposts["date"]
+          }).then((value) => {
+                    Fluttertoast.showToast(
+                        msg: "Success!", gravity: ToastGravity.CENTER),
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return const MyEvent();
+                      },
+                    ))
+                  });
+        } on FirebaseAuthException catch (err) {
+          Fluttertoast.showToast(msg: err.message!);
+        }
+      }
+      // ถ้า Time ไม่มีค่า แต่ date มีค่า
+    } else if (event.Time == null && event.Date != null) {
+      if (_formKey.currentState!.validate()) {
+        _formKey.currentState!.save();
+        try {
+          await model.imageNotification(event);
+
+          await FirebaseFirestore.instance
+              .collection('Event')
+              .doc(widget.studenthasposts["Event_id"])
+              .update({
+            "Image": event.Image,
+            "Name": event.Name,
+            "Description": event.Description,
+            "Time": widget.studenthasposts["Time"],
+            "Location": event.Location,
+            "date": event.Date
+          });
+
+          await FirebaseFirestore.instance
+              .collection('Student')
+              .doc(FirebaseAuth.instance.currentUser?.uid)
+              .collection('Posts')
+              .doc(widget.studenthasposts.id)
+              .update({
+            "Image": event.Image,
+            "Name": event.Name,
+            "Description": event.Description,
+            "Time": widget.studenthasposts["Time"],
+            "Location": event.Location,
+            "date": event.Date
+          }).then((value) => {
+                    Fluttertoast.showToast(
+                        msg: "Success!", gravity: ToastGravity.CENTER),
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return const MyEvent();
+                      },
+                    ))
+                  });
+        } on FirebaseAuthException catch (err) {
+          Fluttertoast.showToast(msg: err.message!);
+        }
+      }
+    }
   }
 }
