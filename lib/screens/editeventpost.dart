@@ -475,15 +475,7 @@ class _EditEventState extends State<EditEvent> {
             "Time": widget.studenthasposts["Time"],
             "Location": event.Location,
             "date": widget.studenthasposts["date"],
-          }).then((value) => {
-                    Fluttertoast.showToast(
-                        msg: "Success!", gravity: ToastGravity.CENTER),
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const MyEvent();
-                      },
-                    ))
-                  });
+          });
         } on FirebaseAuthException catch (err) {
           Fluttertoast.showToast(msg: err.message!);
         }
@@ -518,15 +510,7 @@ class _EditEventState extends State<EditEvent> {
             "Time": event.Time?.format(context),
             "Location": event.Location,
             "date": event.Date,
-          }).then((value) => {
-                    Fluttertoast.showToast(
-                        msg: "Success!", gravity: ToastGravity.CENTER),
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const MyEvent();
-                      },
-                    ))
-                  });
+          });
         } on FirebaseAuthException catch (err) {
           Fluttertoast.showToast(msg: err.message!);
         }
@@ -562,15 +546,7 @@ class _EditEventState extends State<EditEvent> {
             "Time": event.Time?.format(context),
             "Location": event.Location,
             "date": widget.studenthasposts["date"]
-          }).then((value) => {
-                    Fluttertoast.showToast(
-                        msg: "Success!", gravity: ToastGravity.CENTER),
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const MyEvent();
-                      },
-                    ))
-                  });
+          });
         } on FirebaseAuthException catch (err) {
           Fluttertoast.showToast(msg: err.message!);
         }
@@ -606,15 +582,7 @@ class _EditEventState extends State<EditEvent> {
             "Time": widget.studenthasposts["Time"],
             "Location": event.Location,
             "date": event.Date
-          }).then((value) => {
-                    Fluttertoast.showToast(
-                        msg: "Success!", gravity: ToastGravity.CENTER),
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const MyEvent();
-                      },
-                    ))
-                  });
+          });
         } on FirebaseAuthException catch (err) {
           Fluttertoast.showToast(msg: err.message!);
         }
