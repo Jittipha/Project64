@@ -11,6 +11,7 @@ import 'package:project/Model/Comment.dart';
 
 
 import 'package:project/Model/Comment.dart';
+import 'package:project/Model/Student.dart';
 
 import 'package:project/algolia/searchpage.dart';
 import 'package:project/screens/Home_Feed/homepage.dart';
@@ -32,6 +33,8 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
   String Length = "";
   final _formKey = GlobalKey<FormState>();
   comment comments = comment();
+ Students students = Students(); 
+ 
 
   @override
   void initState() {
@@ -45,6 +48,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
   }
 
   Widget build(BuildContext context) {
+  
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -239,34 +243,85 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             key: _formKey,
             child: Column(
               children: [
-                TextFormField(
+                 TextFormField(
                   decoration: const InputDecoration(
-
-                      icon: Icon(Icons.comment),
-                      hintText: 'Text',
-                      hintMaxLines: 5),
+                    icon: Icon(Icons.account_circle_sharp),
+                    hintText: 'comment',
+                  ),
+                  validator: RequiredValidator(errorText: "comment!"),
                   onSaved: (value) {
                     comments.text = value;
                   },
                 ),
                 FlatButton(
-                    onPressed: () {
-                      FirebaseFirestore.instance
+                    onPressed: () async{
+                     await FirebaseFirestore.instance
+                      .collection("Student")
+                      .doc(FirebaseAuth.instance.currentUser?.uid)
+                      .get()
+                      .then((value) => {
+                        setState(() {
+                          students.Name=value.data()?["Name"];
+
+
+                        })
+                      });
+
+                      if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                     await FirebaseFirestore.instance
                           .collection('Comment')
                           .doc(widget.snap.id)
                           .set({
                         "text": comments.text,
                         "eId": widget.snap.id,
-                        "sId": FirebaseAuth.instance.currentUser?.uid,
-                        "time": Timestamp.now().toString()
+                        //"sId": FirebaseAuth.instance.currentUser?.uid,
+                        "time": Timestamp.now().toString(),
+                        "date": DateTime.now().toLocal().toString(),
+                        "name": students.Name
                       });
-                    },
+                    }},
                     child: Text("Post"))
               ],
             ),
-          )
+          ),
+         Container(
+            padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
+            decoration: const BoxDecoration(
+                border: Border(
+              bottom: BorderSide(width: 0.25, color: Color(0xFF7F7F7F)),
+            )),
+            child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('Comment')
+                    .where('eId',isEqualTo: widget.snap.id)
+                    .snapshots(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return const CircularProgressIndicator();
+                  }
+                  return SizedBox(
+                    height: 75,
+                    child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: snapshot.data!.docs.map((doc) {
+                          return SizedBox(
+                            height: 10,
+                            width: 400,
+                            child: ListTile(
+                              title: Text(doc['name']),
+                              subtitle: Text(doc['text']),
+                            ),
+                          );
+                        }).toList()),
+                  );
+                }),
+          ),
+          
+
         ]),
       ),
+      
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           showAlertDialog(context);
@@ -356,3 +411,4 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
     return snaps.docs.length.toString();
   }
 }
+
