@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, unused_import, camel_case_types, must_be_immutable, avoid_unnecessary_containers
+// ignore_for_file: file_names, unused_import, camel_case_types, must_be_immutable, avoid_unnecessary_containers, unnecessary_import
 
 import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

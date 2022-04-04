@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, unused_import, deprecated_member_use
+// ignore_for_file: file_names, must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, unused_import, deprecated_member_use, duplicate_import, non_constant_identifier_names, annotate_overrides
 
 import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,8 +8,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:project/Model/Comment.dart';
-
-
 import 'package:project/Model/Comment.dart';
 
 import 'package:project/algolia/searchpage.dart';
@@ -47,6 +45,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+         backgroundColor: const Color(0xFF00BF6D),
         title: const Text(
           "Event",
           style: TextStyle(

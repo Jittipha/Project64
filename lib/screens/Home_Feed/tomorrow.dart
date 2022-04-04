@@ -1,5 +1,5 @@
 
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, unused_import, avoid_unnecessary_containers, prefer_const_constructors
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:project/screens/Home_Feed/thisweek.dart';

@@ -1,8 +1,9 @@
-// ignore_for_file: file_names, non_constant_identifier_names, avoid_print, duplicate_ignore
+// ignore_for_file: file_names, non_constant_identifier_names, avoid_print, duplicate_ignore, avoid_function_literals_in_foreach_calls, unused_import
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart';
 import 'package:project/screens/Join_Event/Leave_Event_Home.dart';
 
@@ -15,6 +16,9 @@ class HomeNotification extends StatefulWidget {
 
 class _HomeNotificationState extends State<HomeNotification> {
   String Student_id = "";
+
+  
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,6 +28,10 @@ class _HomeNotificationState extends State<HomeNotification> {
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection("Notification")
+            // .orderBy('Name')
+            .orderBy('Time',descending: true)
+            .orderBy('date',descending: true)
+            
             // where อาเรย์
             .where("Student_id", arrayContainsAny: [
           FirebaseAuth.instance.currentUser?.uid
@@ -65,11 +73,15 @@ class _HomeNotificationState extends State<HomeNotification> {
                                   width: 10,
                                 ),
                                 SizedBox(
-                                  width: 200,
+                                  width: 220,
                                   height: 100,
                                   child: ListTile(
                                     title: Text(
-                                      document["Name"],
+                                      (document["Name"])+
+                                      ("\n")+
+                                      (document["Time"])+
+                                       ("\n")+
+                                      (document["date"]),
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontFamily: 'Raleway',
@@ -83,6 +95,8 @@ class _HomeNotificationState extends State<HomeNotification> {
                                               fontFamily: 'Raleway',
                                               fontWeight: FontWeight.w600,
                                             )),
+                                            
+                                    
                                   ),
                                 ),
                               ],

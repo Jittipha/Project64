@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types, prefer_is_empty, non_constant_identifier_names, avoid_unnecessary_containers
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 

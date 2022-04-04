@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, unused_import, must_be_immutable, camel_case_types, avoid_unnecessary_containers, unnecessary_import
+
 import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
