@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:intl/intl.dart';
 import 'package:project/Model/Comment.dart';
 import 'package:project/Model/Comment.dart';
 import 'package:project/Model/Student.dart';
@@ -261,7 +262,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                       .then((value) => {
                         setState(() {
                           students.Name=value.data()?["Name"];
-
+                          students.Photo=value.data()?["Photo"];
 
                         })
                       });
@@ -270,14 +271,18 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                             _formKey.currentState!.save();
                      await FirebaseFirestore.instance
                           .collection('Comment')
-                          .doc(widget.snap.id)
+                          .doc()
                           .set({
                         "text": comments.text,
                         "eId": widget.snap.id,
-                        //"sId": FirebaseAuth.instance.currentUser?.uid,
-                        "time": Timestamp.now().toString(),
-                        "date": DateTime.now().toLocal().toString(),
-                        "name": students.Name
+                        "sId": FirebaseAuth.instance.currentUser?.uid,
+                        "name": students.Name,
+                        "year":DateFormat('yyyy').format(DateTime.now()),
+                        "hour":DateFormat('kk').format(DateTime.now()),
+                        "min":DateFormat('mm').format(DateTime.now()),
+                        "month":DateFormat('MM').format(DateTime.now()),
+                        "day":DateFormat('dd').format(DateTime.now()),
+                        "Photo":students.Photo,
                       });
                     }},
                     child: Text("Post"))
@@ -294,21 +299,39 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                 stream: FirebaseFirestore.instance
                     .collection('Comment')
                     .where('eId',isEqualTo: widget.snap.id)
+                    .orderBy('year',descending: true)
+                    .orderBy('month',descending: true)
+                    .orderBy('day',descending: true)
+                    .orderBy('hour',descending: true)
+                    .orderBy('min',descending: true)
                     .snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (!snapshot.hasData) {
                     return const CircularProgressIndicator();
                   }
                   return SizedBox(
-                    height: 75,
+                    height: 90,
                     child: ListView(
-                        scrollDirection: Axis.horizontal,
+                        scrollDirection: Axis.vertical,
                         children: snapshot.data!.docs.map((doc) {
                           return SizedBox(
-                            height: 10,
+                            height: 70,
                             width: 400,
                             child: ListTile(
-                              title: Text(doc['name']),
+                              leading: CircleAvatar(
+                                radius: 21,backgroundColor: Colors.black,
+                                child:CircleAvatar(
+                                  backgroundImage: NetworkImage(doc["Photo"]),
+                                  radius: 20,
+                                ) ,),
+                              title:Row(
+                                children: [
+                                  Text(doc['name'],style: TextStyle(fontSize: 15),),
+                                  Text('   '),
+                                  Text(doc['day']+'/'+doc['month']+'/'+doc['year']+' - '+doc['hour']+':'+doc['min'],style: TextStyle(fontSize: 12 ,color:Colors.blueGrey),),
+                                ],
+                              ),
+                              
                               subtitle: Text(doc['text']),
                             ),
                           );

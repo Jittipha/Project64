@@ -1,6 +1,4 @@
-
-
-// ignore_for_file: unused_import, must_be_immutable, avoid_unnecessary_containers, override_on_non_overriding_member, avoid_print, non_constant_identifier_names, duplicate_import, prefer_const_constructors, unused_local_variable, equal_keys_in_map, deprecated_member_use, avoid_function_literals_in_foreach_calls
+// ignore_for_file: unused_import, must_be_immutable, avoid_unnecessary_containers, override_on_non_overriding_member, avoid_print, non_constant_identifier_names, duplicate_import, prefer_const_constructors, unused_local_variable, equal_keys_in_map, deprecated_member_use
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -276,8 +274,9 @@ class _EditEventState extends State<EditEvent> {
                                           fontSize: 20, color: Colors.black),
                                       textAlign: TextAlign.right),
                                   onPressed: () async {
-
+                                    //  await model.imageNotification();
                                     isLoading = true;
+
                                     //เรียก method editdatatoFirebase
                                     editdatatoFirebase();
                                     //  เวลาแจ้งเตือน //
@@ -450,7 +449,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          await model.imageNotification(event);
+          //await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -485,7 +484,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          await model.imageNotification(event);
+          //await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -521,7 +520,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          await model.imageNotification(event);
+          //await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -557,7 +556,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          await model.imageNotification(event);
+          //await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
