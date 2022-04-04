@@ -1,4 +1,6 @@
-// ignore_for_file: unused_import, must_be_immutable, avoid_unnecessary_containers, override_on_non_overriding_member, avoid_print, non_constant_identifier_names, duplicate_import, prefer_const_constructors, unused_local_variable, equal_keys_in_map, deprecated_member_use
+
+
+// ignore_for_file: unused_import, must_be_immutable, avoid_unnecessary_containers, override_on_non_overriding_member, avoid_print, non_constant_identifier_names, duplicate_import, prefer_const_constructors, unused_local_variable, equal_keys_in_map, deprecated_member_use, avoid_function_literals_in_foreach_calls
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -274,9 +276,8 @@ class _EditEventState extends State<EditEvent> {
                                           fontSize: 20, color: Colors.black),
                                       textAlign: TextAlign.right),
                                   onPressed: () async {
-                                    //  await model.imageNotification();
-                                    isLoading = true;
 
+                                    isLoading = true;
                                     //เรียก method editdatatoFirebase
                                     editdatatoFirebase();
                                     //  เวลาแจ้งเตือน //
@@ -475,15 +476,7 @@ class _EditEventState extends State<EditEvent> {
             "Time": widget.studenthasposts["Time"],
             "Location": event.Location,
             "date": widget.studenthasposts["date"],
-          }).then((value) => {
-                    Fluttertoast.showToast(
-                        msg: "Success!", gravity: ToastGravity.CENTER),
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const MyEvent();
-                      },
-                    ))
-                  });
+          });
         } on FirebaseAuthException catch (err) {
           Fluttertoast.showToast(msg: err.message!);
         }
@@ -518,15 +511,7 @@ class _EditEventState extends State<EditEvent> {
             "Time": event.Time?.format(context),
             "Location": event.Location,
             "date": event.Date,
-          }).then((value) => {
-                    Fluttertoast.showToast(
-                        msg: "Success!", gravity: ToastGravity.CENTER),
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const MyEvent();
-                      },
-                    ))
-                  });
+          });
         } on FirebaseAuthException catch (err) {
           Fluttertoast.showToast(msg: err.message!);
         }
@@ -562,15 +547,7 @@ class _EditEventState extends State<EditEvent> {
             "Time": event.Time?.format(context),
             "Location": event.Location,
             "date": widget.studenthasposts["date"]
-          }).then((value) => {
-                    Fluttertoast.showToast(
-                        msg: "Success!", gravity: ToastGravity.CENTER),
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const MyEvent();
-                      },
-                    ))
-                  });
+          });
         } on FirebaseAuthException catch (err) {
           Fluttertoast.showToast(msg: err.message!);
         }
@@ -606,15 +583,7 @@ class _EditEventState extends State<EditEvent> {
             "Time": widget.studenthasposts["Time"],
             "Location": event.Location,
             "date": event.Date
-          }).then((value) => {
-                    Fluttertoast.showToast(
-                        msg: "Success!", gravity: ToastGravity.CENTER),
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const MyEvent();
-                      },
-                    ))
-                  });
+          });
         } on FirebaseAuthException catch (err) {
           Fluttertoast.showToast(msg: err.message!);
         }

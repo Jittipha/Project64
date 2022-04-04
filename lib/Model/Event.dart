@@ -11,7 +11,7 @@ class events {
   TimeOfDay? Time;
   String? interests;
   String? Date;
-  events(
+  events( 
       {this.eid,
       this.Image,
       this.Name,

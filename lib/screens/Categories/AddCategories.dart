@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, file_names, camel_case_types, non_constant_identifier_names, avoid_print, duplicate_ignore, unnecessary_import
 
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
