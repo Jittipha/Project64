@@ -75,7 +75,8 @@ class AuthBloc {
                         msg: "เข้าสู่ระบบสำเร็จ!",
                         gravity: ToastGravity.CENTER),
                     Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => Listcate()),
+                      MaterialPageRoute(
+                          builder: (context) => const Categories()),
                     ),
                   });
         }

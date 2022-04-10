@@ -17,21 +17,28 @@ class HomeNotification extends StatefulWidget {
 class _HomeNotificationState extends State<HomeNotification> {
   String Student_id = "";
 
-  
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF00BF6D),
-        title: const Text("Notification"),
+        title: const Text(
+          "Notification",
+          style: TextStyle(
+            letterSpacing: 1,
+            fontSize: 22,
+            fontFamily: 'Raleway',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection("Notification")
+        stream: FirebaseFirestore.instance
+            .collection("Notification")
             // .orderBy('Name')
-            .orderBy('Time',descending: true)
-            .orderBy('date',descending: true)
-            
+            .orderBy('Time', descending: true)
+            .orderBy('date', descending: true)
+
             // where อาเรย์
             .where("Student_id", arrayContainsAny: [
           FirebaseAuth.instance.currentUser?.uid
@@ -77,11 +84,11 @@ class _HomeNotificationState extends State<HomeNotification> {
                                   height: 100,
                                   child: ListTile(
                                     title: Text(
-                                      (document["Name"])+
-                                      ("\n")+
-                                      (document["Time"])+
-                                       ("\n")+
-                                      (document["date"]),
+                                      (document["Name"]) +
+                                          ("\n") +
+                                          (document["Time"]) +
+                                          ("\n") +
+                                          (document["date"]),
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontFamily: 'Raleway',
@@ -95,8 +102,6 @@ class _HomeNotificationState extends State<HomeNotification> {
                                               fontFamily: 'Raleway',
                                               fontWeight: FontWeight.w600,
                                             )),
-                                            
-                                    
                                   ),
                                 ),
                               ],
