@@ -241,15 +241,18 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             key: _formKey,
             child: Column(
               children: [
-                TextFormField(
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.account_circle_sharp),
-                    hintText: 'comment',
+                Container(
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.account_circle_sharp),
+                      hintText: 'comment',
+                    ),
+                    validator: RequiredValidator(errorText: "comment!"),
+                    onSaved: (value) {
+                      comments.text = value;
+                    },
                   ),
-                  validator: RequiredValidator(errorText: "comment!"),
-                  onSaved: (value) {
-                    comments.text = value;
-                  },
                 ),
                 FlatButton(
                     onPressed: () async {
