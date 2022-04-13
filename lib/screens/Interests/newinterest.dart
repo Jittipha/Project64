@@ -1,20 +1,31 @@
-// ignore_for_file: camel_case_types, must_be_immutable, non_constant_identifier_names, use_key_in_widget_constructors, prefer_typing_uninitialized_variables, avoid_unnecessary_containers, sized_box_for_whitespace, avoid_print, avoid_function_literals_in_foreach_calls, deprecated_member_use
+// ignore_for_file: file_names, unused_import, unused_local_variable, unused_element, deprecated_member_use
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:project/screens/Categories/DetailCate.dart';
+import 'package:project/main.dart';
+import 'package:snapshot/snapshot.dart';
+import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 
-class editinterest extends StatefulWidget {
+import '../tabbar.dart';
+
+// ignore: camel_case_types
+class interestedited extends StatefulWidget {
   QueryDocumentSnapshot<Object?> documents;
-  List count_interests;
-  editinterest(this.documents, this.count_interests);
+  interestedited(this.documents, {Key? key}) : super(key: key);
 
   @override
-  _editinterest createState() => _editinterest();
+  _interesteditedState createState() => _interesteditedState();
 }
 
-class _editinterest extends State<editinterest> {
+class _interesteditedState extends State<interestedited> {
   List Cate_id = [];
   List Listchoosed = [];
 
@@ -25,7 +36,6 @@ class _editinterest extends State<editinterest> {
   void initState() {
     super.initState();
     addtolist();
-    // cutlistshow();
   }
 
   Future addtolist() async {
@@ -33,52 +43,8 @@ class _editinterest extends State<editinterest> {
         await FirebaseFirestore.instance.collection("Category").get();
     List allData = snap.docs.map((doc) => doc.data()).toList();
     listshow = allData;
-    for (int a = 0; a < widget.documents['Interests'].length; a++) {
-      await FirebaseFirestore.instance
-          .collection("Category")
-          .doc(widget.documents['Interests'][a])
-          .get()
-          .then((DocumentSnapshot querySnapshot) {
-        Listchoosed.add({
-          'Description': querySnapshot['Description'],
-          'Image': querySnapshot['Image'],
-          'Name': querySnapshot['Name']
-        });
-      });
-    }
-
-    print(widget.documents['Interests'].length);
-    for (int x = 0; x < Listchoosed.length; x++) {
-      print(Listchoosed[x]);
-      print(listshow[5]);
-      if (Listchoosed[x] == listshow[5]) {
-        print("Yes");
-      } else {
-        print("No");
-      }
-      // for (int s = 0;s < listshow.length;s++) {}
-      // if(){
-
-      // }
-    }
     setState(() {});
   }
-
-  // Future cutlistshow() async {
-  //   // for (int x = 0; x < Listchoosed.length; x++) {
-  //   //   print(Listchoosed[x]);
-  //   //   if (Listchoosed[x] == listshow[5]) {
-  //   //     print("Yes");
-  //   //   } else {
-  //   //     print("No");
-  //   //   }
-  //   //   // for (int s = 0;s < listshow.length;s++) {}
-  //   //   // if(){
-
-  //   //   // }
-  //   // }
-  //   setState(() {});
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -99,16 +65,6 @@ class _editinterest extends State<editinterest> {
             textColor: Colors.white,
             onPressed: () async {
               if (Listchoosed.isNotEmpty) {
-                FirebaseFirestore.instance
-                    .collection('Event')
-                    .doc(widget.documents['Event_id'])
-                    .update({'Interests': FieldValue.delete()});
-                FirebaseFirestore.instance
-                    .collection('Student')
-                    .doc(FirebaseAuth.instance.currentUser?.uid)
-                    .collection('Posts')
-                    .doc(widget.documents.id)
-                    .update({'Interests': FieldValue.delete()});
                 for (int a = 0; a < Listchoosed.length; a++) {
                   QuerySnapshot snaps = await FirebaseFirestore.instance
                       .collection("Category")
@@ -121,23 +77,36 @@ class _editinterest extends State<editinterest> {
                   });
                   FirebaseFirestore.instance
                       .collection('Event')
-                      .doc(widget.documents["Event_id"])
-                      .update({
-                    "Interests": FieldValue.arrayUnion([id])
-                  });
-
-                  FirebaseFirestore.instance
-                      .collection('Student')
-                      .doc(FirebaseAuth.instance.currentUser?.uid)
-                      .collection('Posts')
                       .doc(widget.documents.id)
                       .update({
                     "Interests": FieldValue.arrayUnion([id])
                   });
+                  // ignore: non_constant_identifier_names
+                  QuerySnapshot Postsid = await FirebaseFirestore.instance
+                      .collection('Student')
+                      .doc(FirebaseAuth.instance.currentUser?.uid)
+                      .collection('Posts')
+                      .where("Event_id", isEqualTo: widget.documents.id)
+                      .get();
+                  // ignore: avoid_function_literals_in_foreach_calls
+                  Postsid.docs.forEach((document) async {
+                    FirebaseFirestore.instance
+                        .collection('Student')
+                        .doc(FirebaseAuth.instance.currentUser?.uid)
+                        .collection('Posts')
+                        .doc(document.id)
+                        .update({
+                      "Interests": FieldValue.arrayUnion([id])
+                    });
+                  });
                 }
                 Fluttertoast.showToast(
-                    msg: "Edit Success!", gravity: ToastGravity.CENTER);
-                Navigator.pop(context);
+                    msg: "Success!", gravity: ToastGravity.CENTER);
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Tabbar()),
+                  (Route<dynamic> route) => false,
+                );
               } else {
                 showAlertDialog(context);
               }
@@ -366,6 +335,7 @@ class _editinterest extends State<editinterest> {
 
   showAlertDialog(BuildContext context) {
     // set up the button
+    // ignore: non_constant_identifier_names
     Widget OKButton = FlatButton(
       child: const Text("OK"),
       onPressed: () {

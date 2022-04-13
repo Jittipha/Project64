@@ -27,6 +27,7 @@ class MainPage extends StatelessWidget {
           "Menu",
           style: TextStyle(
             fontSize: 25,
+            letterSpacing: 0.5,
             fontFamily: 'Raleway',
             fontWeight: FontWeight.w600,
           ),

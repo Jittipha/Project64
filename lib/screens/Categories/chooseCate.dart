@@ -125,153 +125,211 @@ class _CategoriesState extends State<Categories> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.all(20),
-            child: const Text(
-              "แตะเพื่อเลือกหมวดหมู่ที่คุณสนใจ",
-              style: TextStyle(
-                fontSize: 16,
-                fontFamily: 'Raleway',
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-            height: MediaQuery.of(context).size.height * 0.60,
-            child: ListView.builder(
-                itemCount: listshow.length,
-                // FirebaseFirestore.instance
-                //     .collection('Category')
-                //     .snapshots(),
-                itemBuilder: (BuildContext context, int index) {
-                  // if (!Listchoosed.isNotEmpty) {
-                  //   return const Center(
-                  //     child: Text("a"),
-                  //   );
-                  // } else {
-                  return ListTile(
-                    leading: CircleAvatar(
-                      radius: 25,
-                      backgroundColor: Colors.blueGrey[100],
-                      child: CircleAvatar(
-                        radius: 23,
-                        backgroundImage: NetworkImage(listshow[index]['Image']),
-                      ),
-                    ),
-                    title: Text(
-                      listshow[index]['Name'].toString(),
-                      style: const TextStyle(
-                        fontSize: 17,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    subtitle: Text(
-                      listshow[index]["Description"].toString(),
-                      style: const TextStyle(
-                          fontSize: 12,
+      body: Container(
+          child: Listchoosed.length == 0
+              ? Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(20),
+                      child: const Text(
+                        "แตะเพื่อเลือกหมวดหมู่ที่คุณสนใจ",
+                        style: TextStyle(
+                          fontSize: 16,
                           fontFamily: 'Raleway',
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black),
-                      maxLines: 1,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
-                    onTap: () {
-                      setState(() {
-                        Listchoosed.add(listshow[index]);
-                        listshow.remove(listshow[index]);
-                      });
-                    },
-                  );
-                }),
-          ),
-          Container(
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                border:
-                    Border(top: BorderSide(color: Colors.black, width: 0.4))),
-            child: Column(
-              children: [
-                Container(
-                  height: 30,
-                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                  child: const Text(
-                    "Selected",
-                    style: TextStyle(
-                      letterSpacing: 1,
-                      fontSize: 17,
-                      fontFamily: 'Raleway',
-                      fontWeight: FontWeight.w700,
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      height: MediaQuery.of(context).size.height * 0.765,
+                      child: ListView.builder(
+                          itemCount: listshow.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              leading: CircleAvatar(
+                                radius: 25,
+                                backgroundColor: Colors.blueGrey[100],
+                                child: CircleAvatar(
+                                  radius: 23,
+                                  backgroundImage:
+                                      NetworkImage(listshow[index]['Image']),
+                                ),
+                              ),
+                              title: Text(
+                                listshow[index]['Name'].toString(),
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              subtitle: Text(
+                                listshow[index]["Description"].toString(),
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: 'Raleway',
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black),
+                                maxLines: 1,
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  Listchoosed.add(listshow[index]);
+                                  listshow.remove(listshow[index]);
+                                });
+                              },
+                            );
+                          }),
                     ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                  height: MediaQuery.of(context).size.height * 0.134,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: Listchoosed.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        if (Listchoosed.isEmpty) {
-                          return const Center(
-                            child: Text("NOTHING"),
-                          );
-                        } else {
-                          return SizedBox(
-                              height: 100,
-                              width: 90,
-                              child: Column(children: [
-                                ListTile(
-                                  leading: CircleAvatar(
-                                    radius: 27,
-                                    backgroundColor: Colors.greenAccent[100],
-                                    child: CircleAvatar(
-                                        radius: 25,
-                                        backgroundImage: NetworkImage(
-                                            Listchoosed[index]['Image']),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              listshow.add(Listchoosed[index]);
-                                              Listchoosed.remove(
-                                                  Listchoosed[index]);
-                                            });
-                                          },
-                                          child: const Align(
-                                            alignment: Alignment.topRight,
-                                            child: CircleAvatar(
-                                              radius: 13,
-                                              child: Icon(
-                                                Icons.close_rounded,
-                                                size: 15,
-                                              ),
+                  ],
+                )
+              : Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(20),
+                      child: const Text(
+                        "แตะเพื่อเลือกหมวดหมู่ที่คุณสนใจ",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      height: MediaQuery.of(context).size.height * 0.60,
+                      child: ListView.builder(
+                          itemCount: listshow.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              leading: CircleAvatar(
+                                radius: 25,
+                                backgroundColor: Colors.blueGrey[100],
+                                child: CircleAvatar(
+                                  radius: 23,
+                                  backgroundImage:
+                                      NetworkImage(listshow[index]['Image']),
+                                ),
+                              ),
+                              title: Text(
+                                listshow[index]['Name'].toString(),
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              subtitle: Text(
+                                listshow[index]["Description"].toString(),
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: 'Raleway',
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black),
+                                maxLines: 1,
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  Listchoosed.add(listshow[index]);
+                                  listshow.remove(listshow[index]);
+                                });
+                              },
+                            );
+                          }),
+                    ),
+                    Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          border: Border(
+                              top:
+                                  BorderSide(color: Colors.black, width: 0.4))),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 30,
+                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                            child: const Text(
+                              "Selected",
+                              style: TextStyle(
+                                letterSpacing: 1,
+                                fontSize: 17,
+                                fontFamily: 'Raleway',
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                            height: MediaQuery.of(context).size.height * 0.13,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: Listchoosed.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  if (Listchoosed.isEmpty) {
+                                    return const Center(
+                                      child: Text("NOTHING"),
+                                    );
+                                  } else {
+                                    return SizedBox(
+                                        height: 100,
+                                        width: 90,
+                                        child: Column(children: [
+                                          ListTile(
+                                            leading: CircleAvatar(
+                                              radius: 27,
+                                              backgroundColor:
+                                                  Colors.greenAccent[100],
+                                              child: CircleAvatar(
+                                                  radius: 25,
+                                                  backgroundImage: NetworkImage(
+                                                      Listchoosed[index]
+                                                          ['Image']),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        listshow.add(
+                                                            Listchoosed[index]);
+                                                        Listchoosed.remove(
+                                                            Listchoosed[index]);
+                                                      });
+                                                    },
+                                                    child: const Align(
+                                                      alignment:
+                                                          Alignment.topRight,
+                                                      child: CircleAvatar(
+                                                        radius: 13,
+                                                        child: Icon(
+                                                          Icons.close_rounded,
+                                                          size: 15,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )),
                                             ),
                                           ),
-                                        )),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  Listchoosed[index]['Name'].toString(),
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: 'Raleway',
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ]));
-                        }
-                      }),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            Listchoosed[index]['Name']
+                                                .toString(),
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontFamily: 'Raleway',
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ]));
+                                  }
+                                }),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                )),
     );
   }
 

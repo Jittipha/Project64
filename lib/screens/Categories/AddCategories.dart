@@ -2,6 +2,7 @@
 
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -151,7 +152,15 @@ class _addcateState extends State<addcate> {
                     .set({
                   'Image': cate.urlImage,
                   'Name': cate.Name,
-                  'Description': cate.Description
+                  'Description': cate.Description,
+                  'Student': [
+                    {
+                      "Student_id": FirebaseAuth.instance.currentUser?.uid,
+                      "Name": FirebaseAuth.instance.currentUser?.displayName,
+                      "Photo": FirebaseAuth.instance.currentUser?.photoURL,
+                      "Email": FirebaseAuth.instance.currentUser?.email
+                    }
+                  ]
                 }).then((value) => {
                           Fluttertoast.showToast(
                               msg: "Success, Please wait for approval.",
@@ -239,5 +248,4 @@ class _addcateState extends State<addcate> {
       },
     );
   }
-  
 }
