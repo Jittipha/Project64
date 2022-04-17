@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, unused_import, must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, deprecated_member_use
+// ignore_for_file: file_names, unused_import, must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, deprecated_member_use, non_constant_identifier_names
 
 import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

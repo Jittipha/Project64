@@ -489,11 +489,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "0.4.8"
-=======
     version: "0.4.3"
->>>>>>> 2615020d6f826fe41efa79fc049b3a6e7a1a8160
   timezone:
     dependency: transitive
     description:

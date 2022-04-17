@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, unused_import, unused_local_variable, unused_element, deprecated_member_use
+// ignore_for_file: file_names, unused_import, unused_local_variable, unused_element, deprecated_member_use, must_be_immutable, camel_case_types, duplicate_ignore, non_constant_identifier_names, avoid_function_literals_in_foreach_calls, prefer_is_empty, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'dart:async';

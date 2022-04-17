@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:project/algolia/searchpage.dart';
 import 'package:project/components/fill_outline_button.dart';
 import 'package:project/screens/Home_Feed/thisweek.dart';
 import 'package:project/screens/Home_Feed/today.dart';
@@ -37,6 +38,7 @@ class _HomefeedState extends State<Homefeed> {
             ),
           ),
           actions: [
+            
             Theme(
                 data: Theme.of(context).copyWith(dividerColor: Colors.black),
                 child: PopupMenuButton<int>(
@@ -68,7 +70,7 @@ class _HomefeedState extends State<Homefeed> {
                 ))
           ],
         ),
-        body: Column(children: [
+        body: ListView(children: [
           // Container(
           //   height: MediaQuery.of(context).size.height * 0.18,
           //   padding: const EdgeInsets.fromLTRB(10, 75, 10, 0),
