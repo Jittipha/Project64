@@ -29,8 +29,8 @@ class _HomeNotificationState extends State<HomeNotification> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection("Notification")
             // .orderBy('Name')
-            .orderBy('Time',descending: true)
-            .orderBy('date',descending: true)
+            .orderBy('Time',descending: false)
+            .orderBy('date',descending: false)
             
             // where อาเรย์
             .where("Student_id", arrayContainsAny: [
