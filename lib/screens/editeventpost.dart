@@ -90,6 +90,15 @@ class _EditEventState extends State<EditEvent> {
   }
 
   var model = NotificationService();
+  String length = "";
+
+  @override
+  void initState() {
+    // ignore: todo
+    // TODO: implement initState
+    super.initState();
+    getlength();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +217,19 @@ class _EditEventState extends State<EditEvent> {
                             ),
                             trailing: Wrap(
                               spacing: 13,
-                              children: const <Widget>[
+                              children: <Widget>[
+                                CircleAvatar(
+                                  backgroundColor: Colors.grey[300],
+                                  radius: 17,
+                                  child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(length,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'Raleway',
+                                              fontSize: 20),
+                                          textAlign: TextAlign.start)),
+                                ),
                                 Icon(
                                   Icons.navigate_next_rounded,
                                   size: 35,
@@ -588,5 +609,10 @@ class _EditEventState extends State<EditEvent> {
         }
       }
     }
+  }
+
+  getlength() {
+    length = widget.studenthasposts['Interests'].length.toString();
+    setState(() {});
   }
 }

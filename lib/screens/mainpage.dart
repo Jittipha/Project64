@@ -21,13 +21,13 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final authBloc = Provider.of<AuthBloc>(context);
     return Scaffold(
-      
       appBar: AppBar(
         backgroundColor: const Color(0xFF00BF6D),
         title: const Text(
           "Menu",
           style: TextStyle(
             fontSize: 25,
+            letterSpacing: 0.5,
             fontFamily: 'Raleway',
             fontWeight: FontWeight.w600,
           ),
@@ -37,6 +37,9 @@ class MainPage extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Column(
           children: [
+            const SizedBox(
+              height: 8,
+            ),
             SizedBox(
               height: 60,
               width: double.infinity,

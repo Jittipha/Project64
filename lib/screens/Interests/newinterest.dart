@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, unused_import, unused_local_variable, unused_element, deprecated_member_use, non_constant_identifier_names, avoid_function_literals_in_foreach_calls, prefer_is_empty, prefer_const_constructors, duplicate_ignore
+// ignore_for_file: file_names, unused_import, unused_local_variable, unused_element, deprecated_member_use, must_be_immutable, camel_case_types, duplicate_ignore, non_constant_identifier_names, avoid_function_literals_in_foreach_calls, prefer_is_empty, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -16,31 +16,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../tabbar.dart';
 
-class Categories extends StatefulWidget {
-  const Categories({Key? key}) : super(key: key);
+// ignore: camel_case_types
+class interestedited extends StatefulWidget {
+  QueryDocumentSnapshot<Object?> documents;
+  interestedited(this.documents, {Key? key}) : super(key: key);
 
   @override
-  _CategoriesState createState() => _CategoriesState();
+  _interesteditedState createState() => _interesteditedState();
 }
 
-class _CategoriesState extends State<Categories> {
-  // Future<List<Cate>> _getCates() async {
-  //   var url = Uri.parse("https://api-test-project64.herokuapp.com/ListCate");
-  //   var res = await http.get(url);
-
-  //   var jsondata = json.decode(res.body);
-  //   List<Cate> cates = [];
-  //   for (var u in jsondata) {
-  //     Cate cate = Cate(u["CategoryID"], u["Name"], u["Description"]);
-  //     cates.add(cate);
-  //   }
-  //   print(cates.length);
-  //   return cates;
-  // }
-  Map<String, bool> values = {
-    'foo': true,
-    'bar': false,
-  };
+class _interesteditedState extends State<interestedited> {
   List Cate_id = [];
   List Listchoosed = [];
 
@@ -67,7 +52,7 @@ class _CategoriesState extends State<Categories> {
       appBar: AppBar(
         backgroundColor: Colors.greenAccent[700],
         title: const Text(
-          " Categories",
+          " Interests",
           style: TextStyle(
             letterSpacing: 1,
             fontSize: 23,
@@ -91,14 +76,28 @@ class _CategoriesState extends State<Categories> {
                     id = element.id;
                   });
                   FirebaseFirestore.instance
+                      .collection('Event')
+                      .doc(widget.documents.id)
+                      .update({
+                    "Interests": FieldValue.arrayUnion([id])
+                  });
+                  // ignore: non_constant_identifier_names
+                  QuerySnapshot Postsid = await FirebaseFirestore.instance
                       .collection('Student')
                       .doc(FirebaseAuth.instance.currentUser?.uid)
-                      .collection('Categories')
-                      .doc()
-                      .set({
-                    "Description": Listchoosed[a]['Description'],
-                    "Name": Listchoosed[a]['Name'],
-                    "Category_id": id,
+                      .collection('Posts')
+                      .where("Event_id", isEqualTo: widget.documents.id)
+                      .get();
+                  // ignore: avoid_function_literals_in_foreach_calls
+                  Postsid.docs.forEach((document) async {
+                    FirebaseFirestore.instance
+                        .collection('Student')
+                        .doc(FirebaseAuth.instance.currentUser?.uid)
+                        .collection('Posts')
+                        .doc(document.id)
+                        .update({
+                      "Interests": FieldValue.arrayUnion([id])
+                    });
                   });
                 }
                 Fluttertoast.showToast(
@@ -121,8 +120,8 @@ class _CategoriesState extends State<Categories> {
                 fontWeight: FontWeight.w900,
               ),
             ),
-            // ignore: prefer_const_constructors
-            shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+            shape:
+                const CircleBorder(side: BorderSide(color: Colors.transparent)),
           ),
         ],
       ),
@@ -336,6 +335,7 @@ class _CategoriesState extends State<Categories> {
 
   showAlertDialog(BuildContext context) {
     // set up the button
+    // ignore: non_constant_identifier_names
     Widget OKButton = FlatButton(
       child: const Text("OK"),
       onPressed: () {
