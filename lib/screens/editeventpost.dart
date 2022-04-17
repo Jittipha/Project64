@@ -316,16 +316,12 @@ class _EditEventState extends State<EditEvent> {
                                       "Status": "edited",
                                       "Time": Time,
                                       "date": date,
+                                      "Type" : '1'
                                     }).then((value) => {
                                               Fluttertoast.showToast(
                                                   msg: "Success!",
                                                   gravity: ToastGravity.CENTER),
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                builder: (context) {
-                                                  return const MyEvent();
-                                                },
-                                              ))
+                                              Navigator.pop(context)
                                             });
                                   }),
                               ElevatedButton(
@@ -374,12 +370,7 @@ class _EditEventState extends State<EditEvent> {
                                                         msg: "Delete Success!",
                                                         gravity: ToastGravity
                                                             .CENTER);
-                                                    Navigator.push(context,
-                                                        MaterialPageRoute(
-                                                      builder: (context) {
-                                                        return const MyEvent();
-                                                      },
-                                                    ));
+                                                    Navigator.pop(context);
                                                   });
                                                 },
                                                 child: Text('Yes'),
@@ -388,7 +379,7 @@ class _EditEventState extends State<EditEvent> {
                                                   onPressed: () {
                                                     Navigator.pop(context);
                                                   },
-                                                  child: Text("Cencle"))
+                                                  child: Text("Cancle"))
                                             ],
                                           );
                                         });
@@ -446,11 +437,7 @@ class _EditEventState extends State<EditEvent> {
                                       Fluttertoast.showToast(
                                           msg: "Delete Success!",
                                           gravity: ToastGravity.CENTER);
-                                      Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) {
-                                          return const MyEvent();
-                                        },
-                                      ));
+                                      Navigator.pop(context, 'Cancel');
                                     });
                                   }),
                             ],

@@ -36,8 +36,8 @@ class _HomeNotificationState extends State<HomeNotification> {
         stream: FirebaseFirestore.instance
             .collection("Notification")
             // .orderBy('Name')
-            .orderBy('Time', descending: true)
-            .orderBy('date', descending: true)
+            .orderBy('Time', descending: false)
+            .orderBy('date', descending: false)
 
             // where อาเรย์
             .where("Student_id", arrayContainsAny: [
@@ -69,6 +69,8 @@ class _HomeNotificationState extends State<HomeNotification> {
                                     borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(8.0),
                                       topRight: Radius.circular(8.0),
+                                      bottomLeft: Radius.circular(8.0),
+                                      bottomRight: Radius.circular(8.0),
                                     ),
                                     child: Image.network(document["Photo"],
                                         width: 50,
@@ -95,13 +97,12 @@ class _HomeNotificationState extends State<HomeNotification> {
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    subtitle:
-                                        const Text("This event has changed.",
-                                            style: TextStyle(
-                                              // fontSize: 18,
-                                              fontFamily: 'Raleway',
-                                              fontWeight: FontWeight.w600,
-                                            )),
+                                    subtitle: Text(Textsubtitle(document),
+                                        style: const TextStyle(
+                                          // fontSize: 18,
+                                          fontFamily: 'Raleway',
+                                          fontWeight: FontWeight.w600,
+                                        )),
                                   ),
                                 ),
                               ],
@@ -116,6 +117,21 @@ class _HomeNotificationState extends State<HomeNotification> {
         },
       ),
     );
+  }
+
+  Textsubtitle(document) {
+    late String text;
+    if (document['Type'] == '1') {
+      text = "This event has changed.";
+    } else {
+      if (document['StatusofApproved'] == 'CORRECT') {
+        text = "This category is correct";
+      } else {
+        text = "This category is incorrect";
+      }
+    }
+
+    return text;
   }
 
   getsnap(BuildContext context, document) async {
