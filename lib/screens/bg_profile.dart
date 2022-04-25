@@ -8,22 +8,18 @@ class Background extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-     
     // ignore: sized_box_for_whitespace
     return Container(
       height: size.height,
       width: double.infinity,
-      decoration:  const BoxDecoration(color:  Color.fromARGB(255, 30, 150, 140)),
+      decoration: const BoxDecoration(color: Color(0xff2FFFB4)),
       child: Stack(
         alignment: Alignment.center,
         children: [
           Positioned(
-            
-            right: -100,
-            bottom: -60,
-            child: Image.asset("assets/images/Polygon.png"),
+            bottom: -200,
+            child: Image.asset("assets/images/bg_green.png"),
           ),
-         
           child
         ],
       ),

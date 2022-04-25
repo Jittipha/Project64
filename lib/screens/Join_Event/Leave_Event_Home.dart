@@ -49,8 +49,9 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
   Widget build(BuildContext context) {
   
     return Scaffold(
+      backgroundColor: const Color(0xff2FFFB4),
       appBar: AppBar(
-         backgroundColor: const Color(0xFF00BF6D),
+         backgroundColor: const Color(0xff2FFFB4),
         title: const Text(
           "Event",
           style: TextStyle(
@@ -59,7 +60,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
-          Container(
+          Container(padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
             child: Image.network(
               widget.snap["Image"],
               fit: BoxFit.fitWidth,
@@ -230,7 +231,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
           ),
           //Comment
           Container(
-            padding: const EdgeInsets.fromLTRB(15, 13, 10, 2),
+            padding: const EdgeInsets.fromLTRB(15, 13, 10, 15),
             child: const ListTile(
               title: Text("Comment",
                   style: TextStyle(
@@ -241,52 +242,56 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
           ),
           Form(
             key: _formKey,
-            child: Column(
-              children: [
-                 TextFormField(
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.account_circle_sharp),
-                    hintText: 'comment',
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 15),
+              child: Column(
+                children: [
+                   TextFormField(
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.account_circle_sharp),
+                      hintText: 'comment',
+                    ),
+                    validator: RequiredValidator(errorText: "comment!"),
+                    onSaved: (value) {
+                      comments.text = value;
+                    },
                   ),
-                  validator: RequiredValidator(errorText: "comment!"),
-                  onSaved: (value) {
-                    comments.text = value;
-                  },
-                ),
-                FlatButton(
-                    onPressed: () async{
-                     await FirebaseFirestore.instance
-                      .collection("Student")
-                      .doc(FirebaseAuth.instance.currentUser?.uid)
-                      .get()
-                      .then((value) => {
-                        setState(() {
-                          students.Name=value.data()?["Name"];
-                          students.Photo=value.data()?["Photo"];
+                  FlatButton(
+                      onPressed: () async{
+                       await FirebaseFirestore.instance
+                        .collection("Student")
+                        .doc(FirebaseAuth.instance.currentUser?.uid)
+                        .get()
+                        .then((value) => {
+                          setState(() {
+                            students.Name=value.data()?["Name"];
+                            students.Photo=value.data()?["Photo"];
 
-                        })
-                      });
+                          })
+                        });
 
-                      if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                     await FirebaseFirestore.instance
-                          .collection('Comment')
-                          .doc()
-                          .set({
-                        "text": comments.text,
-                        "eId": widget.snap.id,
-                        "sId": FirebaseAuth.instance.currentUser?.uid,
-                        "name": students.Name,
-                        "year":DateFormat('yyyy').format(DateTime.now()),
-                        "hour":DateFormat('kk').format(DateTime.now()),
-                        "min":DateFormat('mm').format(DateTime.now()),
-                        "month":DateFormat('MM').format(DateTime.now()),
-                        "day":DateFormat('dd').format(DateTime.now()),
-                        "Photo":students.Photo,
-                      });
-                    }},
-                    child: Text("Post"))
-              ],
+                        if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              _formKey.currentState!.reset();
+                       await FirebaseFirestore.instance
+                            .collection('Comment')
+                            .doc()
+                            .set({
+                          "text": comments.text,
+                          "eId": widget.snap.id,
+                          "sId": FirebaseAuth.instance.currentUser?.uid,
+                          "name": students.Name,
+                          "year":DateFormat('yyyy').format(DateTime.now()),
+                          "hour":DateFormat('kk').format(DateTime.now()),
+                          "min":DateFormat('mm').format(DateTime.now()),
+                          "month":DateFormat('MM').format(DateTime.now()),
+                          "day":DateFormat('dd').format(DateTime.now()),
+                          "Photo":students.Photo,
+                        });
+                      }},
+                      child: Text("Post"))
+                ],
+              ),
             ),
           ),
          Container(

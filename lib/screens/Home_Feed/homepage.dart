@@ -25,9 +25,9 @@ class _HomefeedState extends State<Homefeed> {
   String body = "Home";
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold( backgroundColor: const Color(0xff2FFFB4),
         appBar: AppBar(
-          backgroundColor: const Color(0xFF00BF6D),
+          backgroundColor: const Color(0xff2FFFB4),
           title: Text(
             body,
             style: const TextStyle(
@@ -68,30 +68,7 @@ class _HomefeedState extends State<Homefeed> {
                 ))
           ],
         ),
-        body: Column(children: [
-          // Container(
-          //   height: MediaQuery.of(context).size.height * 0.18,
-          //   padding: const EdgeInsets.fromLTRB(10, 75, 10, 0),
-          //   color: const Color(0xFF00BF6D),
-          //   child: Row(
-          //     children: [
-          //       FillOutlineButton(press: () {}, text: "Home", Num: 1),
-          //       const SizedBox(width: 6.0),
-          //       FillOutlineButton(
-          //         press: () {},
-          //         text: "To day",
-          //         isFilled: false,
-          //         Num: 2,
-          //       ),
-          //       const SizedBox(width: 6.0),
-          //       FillOutlineButton(
-          //           press: () {}, text: "Tomorrow", isFilled: false, Num: 3),
-          //       const SizedBox(width: 6.0),
-          //       FillOutlineButton(
-          //           press: () {}, text: "This week", isFilled: false, Num: 4),
-          //     ],
-          //   ),
-          // ),
+        body:  Column(  children: [
           Container(
               height: MediaQuery.of(context).size.height * 0.765,
               padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),

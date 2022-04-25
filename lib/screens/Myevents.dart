@@ -21,7 +21,9 @@ class _MyEventState extends State<MyEvent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xff2FFFB4),
         appBar: AppBar(
+          backgroundColor:const Color(0xff2FFFB4),
           title: const Text(
             "My Events",
             style: TextStyle(fontSize: 25),
@@ -237,17 +239,6 @@ class _MyEventState extends State<MyEvent> {
                 )
               ])),
         ]));
-    // Container(
-    //   child: ListTile(
-    //     title: Text(studenthasposts["Name"]),
-    //     onTap: () {
-    //       Navigator.push(
-    //           context,
-    //           MaterialPageRoute(
-    //               builder: (context) => EditEvent(
-    //                   studenthasposts: studenthasposts)));
-    //     },
-    //   ),
-    // );
+    
   }
 }

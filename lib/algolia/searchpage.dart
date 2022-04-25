@@ -45,16 +45,18 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xff2FFFB4),
       appBar: AppBar(
           title: const Text('Search'),
-           backgroundColor: const Color(0xFF00BF6D),
+           backgroundColor: const Color(0xff2FFFB4),
         ),
       body: Container(
-        // padding: const EdgeInsets.fromLTRB(15, 75, 15, 0),
+         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            TextField(
+            TextField( 
+              
               controller: _searchText,
               decoration: InputDecoration(hintText: "Search....."),
             ),
@@ -62,7 +64,7 @@ class _SearchBarState extends State<SearchBar> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 FlatButton(
-                  color: Colors.blue,
+                  color: Color(0xFF00BF6D),
                   child: Text(
                     "Search",
                     style: TextStyle(

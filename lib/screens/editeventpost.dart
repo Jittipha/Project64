@@ -1,19 +1,14 @@
-// ignore_for_file: unused_import, must_be_immutable, avoid_unnecessary_containers, override_on_non_overriding_member, avoid_print, non_constant_identifier_names, duplicate_import, prefer_const_constructors, unused_local_variable, equal_keys_in_map, deprecated_member_use
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:intl/intl.dart';
 import 'package:project/Model/Event.dart';
 import 'package:project/Notification/services/notification.dart';
-import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 import 'Interests/editinterests.dart';
 import 'Myevents.dart';
-import 'Home_Feed/homepage.dart';
 
 class EditEvent extends StatefulWidget {
   EditEvent({
@@ -77,7 +72,7 @@ class _EditEventState extends State<EditEvent> {
   }
 
   Future pickTime(BuildContext context) async {
-    final initialTime = TimeOfDay(hour: 9, minute: 0);
+    final initialTime =  TimeOfDay(hour: 9, minute: 0);
     final newTime = await showTimePicker(
         context: context, initialTime: time ?? initialTime);
 
@@ -107,7 +102,9 @@ class _EditEventState extends State<EditEvent> {
             );
           }
           return Scaffold(
+            backgroundColor: const Color(0xff2FFFB4),
               appBar: AppBar(
+                backgroundColor: const Color(0xff2FFFB4),
                 title: const Text(
                   "Event",
                   style: TextStyle(fontSize: 25, color: Colors.black),
@@ -118,12 +115,13 @@ class _EditEventState extends State<EditEvent> {
                   child: Form(
                       key: _formKey,
                       child: Column(children: <Widget>[
-                        Container(
-                          child: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                '${widget.studenthasposts["Image"]}'),
-                          ),
-                        ),
+                        Image.network('${widget.studenthasposts["Image"]}'),
+                        // Container(
+                        //   child: CircleAvatar(
+                        //     backgroundImage: NetworkImage(
+                        //         '${widget.studenthasposts["Image"]}'),
+                        //   ),
+                        // ),
                         TextFormField(
                           decoration: InputDecoration(
                             icon: const Icon(

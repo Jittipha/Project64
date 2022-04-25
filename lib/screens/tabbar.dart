@@ -52,26 +52,29 @@ class _TabbarState extends State<Tabbar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-           backgroundColor: Color(0xFF00BF6D),
+           //backgroundColor: Color(0xFF00BF6D),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Search',
-            backgroundColor: Color(0xFF00BF6D),
+            //backgroundColor: Color(0xFF00BF6D),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
             label: 'Notification',
-            backgroundColor: Color(0xFF00BF6D),
+            //backgroundColor: Color(0xFF00BF6D),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.menu),
             label: 'Menu',
-            backgroundColor: Color(0xFF00BF6D),
+            //backgroundColor: Color(0xFF00BF6D),
           ),
         ],
         currentIndex: _selectedIndex,
+        unselectedItemColor: Color(0xFF00BF6D),
         selectedItemColor: Colors.black,
+        backgroundColor: Color(0xFF00BF6D),
+        
         onTap: _onItemTapped,
       ),
     );
