@@ -1,4 +1,4 @@
-
+// ignore_for_file: unused_import, must_be_immutable, avoid_unnecessary_containers, override_on_non_overriding_member, avoid_print, non_constant_identifier_names, duplicate_import, prefer_const_constructors, unused_local_variable, equal_keys_in_map, deprecated_member_use, avoid_function_literals_in_foreach_calls
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +72,7 @@ class _EditEventState extends State<EditEvent> {
   }
 
   Future pickTime(BuildContext context) async {
-    final initialTime =  TimeOfDay(hour: 9, minute: 0);
+    final initialTime = TimeOfDay(hour: 9, minute: 0);
     final newTime = await showTimePicker(
         context: context, initialTime: time ?? initialTime);
 
@@ -85,6 +85,15 @@ class _EditEventState extends State<EditEvent> {
   }
 
   var model = NotificationService();
+  String length = "";
+
+  @override
+  void initState() {
+    // ignore: todo
+    // TODO: implement initState
+    super.initState();
+    getlength();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +111,7 @@ class _EditEventState extends State<EditEvent> {
             );
           }
           return Scaffold(
-            backgroundColor: const Color(0xff2FFFB4),
+              backgroundColor: const Color(0xff2FFFB4),
               appBar: AppBar(
                 backgroundColor: const Color(0xff2FFFB4),
                 title: const Text(
@@ -206,7 +215,19 @@ class _EditEventState extends State<EditEvent> {
                             ),
                             trailing: Wrap(
                               spacing: 13,
-                              children: const <Widget>[
+                              children: <Widget>[
+                                CircleAvatar(
+                                  backgroundColor: Colors.grey[300],
+                                  radius: 17,
+                                  child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(length,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'Raleway',
+                                              fontSize: 20),
+                                          textAlign: TextAlign.start)),
+                                ),
                                 Icon(
                                   Icons.navigate_next_rounded,
                                   size: 35,
@@ -294,16 +315,12 @@ class _EditEventState extends State<EditEvent> {
                                       "Status": "edited",
                                       "Time": Time,
                                       "date": date,
+                                      "Type": '1'
                                     }).then((value) => {
                                               Fluttertoast.showToast(
                                                   msg: "Success!",
                                                   gravity: ToastGravity.CENTER),
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                builder: (context) {
-                                                  return const MyEvent();
-                                                },
-                                              ))
+                                              Navigator.pop(context)
                                             });
                                   }),
                               ElevatedButton(
@@ -352,12 +369,7 @@ class _EditEventState extends State<EditEvent> {
                                                         msg: "Delete Success!",
                                                         gravity: ToastGravity
                                                             .CENTER);
-                                                    Navigator.push(context,
-                                                        MaterialPageRoute(
-                                                      builder: (context) {
-                                                        return const MyEvent();
-                                                      },
-                                                    ));
+                                                    Navigator.pop(context);
                                                   });
                                                 },
                                                 child: Text('Yes'),
@@ -366,7 +378,7 @@ class _EditEventState extends State<EditEvent> {
                                                   onPressed: () {
                                                     Navigator.pop(context);
                                                   },
-                                                  child: Text("Cencle"))
+                                                  child: Text("Cancle"))
                                             ],
                                           );
                                         });
@@ -424,11 +436,7 @@ class _EditEventState extends State<EditEvent> {
                                       Fluttertoast.showToast(
                                           msg: "Delete Success!",
                                           gravity: ToastGravity.CENTER);
-                                      Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) {
-                                          return const MyEvent();
-                                        },
-                                      ));
+                                      Navigator.pop(context, 'Cancel');
                                     });
                                   }),
                             ],
@@ -447,7 +455,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          //await model.imageNotification(event);
+          await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -482,7 +490,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          //await model.imageNotification(event);
+          await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -518,7 +526,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          //await model.imageNotification(event);
+          await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -554,7 +562,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          //await model.imageNotification(event);
+          await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -586,5 +594,10 @@ class _EditEventState extends State<EditEvent> {
         }
       }
     }
+  }
+
+  getlength() {
+    length = widget.studenthasposts['Interests'].length.toString();
+    setState(() {});
   }
 }

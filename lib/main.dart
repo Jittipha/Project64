@@ -1,10 +1,11 @@
-// ignore_for_file: unused_local_variable, null_check_always_fails
+// ignore_for_file: unused_local_variable, null_check_always_fails, unused_import
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:project/blocs/auth_bloc.dart';
 import 'package:project/screens/login.dart';
 import 'package:provider/provider.dart';
+import 'screens/Categories/chooseCate.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

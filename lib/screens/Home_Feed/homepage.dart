@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:project/algolia/searchpage.dart';
 import 'package:project/components/fill_outline_button.dart';
 import 'package:project/screens/Home_Feed/thisweek.dart';
 import 'package:project/screens/Home_Feed/today.dart';
@@ -25,7 +26,8 @@ class _HomefeedState extends State<Homefeed> {
   String body = "Home";
   @override
   Widget build(BuildContext context) {
-    return Scaffold( backgroundColor: const Color(0xff2FFFB4),
+    return Scaffold(
+        backgroundColor: const Color(0xff2FFFB4),
         appBar: AppBar(
           backgroundColor: const Color(0xff2FFFB4),
           title: Text(
@@ -68,7 +70,7 @@ class _HomefeedState extends State<Homefeed> {
                 ))
           ],
         ),
-        body:  Column(  children: [
+        body: Column(children: [
           Container(
               height: MediaQuery.of(context).size.height * 0.765,
               padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),

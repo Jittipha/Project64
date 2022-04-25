@@ -161,21 +161,46 @@ class _eventdetailState extends State<eventdetail> {
             "Photo": FirebaseAuth.instance.currentUser?.photoURL,
             "Email": FirebaseAuth.instance.currentUser?.email
           });
-          await FirebaseFirestore.instance
-              .collection("Notification")
-              .doc(widget.snap.objectID)
-              .update({
-            "Photo": widget.snap.data["Image"],
-            "Name": widget.snap.data["Name"]
-          });
-          await FirebaseFirestore.instance
-              .collection("Notification")
-              .doc(widget.snap.objectID)
-              .update({
-            'Student_id':
-                FieldValue.arrayUnion([FirebaseAuth.instance.currentUser?.uid])
 
-          });
+          var checkid = await FirebaseFirestore.instance
+              .collection("Notification")
+              .doc(widget.snap.objectID)
+              .get();
+          if (checkid.exists) {
+            await FirebaseFirestore.instance
+                .collection("Notification")
+                .doc(widget.snap.objectID)
+                .update({
+              'Student_id': FieldValue.arrayUnion(
+                  [FirebaseAuth.instance.currentUser?.uid])
+            });
+          } else {
+            await FirebaseFirestore.instance
+                .collection("Notification")
+                .doc(widget.snap.objectID)
+                .set({
+              "Photo": widget.snap.data["Image"],
+              "Name": widget.snap.data["Name"],
+              "Student_id": [
+                FirebaseAuth.instance.currentUser?.uid,
+              ]
+            });
+          }
+          // await FirebaseFirestore.instance
+          //     .collection("Notification")
+          //     .doc(widget.snap.objectID)
+          //     .update({
+          //   "Photo": widget.snap.data["Image"],
+          //   "Name": widget.snap.data["Name"]
+          // });
+          // await FirebaseFirestore.instance
+          //     .collection("Notification")
+          //     .doc(widget.snap.objectID)
+          //     .update({
+          //   'Student_id':
+          //       FieldValue.arrayUnion([FirebaseAuth.instance.currentUser?.uid])
+
+          // });
           await FirebaseFirestore.instance
               .collection("Student")
               .doc(FirebaseAuth.instance.currentUser?.uid)

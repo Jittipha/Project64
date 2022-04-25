@@ -1,16 +1,9 @@
-// ignore_for_file: camel_case_types, must_be_immutable, non_constant_identifier_names, use_key_in_widget_constructors, prefer_typing_uninitialized_variables, avoid_unnecessary_containers, sized_box_for_whitespace, avoid_print, avoid_function_literals_in_foreach_calls
+// ignore_for_file: camel_case_types, must_be_immutable, non_constant_identifier_names, use_key_in_widget_constructors, prefer_typing_uninitialized_variables, avoid_unnecessary_containers, sized_box_for_whitespace, avoid_print, avoid_function_literals_in_foreach_calls, deprecated_member_use, prefer_is_empty, prefer_const_constructors
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:form_field_validator/form_field_validator.dart';
-
-import 'package:project/Model/Event.dart';
-
-import 'package:project/screens/Categories/DetailCate.dart';
-import 'package:project/Model/Category.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:project/screens/editeventpost.dart';
 
 class editinterest extends StatefulWidget {
   QueryDocumentSnapshot<Object?> documents;
@@ -22,211 +15,377 @@ class editinterest extends StatefulWidget {
 }
 
 class _editinterest extends State<editinterest> {
-  final String test = "Fuck";
-  final _formKey = GlobalKey<FormState>();
-  final Cate_id = [];
-  final Cate_name = [];
-  final Cate_Description = [];
-  var Choose;
+  List Cate_id = [];
+  List Listchoosed = [];
 
-  Cates cates = Cates();
-  events event = events();
+  List listshow = [];
+  int length = 0;
+  String id = "";
+  @override
+  void initState() {
+    super.initState();
+    addtolist();
+    // cutlistshow();
+  }
+
+  Future addtolist() async {
+    QuerySnapshot snap =
+        await FirebaseFirestore.instance.collection("Category").get();
+    List allData = snap.docs.map((doc) => doc.data()).toList();
+    listshow = allData;
+    for (int a = 0; a < widget.documents['Interests'].length; a++) {
+      await FirebaseFirestore.instance
+          .collection("Category")
+          .doc(widget.documents['Interests'][a])
+          .get()
+          .then((DocumentSnapshot querySnapshot) {
+        Listchoosed.add({
+          'Description': querySnapshot['Description'],
+          'Image': querySnapshot['Image'],
+          'Name': querySnapshot['Name']
+        });
+      });
+    }
+
+    print(widget.documents['Interests'].length);
+    for (int x = 0; x < Listchoosed.length; x++) {
+      print(Listchoosed[x]);
+      print(listshow[5]);
+      if (Listchoosed[x] == listshow[5]) {
+        print("Yes");
+      } else {
+        print("No");
+      }
+      // for (int s = 0;s < listshow.length;s++) {}
+      // if(){
+
+      // }
+    }
+    setState(() {});
+  }
+
+  // Future cutlistshow() async {
+  //   // for (int x = 0; x < Listchoosed.length; x++) {
+  //   //   print(Listchoosed[x]);
+  //   //   if (Listchoosed[x] == listshow[5]) {
+  //   //     print("Yes");
+  //   //   } else {
+  //   //     print("No");
+  //   //   }
+  //   //   // for (int s = 0;s < listshow.length;s++) {}
+  //   //   // if(){
+
+  //   //   // }
+  //   // }
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.greenAccent[700],
         title: const Text(
-          "Interests",
-          style: TextStyle(fontSize: 25),
+          " Interests",
+          style: TextStyle(
+            letterSpacing: 1,
+            fontSize: 23,
+            fontFamily: 'Raleway',
+            fontWeight: FontWeight.w800,
+          ),
         ),
-      ),
-      body: Container(
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width * 0.5,
-              child: StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('Category')
-                      .snapshots(),
-                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else {
-                      return ListView(
-                          children: snapshot.data!.docs.map((category) {
-                        Cate_name.add(category["Name"]);
-                        Cate_id.add(category.id);
-                        Cate_Description.add(category["Description"]);
-                        return Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: const BoxDecoration(
-                              border: Border(
-                            top: BorderSide(
-                                width: 0.5, color: Color(0xFF7F7F7F)),
-                            right: BorderSide(
-                                width: 1.0, color: Color(0xFF7F7F7F)),
-                            bottom: BorderSide(
-                                width: 0.5, color: Color(0xFF7F7F7F)),
-                          )),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              child: Text(category["Num"]),
-                              backgroundColor: Colors.orange[300],
-                            ),
-                            title: Text(
-                              category["Name"],
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          Detail_Cate(category: category)));
-                            },
-                          ),
-                        );
-                      }).toList());
-                    }
-                  }),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.5,
-              padding: const EdgeInsets.all(8.0),
-              child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      const Padding(padding: EdgeInsets.fromLTRB(0, 240, 0, 0)),
-                      const Text(
-                        "ป้อนหมายเลขความสนใจของกิจกรรม",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 12),
-                      ),
-                      const Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          label: Text('เช่น 1,2,3,...'),
-                          border: OutlineInputBorder(),
-                        ),
-                        // initialValue: '${widget.count_interests}',
-                        keyboardType: const TextInputType.numberWithOptions(),
-                        validator: RequiredValidator(errorText: "กรุณาใส่เลข!"),
-                        onSaved: (value) {
-                          Choose = value.toString();
-                        },
-                      ),
-                    ],
-                  )),
-            )
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            if (_formKey.currentState!.validate()) {
-              _formKey.currentState!.save();
-              var arraychoose = Choose.split(",");
-              print(arraychoose);
-              //delete old interests
-              // await FirebaseFirestore.instance
-              //     .collection('Event')
-              //     .doc(widget.documents["Event_id"])
-              //     .collection('Interests')
-              //     .get()
-              //     .then((value) => {
-              //           print(value.docs.length),
-              //           value.docs.forEach((del) async {
-              //             print(del.id);
-              //             await FirebaseFirestore.instance
-              //                 .collection('Event')
-              //                 .doc(widget.documents["Event_id"])
-              //                 .collection('Interests')
-              //                 .doc(del.id)
-              //                 .delete();
-              //           })
-              //         });
-              //delete Interests in Event Table
-              await FirebaseFirestore.instance
-                  .collection("Event")
-                  .doc(widget.documents["Event_id"])
-                  .update({'Interests': FieldValue.delete()});
-              await FirebaseFirestore.instance
-                  .collection("Student")
-                  .doc(FirebaseAuth.instance.currentUser?.uid)
-                  .collection("Posts")
-                  .doc(widget.documents.id)
-                  .update({'Interests': FieldValue.delete()});
-              // await FirebaseFirestore.instance
-              //     .collection('Student')
-              //     .doc(FirebaseAuth.instance.currentUser?.uid)
-              //     .collection('Posts')
-              //     .doc(widget.documents.id)
-              //     .collection('Interests')
-              //     .get()
-              //     .then((value) => {
-              //           print(value.docs.length),
-              //           value.docs.forEach((del) async {
-              //             print(del.id);
-              //             await FirebaseFirestore.instance
-              //                 .collection('Student')
-              //                 .doc(FirebaseAuth.instance.currentUser?.uid)
-              //                 .collection('Posts')
-              //                 .doc(widget.documents.id)
-              //                 .collection('Interests')
-              //                 .doc(del.id)
-              //                 .delete();
-              //           })
-              //         });
-              for (int a = 0; a < arraychoose.length; a++) {
-                print(arraychoose[a]);
-                int x = int.parse(arraychoose[a]);
-                print(x);
-                print(Cate_name[x - 1]);
-
-                //insert new interests
+        actions: <Widget>[
+          FlatButton(
+            textColor: Colors.white,
+            onPressed: () async {
+              if (Listchoosed.isNotEmpty) {
                 FirebaseFirestore.instance
                     .collection('Event')
-                    .doc(widget.documents["Event_id"])
-                    .update({
-                  "Interests": FieldValue.arrayUnion([Cate_id[x - 1]])
-                });
-                // await FirebaseFirestore.instance
-                //     .collection('Event')
-                //     .doc(widget.documents["Event_id"])
-                //     .collection('Interests')
-                //     .doc()
-                //     .set({
-                //   "Category_id": Cate_id[x - 1],
-                //   "Description": Cate_Description[x - 1],
-                //   "Name": Cate_name[x - 1]
-                // });
-
+                    .doc(widget.documents['Event_id'])
+                    .update({'Interests': FieldValue.delete()});
                 FirebaseFirestore.instance
                     .collection('Student')
                     .doc(FirebaseAuth.instance.currentUser?.uid)
                     .collection('Posts')
                     .doc(widget.documents.id)
-                    .update({
-                  "Interests": FieldValue.arrayUnion([Cate_id[x - 1]])
-                });
+                    .update({'Interests': FieldValue.delete()});
+                for (int a = 0; a < Listchoosed.length; a++) {
+                  QuerySnapshot snaps = await FirebaseFirestore.instance
+                      .collection("Category")
+                      .where('Name', isEqualTo: Listchoosed[a]['Name'])
+                      .where('Description',
+                          isEqualTo: Listchoosed[a]['Description'])
+                      .get();
+                  snaps.docs.forEach((element) {
+                    id = element.id;
+                  });
+                  FirebaseFirestore.instance
+                      .collection('Event')
+                      .doc(widget.documents["Event_id"])
+                      .update({
+                    "Interests": FieldValue.arrayUnion([id])
+                  });
+
+                  FirebaseFirestore.instance
+                      .collection('Student')
+                      .doc(FirebaseAuth.instance.currentUser?.uid)
+                      .collection('Posts')
+                      .doc(widget.documents.id)
+                      .update({
+                    "Interests": FieldValue.arrayUnion([id])
+                  });
+                }
+                Fluttertoast.showToast(
+                    msg: "Edit Success!", gravity: ToastGravity.CENTER);
+                Navigator.pop(context);
+              } else {
+                showAlertDialog(context);
               }
-              Fluttertoast.showToast(
-                  msg: "Success!", gravity: ToastGravity.CENTER);
-              Navigator.pop(context, MaterialPageRoute(
-                builder: (context) {
-                  return EditEvent(studenthasposts: widget.documents);
-                },
-              ));
-            }
-          },
-          child: const Icon(Icons.check_circle_outline_outlined)),
+            },
+            child: const Text(
+              "NEXT",
+              style: TextStyle(
+                letterSpacing: 1,
+                fontSize: 10,
+                fontFamily: 'Raleway',
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+            shape:
+                const CircleBorder(side: BorderSide(color: Colors.transparent)),
+          ),
+        ],
+      ),
+      body: Container(
+          child: Listchoosed.length == 0
+              ? Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(20),
+                      child: const Text(
+                        "แตะเพื่อเลือกหมวดหมู่ที่คุณสนใจ",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      height: MediaQuery.of(context).size.height * 0.765,
+                      child: ListView.builder(
+                          itemCount: listshow.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              leading: CircleAvatar(
+                                radius: 25,
+                                backgroundColor: Colors.blueGrey[100],
+                                child: CircleAvatar(
+                                  radius: 23,
+                                  backgroundImage:
+                                      NetworkImage(listshow[index]['Image']),
+                                ),
+                              ),
+                              title: Text(
+                                listshow[index]['Name'].toString(),
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              subtitle: Text(
+                                listshow[index]["Description"].toString(),
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: 'Raleway',
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black),
+                                maxLines: 1,
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  Listchoosed.add(listshow[index]);
+                                  listshow.remove(listshow[index]);
+                                });
+                              },
+                            );
+                          }),
+                    ),
+                  ],
+                )
+              : Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(20),
+                      child: const Text(
+                        "แตะเพื่อเลือกหมวดหมู่ที่คุณสนใจ",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      height: MediaQuery.of(context).size.height * 0.60,
+                      child: ListView.builder(
+                          itemCount: listshow.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              leading: CircleAvatar(
+                                radius: 25,
+                                backgroundColor: Colors.blueGrey[100],
+                                child: CircleAvatar(
+                                  radius: 23,
+                                  backgroundImage:
+                                      NetworkImage(listshow[index]['Image']),
+                                ),
+                              ),
+                              title: Text(
+                                listshow[index]['Name'].toString(),
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              subtitle: Text(
+                                listshow[index]["Description"].toString(),
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: 'Raleway',
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black),
+                                maxLines: 1,
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  Listchoosed.add(listshow[index]);
+                                  listshow.remove(listshow[index]);
+                                });
+                              },
+                            );
+                          }),
+                    ),
+                    Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          border: Border(
+                              top:
+                                  BorderSide(color: Colors.black, width: 0.4))),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 30,
+                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                            child: const Text(
+                              "Selected",
+                              style: TextStyle(
+                                letterSpacing: 1,
+                                fontSize: 17,
+                                fontFamily: 'Raleway',
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                            height: MediaQuery.of(context).size.height * 0.13,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: Listchoosed.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  if (Listchoosed.isEmpty) {
+                                    return const Center(
+                                      child: Text("NOTHING"),
+                                    );
+                                  } else {
+                                    return SizedBox(
+                                        height: 100,
+                                        width: 90,
+                                        child: Column(children: [
+                                          ListTile(
+                                            leading: CircleAvatar(
+                                              radius: 27,
+                                              backgroundColor:
+                                                  Colors.greenAccent[100],
+                                              child: CircleAvatar(
+                                                  radius: 25,
+                                                  backgroundImage: NetworkImage(
+                                                      Listchoosed[index]
+                                                          ['Image']),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        listshow.add(
+                                                            Listchoosed[index]);
+                                                        Listchoosed.remove(
+                                                            Listchoosed[index]);
+                                                      });
+                                                    },
+                                                    child: const Align(
+                                                      alignment:
+                                                          Alignment.topRight,
+                                                      child: CircleAvatar(
+                                                        radius: 13,
+                                                        child: Icon(
+                                                          Icons.close_rounded,
+                                                          size: 15,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            Listchoosed[index]['Name']
+                                                .toString(),
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontFamily: 'Raleway',
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ]));
+                                  }
+                                }),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                )),
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget OKButton = FlatButton(
+      child: const Text("OK"),
+      onPressed: () {
+        Navigator.pop(context, 'Cancel');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Warning!!"),
+      content: const Text("กรุณาเลือกหมวดหมู่"),
+      actions: [OKButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

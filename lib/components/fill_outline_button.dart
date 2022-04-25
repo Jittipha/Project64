@@ -6,7 +6,7 @@ import 'package:project/screens/Home_Feed/homepage.dart';
 import 'package:project/screens/Home_Feed/thisweek.dart';
 import 'package:project/screens/Home_Feed/today.dart';
 import 'package:project/screens/Home_Feed/tomorrow.dart';
-import 'package:project/screens/Categories/listcate.dart';
+import 'package:project/PageNotWorking/listcate.dart';
 
 // import 'package:flutter/material.dart';
 // import 'package:project/chooseCate.dart';

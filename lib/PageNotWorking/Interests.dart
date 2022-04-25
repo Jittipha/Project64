@@ -20,7 +20,6 @@ class Postinterests extends StatefulWidget {
 }
 
 class _Postinterests extends State<Postinterests> {
-  final String test = "Fuck";
   final _formKey = GlobalKey<FormState>();
   final Cate_id = [];
   final Cate_name = [];
@@ -145,7 +144,7 @@ class _Postinterests extends State<Postinterests> {
                     .collection('Student')
                     .doc(FirebaseAuth.instance.currentUser?.uid)
                     .collection('Posts')
-                    .where("Name", isEqualTo: event.Name)
+                    // .where("Name", isEqualTo: event.Name)
                     .where("Event_id", isEqualTo: widget.documents.id)
                     .get();
                 snap.docs.forEach((document) async {

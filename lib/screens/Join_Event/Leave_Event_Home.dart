@@ -32,8 +32,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
   String Length = "";
   final _formKey = GlobalKey<FormState>();
   comment comments = comment();
- Students students = Students(); 
- 
+  Students students = Students();
 
   @override
   void initState() {
@@ -47,11 +46,10 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
   }
 
   Widget build(BuildContext context) {
-  
     return Scaffold(
       backgroundColor: const Color(0xff2FFFB4),
       appBar: AppBar(
-         backgroundColor: const Color(0xff2FFFB4),
+        backgroundColor: const Color(0xff2FFFB4),
         title: const Text(
           "Event",
           style: TextStyle(
@@ -60,7 +58,8 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
-          Container(padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+          Container(
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
             child: Image.network(
               widget.snap["Image"],
               fit: BoxFit.fitWidth,
@@ -243,10 +242,10 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
           Form(
             key: _formKey,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 15),
+              padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
               child: Column(
                 children: [
-                   TextFormField(
+                  TextFormField(
                     decoration: const InputDecoration(
                       icon: Icon(Icons.account_circle_sharp),
                       hintText: 'comment',
@@ -257,44 +256,44 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                     },
                   ),
                   FlatButton(
-                      onPressed: () async{
-                       await FirebaseFirestore.instance
-                        .collection("Student")
-                        .doc(FirebaseAuth.instance.currentUser?.uid)
-                        .get()
-                        .then((value) => {
-                          setState(() {
-                            students.Name=value.data()?["Name"];
-                            students.Photo=value.data()?["Photo"];
-
-                          })
-                        });
+                      onPressed: () async {
+                        await FirebaseFirestore.instance
+                            .collection("Student")
+                            .doc(FirebaseAuth.instance.currentUser?.uid)
+                            .get()
+                            .then((value) => {
+                                  setState(() {
+                                    students.Name = value.data()?["Name"];
+                                    students.Photo = value.data()?["Photo"];
+                                  })
+                                });
 
                         if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              _formKey.currentState!.reset();
-                       await FirebaseFirestore.instance
-                            .collection('Comment')
-                            .doc()
-                            .set({
-                          "text": comments.text,
-                          "eId": widget.snap.id,
-                          "sId": FirebaseAuth.instance.currentUser?.uid,
-                          "name": students.Name,
-                          "year":DateFormat('yyyy').format(DateTime.now()),
-                          "hour":DateFormat('kk').format(DateTime.now()),
-                          "min":DateFormat('mm').format(DateTime.now()),
-                          "month":DateFormat('MM').format(DateTime.now()),
-                          "day":DateFormat('dd').format(DateTime.now()),
-                          "Photo":students.Photo,
-                        });
-                      }},
+                          _formKey.currentState!.save();
+                          _formKey.currentState!.reset();
+                          await FirebaseFirestore.instance
+                              .collection('Comment')
+                              .doc()
+                              .set({
+                            "text": comments.text,
+                            "eId": widget.snap.id,
+                            "sId": FirebaseAuth.instance.currentUser?.uid,
+                            "name": students.Name,
+                            "year": DateFormat('yyyy').format(DateTime.now()),
+                            "hour": DateFormat('kk').format(DateTime.now()),
+                            "min": DateFormat('mm').format(DateTime.now()),
+                            "month": DateFormat('MM').format(DateTime.now()),
+                            "day": DateFormat('dd').format(DateTime.now()),
+                            "Photo": students.Photo,
+                          });
+                        }
+                      },
                       child: Text("Post"))
                 ],
               ),
             ),
           ),
-         Container(
+          Container(
             padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
             decoration: const BoxDecoration(
                 border: Border(
@@ -303,12 +302,12 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('Comment')
-                    .where('eId',isEqualTo: widget.snap.id)
-                    .orderBy('year',descending: true)
-                    .orderBy('month',descending: true)
-                    .orderBy('day',descending: true)
-                    .orderBy('hour',descending: true)
-                    .orderBy('min',descending: true)
+                    .where('eId', isEqualTo: widget.snap.id)
+                    .orderBy('year', descending: true)
+                    .orderBy('month', descending: true)
+                    .orderBy('day', descending: true)
+                    .orderBy('hour', descending: true)
+                    .orderBy('min', descending: true)
                     .snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (!snapshot.hasData) {
@@ -324,19 +323,35 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                             width: 400,
                             child: ListTile(
                               leading: CircleAvatar(
-                                radius: 21,backgroundColor: Colors.black,
-                                child:CircleAvatar(
+                                radius: 21,
+                                backgroundColor: Colors.black,
+                                child: CircleAvatar(
                                   backgroundImage: NetworkImage(doc["Photo"]),
                                   radius: 20,
-                                ) ,),
-                              title:Row(
+                                ),
+                              ),
+                              title: Row(
                                 children: [
-                                  Text(doc['name'],style: TextStyle(fontSize: 15),),
+                                  Text(
+                                    doc['name'],
+                                    style: TextStyle(fontSize: 15),
+                                  ),
                                   Text('   '),
-                                  Text(doc['day']+'/'+doc['month']+'/'+doc['year']+' - '+doc['hour']+':'+doc['min'],style: TextStyle(fontSize: 12 ,color:Colors.blueGrey),),
+                                  Text(
+                                    doc['day'] +
+                                        '/' +
+                                        doc['month'] +
+                                        '/' +
+                                        doc['year'] +
+                                        ' - ' +
+                                        doc['hour'] +
+                                        ':' +
+                                        doc['min'],
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.blueGrey),
+                                  ),
                                 ],
                               ),
-                              
                               subtitle: Text(doc['text']),
                             ),
                           );
@@ -344,11 +359,8 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                   );
                 }),
           ),
-          
-
         ]),
       ),
-      
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           showAlertDialog(context);
@@ -438,4 +450,3 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
     return snaps.docs.length.toString();
   }
 }
-

@@ -29,135 +29,117 @@ class MainPage extends StatelessWidget {
           "Menu",
           style: TextStyle(
             fontSize: 25,
+            letterSpacing: 0.5,
             fontFamily: 'Raleway',
             fontWeight: FontWeight.w600,
           ),
         ),
       ),
-      body: Background(
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 60,
-                width: double.infinity,
-                child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.white)),
-                    child: Row( mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const[
-                         Icon(Icons.add),
-                         Text(
-                          "Create Category",
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'RobotoMono',
-                              color: Colors.black),
-                        ),
-                      ],
-                    ),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return const addcate();
-                      }));
-                    }),
-              ),
-              const SizedBox(
-                height: 20,
-                width: double.infinity,
-              ),
-              SizedBox(
-                height: 60,
-                width: double.infinity,
-                child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.white)),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const [
-                        Icon(Icons.add),
-                         Text(
-                          "Create Event",
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'RobotoMono',
-                              color: Colors.black),
-                        ),
-                      ],
-                    ),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return Post();
-                      }));
-                    }),
-              ),
-              const SizedBox(
-                height: 20,
-                width: double.infinity,
-              ),
-              SizedBox(
-                height: 60,
-                width: double.infinity,
-                child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.white)),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const[
-                        Icon(Icons.event_available_outlined),
-                         Text(
-                          "My Events",
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'RobotoMono',
-                              color: Colors.black),
-                        ),
-                      ],
-                    ),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return const MyEvent();
-                      }));
-                    }),
-              ),
-              const SizedBox(
-                height: 20,
-                width: double.infinity,
-              ),
-              SizedBox(
-                height: 60,
-                width: double.infinity,
-                child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.white)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const[
-                        Icon(Icons.account_box),
-                         Text(
-                          "My Profile",
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'RobotoMono',
-                              color: Colors.black),
-                        ),
-                      ],
-                    ),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return const HomeScreen();
-                      }));
-                    }),
-              ),
-            ],
-          ),
+
+      body: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 8,
+            ),
+            SizedBox(
+              height: 60,
+              width: double.infinity,
+              child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Colors.green.shade200)),
+                  child: const Text(
+                    "Create Category",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'RobotoMono',
+                        color: Colors.black),
+                  ),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const addcate();
+                    }));
+                  }),
+            ),
+            const SizedBox(
+              height: 20,
+              width: double.infinity,
+            ),
+            SizedBox(
+              height: 60,
+              width: double.infinity,
+              child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Colors.green.shade200)),
+                  child: const Text(
+                    "Create Event",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'RobotoMono',
+                        color: Colors.black),
+                  ),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return Post();
+                    }));
+                  }),
+            ),
+            const SizedBox(
+              height: 20,
+              width: double.infinity,
+            ),
+            SizedBox(
+              height: 60,
+              width: double.infinity,
+              child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Colors.green.shade200)),
+                  child: const Text(
+                    "My Events",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'RobotoMono',
+                        color: Colors.black),
+                  ),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const MyEvent();
+                    }));
+                  }),
+            ),
+            const SizedBox(
+              height: 20,
+              width: double.infinity,
+            ),
+            SizedBox(
+              height: 60,
+              width: double.infinity,
+              child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Colors.yellow.shade200)),
+                  child: const Text(
+                    "My Profile",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'RobotoMono',
+                        color: Colors.black),
+                  ),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const HomeScreen();
+                    }));
+                  }),
+            ),
+          ],
         ),
       ),
     );

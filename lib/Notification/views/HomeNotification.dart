@@ -17,22 +17,28 @@ class HomeNotification extends StatefulWidget {
 class _HomeNotificationState extends State<HomeNotification> {
   String Student_id = "";
 
-  
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff2FFFB4),
       appBar: AppBar(
-        backgroundColor: const Color(0xff2FFFB4),
-        title: const Text("Notification"),
+        backgroundColor: const Color(0xFF00BF6D),
+        title: const Text(
+          "Notification",
+          style: TextStyle(
+            letterSpacing: 1,
+            fontSize: 22,
+            fontFamily: 'Raleway',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection("Notification")
-            // .orderBy('Name')
-            .orderBy('Time',descending: true)
-            .orderBy('date',descending: true)
-            
+        stream: FirebaseFirestore.instance
+            .collection("Notification")
+            .orderBy('Time', descending: false)
+            .orderBy('date', descending: false)
+
             // where อาเรย์
             .where("Student_id", arrayContainsAny: [
           FirebaseAuth.instance.currentUser?.uid
@@ -63,6 +69,8 @@ class _HomeNotificationState extends State<HomeNotification> {
                                     borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(8.0),
                                       topRight: Radius.circular(8.0),
+                                      bottomLeft: Radius.circular(8.0),
+                                      bottomRight: Radius.circular(8.0),
                                     ),
                                     child: Image.network(document["Photo"],
                                         width: 50,
@@ -78,26 +86,23 @@ class _HomeNotificationState extends State<HomeNotification> {
                                   height: 100,
                                   child: ListTile(
                                     title: Text(
-                                      (document["Name"])+
-                                      ("\n")+
-                                      (document["Time"])+
-                                       ("\n")+
-                                      (document["date"]),
+                                      (document["Name"]) +
+                                          ("\n") +
+                                          (document["Time"]) +
+                                          ("\n") +
+                                          (document["date"]),
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontFamily: 'Raleway',
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    subtitle:
-                                        const Text("This event has changed.",
-                                            style: TextStyle(
-                                              // fontSize: 18,
-                                              fontFamily: 'Raleway',
-                                              fontWeight: FontWeight.w600,
-                                            )),
-                                            
-                                    
+                                    subtitle: Text(Textsubtitle(document),
+                                        style: const TextStyle(
+                                          // fontSize: 18,
+                                          fontFamily: 'Raleway',
+                                          fontWeight: FontWeight.w600,
+                                        )),
                                   ),
                                 ),
                               ],
@@ -112,6 +117,21 @@ class _HomeNotificationState extends State<HomeNotification> {
         },
       ),
     );
+  }
+
+  Textsubtitle(document) {
+    late String text;
+    if (document['Type'] == '1') {
+      text = "This event has changed.";
+    } else {
+      if (document['StatusofApproved'] == 'CORRECT') {
+        text = "This category is correct";
+      } else {
+        text = "This category is incorrect";
+      }
+    }
+
+    return text;
   }
 
   getsnap(BuildContext context, document) async {

@@ -13,12 +13,13 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:project/Model/Event.dart';
+import 'package:project/screens/Interests/newinterest.dart';
 import 'package:project/screens/Myevents.dart';
 
 import 'package:project/screens/tabbar.dart';
 import 'package:project/Model/Student.dart';
 
-import 'Interests/Interests.dart';
+import '../PageNotWorking/Interests.dart';
 import 'editeventpost.dart';
 
 //import 'package:flutter_application_1/screen/addcategorise.dart';
@@ -308,7 +309,7 @@ class _PostState extends State<Post> {
                                         Navigator.pushReplacement(context,
                                             MaterialPageRoute(
                                           builder: (context) {
-                                            return Postinterests(document);
+                                            return interestedited(document);
                                           },
                                         ))
                                       });

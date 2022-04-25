@@ -1,12 +1,17 @@
-// ignore_for_file: file_names, unused_import, must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, deprecated_member_use
+// ignore_for_file: file_names, unused_import, must_be_immutable, avoid_unnecessary_containers, prefer_const_constructors, deprecated_member_use, non_constant_identifier_names
 
 import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:intl/intl.dart';
 import 'package:project/algolia/searchpage.dart';
 import 'package:project/screens/bg.dart';
+
+import '../../Model/Comment.dart';
+import '../../Model/Student.dart';
 
 class Leaveevent extends StatefulWidget {
   Leaveevent({Key? key, required this.snap}) : super(key: key);
@@ -17,6 +22,31 @@ class Leaveevent extends StatefulWidget {
 }
 
 class _LeaveeventState extends State<Leaveevent> {
+  String Length = "";
+  final _formKey = GlobalKey<FormState>();
+  comment comments = comment();
+  Students students = Students();
+
+  @override
+  void initState() {
+    super.initState();
+    getLength();
+  }
+
+  Future<void> getLength() async {
+    Length = await getArrayLength();
+    setState(() {});
+  }
+
+  Future<String> getArrayLength() async {
+    QuerySnapshot snaps = await FirebaseFirestore.instance
+        .collection('Event')
+        .doc(widget.snap.objectID)
+        .collection("Joined")
+        .get();
+    return snaps.docs.length.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,33 +185,196 @@ class _LeaveeventState extends State<Leaveevent> {
                       )),
                 ),
                 Container(
+                    padding: const EdgeInsets.fromLTRB(13, 13, 22, 10),
+                    child: ListTile(
+                        trailing: CircleAvatar(
+                            backgroundColor: Colors.blueGrey[100],
+                            radius: 19,
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: Text(Length,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'Raleway',
+                                      fontSize: 25),
+                                  textAlign: TextAlign.start),
+                            )),
+                        title: Text("Joined",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontFamily: 'Raleway',
+                                fontSize: 25)))),
+
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
+                  decoration: const BoxDecoration(
+                      border: Border(
+                    bottom: BorderSide(width: 0.25, color: Color(0xFF7F7F7F)),
+                  )),
+                  child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('Event')
+                          .doc(widget.snap.objectID)
+                          .collection('Joined')
+                          .snapshots(),
+                      builder:
+                          (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (!snapshot.hasData) {
+                          return const CircularProgressIndicator();
+                        }
+                        return SizedBox(
+                          height: 75,
+                          child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: snapshot.data!.docs.map((doc) {
+                                return SizedBox(
+                                  height: 10,
+                                  width: 400,
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundImage:
+                                          NetworkImage(doc['Photo']),
+                                    ),
+                                    title: Text(doc['Name']),
+                                  ),
+                                );
+                              }).toList()),
+                        );
+                      }),
+                ),
+                //Comment
+                Container(
                   padding: const EdgeInsets.fromLTRB(15, 13, 10, 2),
                   child: const ListTile(
-                    title: Text("Joined",
+                    title: Text("Comment",
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Raleway',
                             fontSize: 25)),
                   ),
                 ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.account_circle_sharp),
+                          hintText: 'comment',
+                        ),
+                        validator: RequiredValidator(errorText: "comment!"),
+                        onSaved: (value) {
+                          comments.text = value;
+                        },
+                      ),
+                      FlatButton(
+                          onPressed: () async {
+                            await FirebaseFirestore.instance
+                                .collection("Student")
+                                .doc(FirebaseAuth.instance.currentUser?.uid)
+                                .get()
+                                .then((value) => {
+                                      setState(() {
+                                        students.Name = value.data()?["Name"];
+                                        students.Photo = value.data()?["Photo"];
+                                      })
+                                    });
+
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              _formKey.currentState!.reset();
+                              await FirebaseFirestore.instance
+                                  .collection('Comment')
+                                  .doc()
+                                  .set({
+                                "text": comments.text,
+                                "eId": widget.snap.objectID,
+                                "sId": FirebaseAuth.instance.currentUser?.uid,
+                                "name": students.Name,
+                                "year":
+                                    DateFormat('yyyy').format(DateTime.now()),
+                                "hour": DateFormat('kk').format(DateTime.now()),
+                                "min": DateFormat('mm').format(DateTime.now()),
+                                "month":
+                                    DateFormat('MM').format(DateTime.now()),
+                                "day": DateFormat('dd').format(DateTime.now()),
+                                "Photo": students.Photo,
+                              });
+                            }
+                          },
+                          child: Text("Post"))
+                    ],
+                  ),
+                ),
                 Container(
-                  padding: const EdgeInsets.fromLTRB(13, 0, 0, 10),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
                   decoration: const BoxDecoration(
                       border: Border(
-                    bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+                    bottom: BorderSide(width: 0.25, color: Color(0xFF7F7F7F)),
                   )),
-                  height: 200,
-                  width: 500,
-                  child: ListView(
-                      children: snapshot.data!.docs.map((doc) {
-                    return Card(
-                        color: Colors.purple[50],
-                        child: ListTile(
-                          leading: Image.network(doc['Photo']),
-                          title: Text(doc['Name']),
-                        ));
-                  }).toList()),
-                )
+                  child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('Comment')
+                          .where('eId', isEqualTo: widget.snap.objectID)
+                          .orderBy('year', descending: true)
+                          .orderBy('month', descending: true)
+                          .orderBy('day', descending: true)
+                          .orderBy('hour', descending: true)
+                          .orderBy('min', descending: true)
+                          .snapshots(),
+                      builder:
+                          (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (!snapshot.hasData) {
+                          return const CircularProgressIndicator();
+                        }
+                        return SizedBox(
+                          height: 90,
+                          child: ListView(
+                              scrollDirection: Axis.vertical,
+                              children: snapshot.data!.docs.map((doc) {
+                                return SizedBox(
+                                  height: 70,
+                                  width: 400,
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      radius: 21,
+                                      backgroundColor: Colors.black,
+                                      child: CircleAvatar(
+                                        backgroundImage:
+                                            NetworkImage(doc["Photo"]),
+                                        radius: 20,
+                                      ),
+                                    ),
+                                    title: Row(
+                                      children: [
+                                        Text(
+                                          doc['name'],
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                        Text('   '),
+                                        Text(
+                                          doc['day'] +
+                                              '/' +
+                                              doc['month'] +
+                                              '/' +
+                                              doc['year'] +
+                                              ' - ' +
+                                              doc['hour'] +
+                                              ':' +
+                                              doc['min'],
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.blueGrey),
+                                        ),
+                                      ],
+                                    ),
+                                    subtitle: Text(doc['text']),
+                                  ),
+                                );
+                              }).toList()),
+                        );
+                      }),
+                ),
               ]),
             );
           }),
