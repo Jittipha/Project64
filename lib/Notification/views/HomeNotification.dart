@@ -35,7 +35,6 @@ class _HomeNotificationState extends State<HomeNotification> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection("Notification")
-
             .orderBy('Time', descending: false)
             .orderBy('date', descending: false)
 
@@ -124,7 +123,7 @@ class _HomeNotificationState extends State<HomeNotification> {
     if (document['Type'] == '1') {
       text = "This event has changed.";
     } else {
-      if (document['StatusofApproved'] == 'CORRECT') {
+      if (document['StatusofApproved'] == 'correct') {
         text = "This category is correct";
       } else {
         text = "This category is incorrect";
