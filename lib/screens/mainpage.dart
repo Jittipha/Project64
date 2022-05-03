@@ -6,6 +6,7 @@ import 'package:flutter_signin_button/button_view.dart';
 import 'package:project/blocs/auth_bloc.dart';
 import 'package:project/screens/Categories/AddCategories.dart';
 import 'package:project/screens/Myevents.dart';
+import 'package:project/screens/bg_menu.dart';
 import 'package:project/screens/home.dart';
 import 'package:provider/provider.dart';
 
@@ -21,8 +22,9 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final authBloc = Provider.of<AuthBloc>(context);
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 30, 150, 140),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF00BF6D),
+        backgroundColor: const Color.fromARGB(255, 30, 150, 140),
         title: const Text(
           "Menu",
           style: TextStyle(
@@ -33,6 +35,7 @@ class MainPage extends StatelessWidget {
           ),
         ),
       ),
+
       body: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(

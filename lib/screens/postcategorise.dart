@@ -149,7 +149,9 @@ class _PostState extends State<Post> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xff2FFFB4),
       appBar: AppBar(
+        backgroundColor: const Color(0xff2FFFB4),
         title: const Text(
           "Post",
           style: TextStyle(fontSize: 25, color: Colors.black),

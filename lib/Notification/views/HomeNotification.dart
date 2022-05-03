@@ -20,6 +20,7 @@ class _HomeNotificationState extends State<HomeNotification> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xff2FFFB4),
       appBar: AppBar(
         backgroundColor: const Color(0xFF00BF6D),
         title: const Text(

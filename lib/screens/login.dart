@@ -1,11 +1,11 @@
 // ignore_for_file: unused_import
 
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:project/blocs/auth_bloc.dart';
+import 'package:project/screens/bg.dart';
 import 'package:project/screens/home.dart';
 import 'package:provider/provider.dart';
 
@@ -21,55 +21,40 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    // var authBloc = Provider.of<AuthBloc>(context, listen: false);
-    // authBloc.currentUser.listen((project) async {
-    //   if (project != null) {
-    //     Navigator.of(context).pushReplacement(
-    //       MaterialPageRoute(
-    //         builder: (context) => const Cate(),
-    //       ),
-    //     );
-    //   }
-    // });
     super.initState();
   }
-
-  // @override
-  // void dispose() {
-  //   loginStateSubscription.cancel();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
     final authBloc = Provider.of<AuthBloc>(context);
 
-    return Scaffold(
-        backgroundColor: Colors.grey,
-        // appBar: AppBar(
-        //   title: const Text('Sign in with Google'),
-        // ),
-        body: Container(
-          padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 90),
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(
-                height: 150.0,
-              ),
-              Image.network(
-                  'https://www.tv360entertainment.com/wp-content/uploads/2019/05/Logo-dpu.png',
-                  width: 200),
-              const SizedBox(
-                height: 50.0,
-              ),
-              SignInButton(
-                Buttons.Google,
-                text: 'Sign in with Google',
-                onPressed: () async => await authBloc.loginGoogle(context),
-              ),
-            ],
+    return Background(
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 150.0,
           ),
-        ));
+          Image.network(
+              'https://firebasestorage.googleapis.com/v0/b/my-project-application-7b7c7.appspot.com/o/logo%2Fdpuvc.gif?alt=media&token=453588bc-5a21-44a1-8c4d-05e5aeb784ec',
+              width: 200),
+          const SizedBox(
+            height: 40,
+          ),
+          Image.network(
+            'https://firebasestorage.googleapis.com/v0/b/my-project-application-7b7c7.appspot.com/o/logo%2FLogodpu.png?alt=media&token=8ea67ca6-b828-42b0-9d59-ecc48b22fef9',
+            width: 500,
+            height: 70,
+          ),
+          const SizedBox(
+            height: 50,
+          ),
+          SignInButton(
+            Buttons.Google,
+            text: 'Sign in with Google',
+            onPressed: () async => await authBloc.loginGoogle(context),
+          ),
+        ],
+      ),
+    );
   }
 }
