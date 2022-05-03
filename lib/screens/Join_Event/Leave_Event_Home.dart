@@ -90,7 +90,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                   style: const TextStyle(
                     fontSize: 18,
                     fontFamily: 'Raleway',
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w700,
                   ),
                   textAlign: TextAlign.start,
                 )),
@@ -108,7 +108,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                   style: const TextStyle(
                     fontSize: 18,
                     fontFamily: 'Raleway',
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w700,
                   ),
                   textAlign: TextAlign.start,
                 )),

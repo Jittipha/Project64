@@ -62,7 +62,7 @@ class _eventdetailState extends State<eventdetail> {
                   style: const TextStyle(
                     fontSize: 18,
                     fontFamily: 'Raleway',
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w700,
                   ),
                   textAlign: TextAlign.start,
                 )),
@@ -80,7 +80,7 @@ class _eventdetailState extends State<eventdetail> {
                   style: const TextStyle(
                     fontSize: 18,
                     fontFamily: 'Raleway',
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w700,
                   ),
                   textAlign: TextAlign.start,
                 )),
@@ -107,7 +107,7 @@ class _eventdetailState extends State<eventdetail> {
               style: const TextStyle(
                 fontSize: 15,
                 fontFamily: 'Raleway',
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w500,
               ),
             )),
           ),
