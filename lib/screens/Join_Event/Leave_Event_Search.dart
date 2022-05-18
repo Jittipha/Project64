@@ -8,7 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:intl/intl.dart';
 import 'package:project/algolia/searchpage.dart';
-import 'package:project/screens/bg.dart';
+import 'package:project/Background/bg.dart';
 
 import '../../Model/Comment.dart';
 import '../../Model/Student.dart';

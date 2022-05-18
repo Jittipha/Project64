@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 class Background extends StatelessWidget {
@@ -12,14 +14,17 @@ class Background extends StatelessWidget {
     return Container(
       height: size.height,
       width: double.infinity,
-      decoration: const BoxDecoration(color: Color(0xff2FFFB4)),
+      decoration: const BoxDecoration(color: Color.fromARGB(255, 30, 150, 140)),
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Positioned(
-            bottom: -200,
-            child: Image.asset("assets/images/bg_green.png"),
-          ),
+          // Positioned(
+          //   top: 150,
+          //   // bottom:0,
+          //   // width: 200,
+          //   // height: 200,
+          //   // child: Image.asset("assets/images/bg_green.png"),
+          // ),
           child
         ],
       ),

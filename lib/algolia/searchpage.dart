@@ -45,7 +45,7 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff2FFFB4),
+      backgroundColor: Color.fromARGB(255, 30, 150, 140),
       appBar: AppBar(
         title: const Text(
           'Search',
@@ -56,7 +56,7 @@ class _SearchBarState extends State<SearchBar> {
             fontWeight: FontWeight.w600,
           ),
         ),
-        backgroundColor: const Color(0xFF00BF6D),
+        backgroundColor: Color.fromARGB(255, 30, 150, 140),
       ),
       body: Container(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -64,23 +64,36 @@ class _SearchBarState extends State<SearchBar> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.fromLTRB(7, 0, 5, 0),
+              width: 400,
+              padding: EdgeInsets.all(10),
               child: TextField(
                 controller: _searchText,
-                decoration: InputDecoration(hintText: "Search....."),
+                decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(color: Colors.white, width: 2.0),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  prefixIcon: Icon(Icons.search, color: Colors.white),
+                  hintText: "Search.....",
+                  hintStyle: TextStyle(
+                      fontSize: 20.0,
+                      color: Color.fromARGB(255, 250, 248, 248)),
+                ),
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 FlatButton(
-                  color: Color(0xFF00BF6D),
+                  color: Color.fromARGB(255, 240, 244, 242),
                   child: Text(
                     "Search",
                     style: TextStyle(
                         fontFamily: 'Raleway',
+                        fontSize: 18,
                         fontWeight: FontWeight.w500,
-                        color: Colors.white),
+                        color: Color.fromARGB(255, 6, 6, 6)),
                   ),
                   onPressed: _search,
                 ),
@@ -92,6 +105,7 @@ class _SearchBarState extends State<SearchBar> {
                       child: Text(
                         "Searching, please wait...",
                         style: TextStyle(
+                          color: Colors.white,
                           fontSize: 20,
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.w500,
@@ -103,6 +117,7 @@ class _SearchBarState extends State<SearchBar> {
                           child: Text(
                             "No results found.",
                             style: TextStyle(
+                              color: Colors.white,
                               fontSize: 20,
                               fontFamily: 'Raleway',
                               fontWeight: FontWeight.w500,
@@ -183,15 +198,19 @@ class _SearchBarState extends State<SearchBar> {
                                   },
                                   child: Column(
                                     children: <Widget>[
+                                      SizedBox(height: 10,),
                                       ClipRRect(
                                         borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(8.0),
                                           topRight: Radius.circular(8.0),
+                                          bottomLeft: Radius.circular(8.0),
+                                          bottomRight: Radius.circular(8.0),
                                         ),
                                         child: Image.network(snap.data["Image"],
                                             width: 300,
                                             height: 150,
-                                            fit: BoxFit.fill),
+                                            fit: BoxFit.fill
+                                            ),
                                       ),
                                       ListTile(
                                         title: Text(snap.data["Name"],

@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:project/blocs/auth_bloc.dart';
-import 'package:project/screens/bg.dart';
+import 'package:project/Background/bg.dart';
 import 'package:project/screens/home.dart';
 import 'package:provider/provider.dart';
 

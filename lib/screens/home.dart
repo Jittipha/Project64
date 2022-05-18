@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_import
+// ignore_for_file: unnecessary_import, avoid_types_as_parameter_names, non_constant_identifier_names
 
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:project/blocs/auth_bloc.dart';
-import 'package:project/screens/bg_profile.dart';
+import 'package:project/Background/bg_profile.dart';
 import 'package:project/screens/login.dart';
 import 'package:provider/provider.dart';
 
@@ -23,8 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     var authBloc = Provider.of<AuthBloc>(context, listen: false);
-    authBloc.currentUser.listen((project) async {
-      if (project == null) {
+    authBloc.currentUser.listen((User) async {
+      if (User == null) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => const LoginScreen(),
@@ -46,9 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final authBloc = Provider.of<AuthBloc>(context);
 
     return Scaffold(
-      backgroundColor: const Color(0xff2FFFB4),
+      backgroundColor: const Color.fromARGB(255, 252, 254, 253),
       appBar: AppBar(
-        backgroundColor: const Color(0xff2FFFB4),
+        backgroundColor: const Color.fromARGB(255, 30, 150, 140),
         title: const Text('My Profile'),
       ),
       body: Background(
@@ -60,13 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
       
                 return Column(
                   children: [
-                    const SizedBox(height: 70),
-                    // const Text('Student',
-                    //     style: TextStyle(
-                    //       fontSize: 30.0,
-                    //     )),
                     const SizedBox(
-                      height: 10.0,
+                      height: 60,
                     ),
                     CircleAvatar(
                       maxRadius: 70,
@@ -75,10 +70,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                    
                     const SizedBox(
-                      height: 50.0,
+                      height: 20.0,
+                    ),
+                    const Text("Profile", 
+                    style:  TextStyle(fontSize: 35.0,color: Colors.white)),
+                    const SizedBox(
+                      height: 20.0,
                     ),
                     Text(snapshot.data?.displayName ?? "",
                         style: const TextStyle(fontSize: 20.0,color: Colors.white)),
+                        const SizedBox(
+                      height: 20.0,
+                    ),
                     Text(snapshot.data?.email ?? "",
                         style: const TextStyle(fontSize: 20.0,color: Colors.white)),
                     const SizedBox(

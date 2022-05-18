@@ -22,7 +22,9 @@ class _eventdetailhomeState extends State<eventdetailhome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 30, 150, 140),
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 30, 150, 140),
         title: const Text(
           "Event",
           style: TextStyle(
@@ -30,6 +32,8 @@ class _eventdetailhomeState extends State<eventdetailhome> {
         ),
       ),
       body: SingleChildScrollView(
+        padding:
+            const EdgeInsets.only(bottom: 70, top: 10, right: 10, left: 10),
         child: Column(children: <Widget>[
           Container(
             child: Image.network(
@@ -44,6 +48,7 @@ class _eventdetailhomeState extends State<eventdetailhome> {
             child: Text(
               widget.snap["Name"],
               style: const TextStyle(
+                color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Raleway',
                   fontSize: 25),
@@ -57,10 +62,11 @@ class _eventdetailhomeState extends State<eventdetailhome> {
               bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
             )),
             child: ListTile(
-                leading: const Icon(Icons.date_range, size: 30),
+                leading: const Icon(Icons.date_range,color: Colors.white, size: 30),
                 title: Text(
                   widget.snap["date"] + '     ' + widget.snap["Time"],
                   style: const TextStyle(
+                    color: Colors.white,
                     fontSize: 18,
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.w700,
@@ -76,10 +82,11 @@ class _eventdetailhomeState extends State<eventdetailhome> {
               bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
             )),
             child: ListTile(
-                leading: const Icon(Icons.location_on_outlined, size: 30),
+                leading: const Icon(Icons.location_on_outlined,color: Colors.white, size: 30),
                 title: Text(
                   widget.snap["Location"],
                   style: const TextStyle(
+                    color: Colors.white,
                     fontSize: 18,
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.w700,
@@ -92,6 +99,7 @@ class _eventdetailhomeState extends State<eventdetailhome> {
             child: const ListTile(
               title: Text("About",
                   style: TextStyle(
+                    color: Colors.white,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Raleway',
                       fontSize: 25)),
@@ -107,6 +115,7 @@ class _eventdetailhomeState extends State<eventdetailhome> {
                 title: Text(
               "   " + widget.snap["Description"],
               style: const TextStyle(
+                color: Colors.white,
                 fontSize: 15,
                 fontFamily: 'Raleway',
                 fontWeight: FontWeight.w400,
@@ -118,6 +127,7 @@ class _eventdetailhomeState extends State<eventdetailhome> {
             child: const ListTile(
               title: Text("Host",
                   style: TextStyle(
+                    color: Colors.white,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Raleway',
                       fontSize: 25)),
@@ -139,6 +149,7 @@ class _eventdetailhomeState extends State<eventdetailhome> {
                 title: Text(
                   widget.snap['Host'][0]['Name'],
                   style: const TextStyle(
+                    color: Colors.white,
                     fontSize: 18,
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.w400,

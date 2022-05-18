@@ -11,7 +11,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Model/Category.dart';
-import 'package:project/screens/bg_profile.dart';
+
 
 class addcate extends StatefulWidget {
   const addcate({Key? key}) : super(key: key);
@@ -28,9 +28,9 @@ class _addcateState extends State<addcate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff2FFFB4),
+      backgroundColor: const Color.fromARGB(255, 30, 150, 140),
         appBar: AppBar(
-            backgroundColor: const Color(0xff2FFFB4),
+            backgroundColor: const Color.fromARGB(255, 30, 150, 140),
             title: const Text(
               "Create Category",
               style: TextStyle(
@@ -39,7 +39,7 @@ class _addcateState extends State<addcate> {
                 fontWeight: FontWeight.w600,
               ),
             )),
-        body: Background(
+        body: Center(
           child: Form(
             key: _formcate,
             child: Column(

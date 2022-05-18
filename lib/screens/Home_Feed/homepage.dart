@@ -27,9 +27,9 @@ class _HomefeedState extends State<Homefeed> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xff2FFFB4),
+        backgroundColor: const Color.fromARGB(255, 30, 150, 140),
         appBar: AppBar(
-          backgroundColor: const Color(0xff2FFFB4),
+          backgroundColor: const Color.fromARGB(255, 30, 150, 140),
           title: Text(
             body,
             style: const TextStyle(
@@ -70,7 +70,7 @@ class _HomefeedState extends State<Homefeed> {
                 ))
           ],
         ),
-        body: Column(children: [
+        body: ListView(children: [
           Container(
               height: MediaQuery.of(context).size.height * 0.765,
               padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
@@ -104,6 +104,7 @@ class _HomefeedState extends State<Homefeed> {
               title: Text(
                 "    " + cate["Name"],
                 style: const TextStyle(
+                  color: Colors.white,
                   fontSize: 22,
                   fontFamily: 'Raleway',
                   fontWeight: FontWeight.w600,

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:http/http.dart';
 import 'package:project/screens/Join_Event/Leave_Event_Home.dart';
 
@@ -20,9 +21,9 @@ class _HomeNotificationState extends State<HomeNotification> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff2FFFB4),
+      backgroundColor: const Color.fromARGB(255, 30, 150, 140),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF00BF6D),
+        backgroundColor: const Color.fromARGB(255, 30, 150, 140),
         title: const Text(
           "Notification",
           style: TextStyle(
@@ -92,6 +93,7 @@ class _HomeNotificationState extends State<HomeNotification> {
                                           ("\n") +
                                           (document["date"]),
                                       style: const TextStyle(
+                                        color: Colors.white,
                                         fontSize: 18,
                                         fontFamily: 'Raleway',
                                         fontWeight: FontWeight.w600,
@@ -99,12 +101,14 @@ class _HomeNotificationState extends State<HomeNotification> {
                                     ),
                                     subtitle: Text(Textsubtitle(document),
                                         style: const TextStyle(
+                                          color: Color.fromARGB(173, 11, 11, 11),
                                           // fontSize: 18,
                                           fontFamily: 'Raleway',
                                           fontWeight: FontWeight.w600,
                                         )),
                                   ),
                                 ),
+                                
                               ],
                             ),
                           ),

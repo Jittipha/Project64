@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project/screens/bg.dart';
+import 'package:project/Background/bg.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

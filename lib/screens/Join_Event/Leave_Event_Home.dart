@@ -47,9 +47,9 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff2FFFB4),
+      backgroundColor: Color.fromARGB(255, 30, 150, 140),
       appBar: AppBar(
-        backgroundColor: const Color(0xff2FFFB4),
+        backgroundColor: Color.fromARGB(255, 30, 150, 140),
         title: const Text(
           "Event",
           style: TextStyle(
@@ -57,6 +57,8 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
         ),
       ),
       body: SingleChildScrollView(
+        padding:
+            const EdgeInsets.only(bottom: 70, top: 10, right: 10, left: 10),
         child: Column(children: <Widget>[
           Container(
             padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -72,6 +74,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             child: Text(
               widget.snap["Name"],
               style: const TextStyle(
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Raleway',
                   fontSize: 25),
@@ -84,10 +87,12 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
               bottom: BorderSide(width: 0.25, color: Color(0xFF7F7F7F)),
             )),
             child: ListTile(
-                leading: const Icon(Icons.date_range, size: 30),
+                leading:
+                    const Icon(Icons.date_range, color: Colors.white, size: 30),
                 title: Text(
                   widget.snap["date"] + '     ' + widget.snap["Time"],
                   style: const TextStyle(
+                    color: Colors.white,
                     fontSize: 18,
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.w700,
@@ -99,13 +104,16 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.25, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(
+                  width: 0.50, color: Color.fromARGB(255, 248, 244, 244)),
             )),
             child: ListTile(
-                leading: const Icon(Icons.location_on_outlined, size: 30),
+                leading: const Icon(Icons.location_on_outlined,
+                    color: Colors.white, size: 30),
                 title: Text(
                   widget.snap["Location"],
                   style: const TextStyle(
+                    color: Colors.white,
                     fontSize: 18,
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.w700,
@@ -118,6 +126,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             child: const ListTile(
               title: Text("About",
                   style: TextStyle(
+                      color: Colors.white,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Raleway',
                       fontSize: 25)),
@@ -127,12 +136,14 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             padding: const EdgeInsets.fromLTRB(28, 0, 10, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.25, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(
+                  width: 0.50, color: Color.fromARGB(255, 248, 244, 244)),
             )),
             child: ListTile(
                 title: Text(
               widget.snap["Description"],
               style: const TextStyle(
+                color: Colors.white,
                 fontSize: 15,
                 fontFamily: 'Raleway',
                 fontWeight: FontWeight.w400,
@@ -144,6 +155,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             child: const ListTile(
               title: Text("Host",
                   style: TextStyle(
+                      color: Colors.white,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Raleway',
                       fontSize: 25)),
@@ -153,7 +165,8 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             padding: const EdgeInsets.fromLTRB(13, 0, 0, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.25, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(
+                  width: 0.50, color: Color.fromARGB(255, 248, 244, 244)),
             )),
             child: ListTile(
                 leading: CircleAvatar(
@@ -165,6 +178,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                 title: Text(
                   widget.snap['Host'][0]['Name'],
                   style: const TextStyle(
+                    color: Colors.white,
                     fontSize: 18,
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.w400,
@@ -182,6 +196,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                         alignment: Alignment.topCenter,
                         child: Text(Length,
                             style: TextStyle(
+                                color: Colors.white,
                                 fontWeight: FontWeight.w600,
                                 fontFamily: 'Raleway',
                                 fontSize: 25),
@@ -189,6 +204,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                       )),
                   title: Text("Joined",
                       style: TextStyle(
+                          color: Colors.white,
                           fontWeight: FontWeight.w500,
                           fontFamily: 'Raleway',
                           fontSize: 25)))),
@@ -197,7 +213,8 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.25, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(
+                  width: 0.50, color: Color.fromARGB(255, 248, 244, 244)),
             )),
             child: StreamBuilder(
                 stream: FirebaseFirestore.instance
@@ -221,7 +238,12 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                               leading: CircleAvatar(
                                 backgroundImage: NetworkImage(doc['Photo']),
                               ),
-                              title: Text(doc['Name']),
+                              title: Text(doc['Name'],
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'Raleway',
+                                      fontSize: 20)),
                             ),
                           );
                         }).toList()),
@@ -234,6 +256,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             child: const ListTile(
               title: Text("Comment",
                   style: TextStyle(
+                      color: Colors.white,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Raleway',
                       fontSize: 25)),
@@ -247,48 +270,58 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                 children: [
                   TextFormField(
                     decoration: const InputDecoration(
-                      icon: Icon(Icons.account_circle_sharp),
-                      hintText: 'comment',
-                    ),
+                        icon: Icon(
+                          Icons.account_circle_sharp,
+                          color: Colors.white,
+                        ),
+                        hintText: 'comment',
+                        hintStyle: TextStyle(
+                            fontSize: 20.0,
+                            color: Color.fromARGB(255, 250, 248, 248))),
                     validator: RequiredValidator(errorText: "comment!"),
                     onSaved: (value) {
                       comments.text = value;
                     },
                   ),
                   FlatButton(
-                      onPressed: () async {
-                        await FirebaseFirestore.instance
-                            .collection("Student")
-                            .doc(FirebaseAuth.instance.currentUser?.uid)
-                            .get()
-                            .then((value) => {
-                                  setState(() {
-                                    students.Name = value.data()?["Name"];
-                                    students.Photo = value.data()?["Photo"];
-                                  })
-                                });
+                    color: Color.fromARGB(255, 199, 242, 81),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    onPressed: () async {
+                      await FirebaseFirestore.instance
+                          .collection("Student")
+                          .doc(FirebaseAuth.instance.currentUser?.uid)
+                          .get()
+                          .then((value) => {
+                                setState(() {
+                                  students.Name = value.data()?["Name"];
+                                  students.Photo = value.data()?["Photo"];
+                                })
+                              });
 
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-                          _formKey.currentState!.reset();
-                          await FirebaseFirestore.instance
-                              .collection('Comment')
-                              .doc()
-                              .set({
-                            "text": comments.text,
-                            "eId": widget.snap.id,
-                            "sId": FirebaseAuth.instance.currentUser?.uid,
-                            "name": students.Name,
-                            "year": DateFormat('yyyy').format(DateTime.now()),
-                            "hour": DateFormat('kk').format(DateTime.now()),
-                            "min": DateFormat('mm').format(DateTime.now()),
-                            "month": DateFormat('MM').format(DateTime.now()),
-                            "day": DateFormat('dd').format(DateTime.now()),
-                            "Photo": students.Photo,
-                          });
-                        }
-                      },
-                      child: Text("Post"))
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        _formKey.currentState!.reset();
+                        await FirebaseFirestore.instance
+                            .collection('Comment')
+                            .doc()
+                            .set({
+                          "text": comments.text,
+                          "eId": widget.snap.id,
+                          "sId": FirebaseAuth.instance.currentUser?.uid,
+                          "name": students.Name,
+                          "year": DateFormat('yyyy').format(DateTime.now()),
+                          "hour": DateFormat('kk').format(DateTime.now()),
+                          "min": DateFormat('mm').format(DateTime.now()),
+                          "month": DateFormat('MM').format(DateTime.now()),
+                          "day": DateFormat('dd').format(DateTime.now()),
+                          "Photo": students.Photo,
+                        });
+                      }
+                    },
+                    child: Text("Post"),
+                    textColor: Colors.black,
+                  )
                 ],
               ),
             ),
@@ -297,7 +330,8 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.25, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(
+                  width: 0.50, color: Color.fromARGB(255, 248, 244, 244)),
             )),
             child: StreamBuilder(
                 stream: FirebaseFirestore.instance
@@ -314,7 +348,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                     return const CircularProgressIndicator();
                   }
                   return SizedBox(
-                    height: 90,
+                    height: 100,
                     child: ListView(
                         scrollDirection: Axis.vertical,
                         children: snapshot.data!.docs.map((doc) {
@@ -334,7 +368,10 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                                 children: [
                                   Text(
                                     doc['name'],
-                                    style: TextStyle(fontSize: 15),
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                   Text('   '),
                                   Text(
@@ -348,7 +385,9 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                                         ':' +
                                         doc['min'],
                                     style: TextStyle(
-                                        fontSize: 12, color: Colors.blueGrey),
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
                                   ),
                                 ],
                               ),
