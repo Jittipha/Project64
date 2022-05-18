@@ -23,6 +23,7 @@ class _eventdetailState extends State<eventdetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 13, 104, 96),
         title: const Text(
           "Event",
           style: TextStyle(

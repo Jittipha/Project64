@@ -21,9 +21,9 @@ class _MyEventState extends State<MyEvent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 30, 150, 140),
+        backgroundColor: const Color.fromARGB(255, 30, 150, 140),
         appBar: AppBar(
-          backgroundColor:const Color.fromARGB(255, 30, 150, 140),
+          backgroundColor: Color.fromARGB(255, 13, 104, 96),
           title: const Text(
             "My Events",
             style: TextStyle(fontSize: 25),
@@ -62,7 +62,7 @@ class _MyEventState extends State<MyEvent> {
                         );
                       } else if (snapshots.data?.docs.length == 0) {
                         return Container(
-                            padding: const EdgeInsets.fromLTRB(0, 55, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 55, 0, 55),
                             child: const Text(
                               "NOT HAS EVENT.",
                               style: TextStyle(

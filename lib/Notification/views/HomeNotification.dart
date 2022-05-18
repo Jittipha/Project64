@@ -23,7 +23,7 @@ class _HomeNotificationState extends State<HomeNotification> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 30, 150, 140),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 30, 150, 140),
+        backgroundColor: Color.fromARGB(255, 13, 104, 96),
         title: const Text(
           "Notification",
           style: TextStyle(
@@ -37,8 +37,8 @@ class _HomeNotificationState extends State<HomeNotification> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection("Notification")
-            .orderBy('Time', descending: false)
-            .orderBy('date', descending: false)
+            .orderBy('date', descending: true)
+            .orderBy('Time', descending: true)
 
             // where อาเรย์
             .where("Student_id", arrayContainsAny: [
@@ -89,9 +89,9 @@ class _HomeNotificationState extends State<HomeNotification> {
                                     title: Text(
                                       (document["Name"]) +
                                           ("\n") +
-                                          (document["Time"]) +
+                                          (document["date"]) +
                                           ("\n") +
-                                          (document["date"]),
+                                          (document["Time"]),
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 18,
@@ -101,14 +101,14 @@ class _HomeNotificationState extends State<HomeNotification> {
                                     ),
                                     subtitle: Text(Textsubtitle(document),
                                         style: const TextStyle(
-                                          color: Color.fromARGB(173, 11, 11, 11),
+                                          color:
+                                              Color.fromARGB(173, 11, 11, 11),
                                           // fontSize: 18,
                                           fontFamily: 'Raleway',
                                           fontWeight: FontWeight.w600,
                                         )),
                                   ),
                                 ),
-                                
                               ],
                             ),
                           ),
@@ -129,9 +129,9 @@ class _HomeNotificationState extends State<HomeNotification> {
       text = "This event has changed.";
     } else {
       if (document['StatusofApproved'] == 'correct') {
-        text = "This category is correct";
+        text = "This category is correct.";
       } else {
-        text = "This category is incorrect";
+        text = "This category is incorrect.";
       }
     }
 

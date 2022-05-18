@@ -56,7 +56,7 @@ class _SearchBarState extends State<SearchBar> {
             fontWeight: FontWeight.w600,
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 30, 150, 140),
+        backgroundColor: Color.fromARGB(255, 13, 104, 96),
       ),
       body: Container(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -198,7 +198,9 @@ class _SearchBarState extends State<SearchBar> {
                                   },
                                   child: Column(
                                     children: <Widget>[
-                                      SizedBox(height: 10,),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
                                       ClipRRect(
                                         borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(8.0),
@@ -209,8 +211,7 @@ class _SearchBarState extends State<SearchBar> {
                                         child: Image.network(snap.data["Image"],
                                             width: 300,
                                             height: 150,
-                                            fit: BoxFit.fill
-                                            ),
+                                            fit: BoxFit.fill),
                                       ),
                                       ListTile(
                                         title: Text(snap.data["Name"],

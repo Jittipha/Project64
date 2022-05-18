@@ -24,7 +24,7 @@ class _eventdetailhomeState extends State<eventdetailhome> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 30, 150, 140),
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 30, 150, 140),
+        backgroundColor: Color.fromARGB(255, 13, 104, 96),
         title: const Text(
           "Event",
           style: TextStyle(

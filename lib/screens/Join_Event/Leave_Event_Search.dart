@@ -51,6 +51,7 @@ class _LeaveeventState extends State<Leaveevent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 13, 104, 96),
         title: const Text(
           "Event",
           style: TextStyle(
@@ -368,7 +369,12 @@ class _LeaveeventState extends State<Leaveevent> {
                                         ),
                                       ],
                                     ),
-                                    subtitle: Text(doc['text']),
+                                    subtitle: Text(doc['text'],
+                                        style: TextStyle(
+                                            letterSpacing: 0.3,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black)),
                                   ),
                                 );
                               }).toList()),

@@ -12,7 +12,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Model/Category.dart';
 
-
 class addcate extends StatefulWidget {
   const addcate({Key? key}) : super(key: key);
 
@@ -28,9 +27,9 @@ class _addcateState extends State<addcate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 30, 150, 140),
+        backgroundColor: const Color.fromARGB(255, 30, 150, 140),
         appBar: AppBar(
-            backgroundColor: const Color.fromARGB(255, 30, 150, 140),
+            backgroundColor: Color.fromARGB(255, 13, 104, 96),
             title: const Text(
               "Create Category",
               style: TextStyle(
@@ -62,7 +61,7 @@ class _addcateState extends State<addcate> {
                                       "https://static.thenounproject.com/png/396915-200.png"),
                                   radius: 90,
                                 )))
-        
+
                         // CircleAvatar(
                         //     child: ElevatedButton.icon(
                         //         style: ElevatedButton.styleFrom(
@@ -102,14 +101,16 @@ class _addcateState extends State<addcate> {
                   padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
                   child: TextFormField(
                     decoration: const InputDecoration(
-                        icon: Icon(Icons.account_circle_sharp, size: 40,color: Colors.white),
+                        icon: Icon(Icons.account_circle_sharp,
+                            size: 40, color: Colors.white),
                         hintText: ' Name',
                         hintStyle: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Raleway',
                             fontSize: 16,
                             color: Colors.white)),
-                    validator: RequiredValidator(errorText: "กรุณาชื่อหมวดหมู่!"),
+                    validator:
+                        RequiredValidator(errorText: "กรุณาชื่อหมวดหมู่!"),
                     onSaved: (value) {
                       cate.Name = value;
                     },
@@ -120,7 +121,8 @@ class _addcateState extends State<addcate> {
                   child: TextFormField(
                     maxLines: 4,
                     decoration: const InputDecoration(
-                        icon: Icon(Icons.message_outlined, size: 40,color: Colors.white),
+                        icon: Icon(Icons.message_outlined,
+                            size: 40, color: Colors.white),
                         hintText: ' Description',
                         hintStyle: TextStyle(
                             fontWeight: FontWeight.w500,
