@@ -64,7 +64,7 @@ class _MyEventState extends State<MyEvent> {
                         return Container(
                             padding: const EdgeInsets.fromLTRB(0, 55, 0, 0),
                             child: const Text(
-                              "NOT HAVE EVENT.",
+                              "NOT HAS EVENT.",
                               style: TextStyle(
                                   fontFamily: "Raleway",
                                   fontSize: 16,
@@ -73,7 +73,7 @@ class _MyEventState extends State<MyEvent> {
                             ));
                       } else {
                         return SizedBox(
-                            height: 239,
+                            height: 245,
                             width: 220,
                             child: ListView(
                                 scrollDirection: Axis.horizontal,
@@ -112,17 +112,27 @@ class _MyEventState extends State<MyEvent> {
                                                   child: Image.network(
                                                       studenthasposts["Image"],
                                                       width: double.infinity,
-                                                      height: 150,
+                                                      height: 140,
                                                       fit: BoxFit.fill),
                                                 ),
                                                 ListTile(
                                                   title: Text(
                                                       studenthasposts["Name"],
                                                       style: const TextStyle(
-                                                          fontFamily:
-                                                              'Raleway')),
+                                                          fontFamily: 'Raleway',
+                                                          fontWeight:
+                                                              FontWeight.w600)),
+                                                  subtitle: Text(
+                                                      studenthasposts["date"] +
+                                                          "  |  " +
+                                                          studenthasposts[
+                                                              "Time"],
+                                                      style: const TextStyle(
+                                                          fontFamily: 'Raleway',
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 12)),
                                                 ),
-                                                
                                               ],
                                             ),
                                           ),
@@ -135,7 +145,7 @@ class _MyEventState extends State<MyEvent> {
                 )
               ])),
           const SizedBox(
-            height: 20,
+            height: 15,
           ),
           // ignore: avoid_unnecessary_containers
           Container(
@@ -180,7 +190,7 @@ class _MyEventState extends State<MyEvent> {
                             ));
                       } else {
                         return SizedBox(
-                            height: 239,
+                            height: 245,
                             width: 220,
                             child: ListView(
                                 scrollDirection: Axis.horizontal,
@@ -219,15 +229,26 @@ class _MyEventState extends State<MyEvent> {
                                                   child: Image.network(
                                                       studenthaspost["Image"],
                                                       width: double.infinity,
-                                                      height: 150,
+                                                      height: 140,
                                                       fit: BoxFit.fill),
                                                 ),
                                                 ListTile(
                                                   title: Text(
                                                       studenthaspost["Name"],
                                                       style: const TextStyle(
-                                                          fontFamily:
-                                                              'Raleway')),
+                                                          fontFamily: 'Raleway',
+                                                          fontWeight:
+                                                              FontWeight.w600)),
+                                                  subtitle: Text(
+                                                      studenthaspost["date"] +
+                                                          "  |  " +
+                                                          studenthaspost[
+                                                              "Time"],
+                                                      style: const TextStyle(
+                                                          fontFamily: 'Raleway',
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 12)),
                                                 ),
                                               ],
                                             ),
@@ -241,6 +262,5 @@ class _MyEventState extends State<MyEvent> {
                 )
               ])),
         ]));
-    
   }
 }

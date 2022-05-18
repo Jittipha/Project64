@@ -21,6 +21,18 @@ class thisweek extends StatefulWidget {
 class _thisweekState extends State<thisweek> {
   String date7 = DateFormat("dd/MM/yyyy")
       .format(DateTime.now().add(const Duration(days: 7)));
+  String date1 = DateFormat("dd/MM/yyyy")
+      .format(DateTime.now().add(const Duration(days: 1)));
+  String date2 = DateFormat("dd/MM/yyyy")
+      .format(DateTime.now().add(const Duration(days: 2)));
+  String date3 = DateFormat("dd/MM/yyyy")
+      .format(DateTime.now().add(const Duration(days: 3)));
+  String date4 = DateFormat("dd/MM/yyyy")
+      .format(DateTime.now().add(const Duration(days: 4)));
+  String date5 = DateFormat("dd/MM/yyyy")
+      .format(DateTime.now().add(const Duration(days: 5)));
+  String date6 = DateFormat("dd/MM/yyyy")
+      .format(DateTime.now().add(const Duration(days: 6)));
   String date = DateFormat("dd/MM/yyyy").format(DateTime.now());
   @override
   Widget build(BuildContext context) {
@@ -60,13 +72,17 @@ class _thisweekState extends State<thisweek> {
           ],
         ),
         body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection("Event")
-              // .where("date", whereIn: ['19/03/2022'])
-              .where("date",
-                  isLessThanOrEqualTo: date7, isGreaterThanOrEqualTo: date)
-              .orderBy("date")
-              .snapshots(),
+          stream: FirebaseFirestore.instance.collection("Event").where("date",
+              whereIn: [
+                date,
+                date1,
+                date2,
+                date3,
+                date4,
+                date5,
+                date6,
+                date7
+              ]).snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
