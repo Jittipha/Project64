@@ -24,12 +24,13 @@ class _HomefeedState extends State<Homefeed> {
   String Category = "";
   String Category_id = "";
   String body = "Home";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xff2FFFB4),
         appBar: AppBar(
-          backgroundColor: const Color(0xff2FFFB4),
+          backgroundColor: const Color(0xFF00BF6D),
           title: Text(
             body,
             style: const TextStyle(
@@ -92,143 +93,206 @@ class _HomefeedState extends State<Homefeed> {
         ]));
   }
 
+  Future getLength(Category_id, Category) async {
+    var check = await FirebaseFirestore.instance.collection("Event").where(
+      "Interests",
+      arrayContainsAny: [Category_id],
+    ).get();
+    print(Category);
+    var lenght = check.docs.length;
+    print(lenght);
+    return lenght;
+  }
+
   HomeBody(snapshot) {
     return ListView(
         scrollDirection: Axis.vertical,
         children: snapshot.data!.docs.map<Widget>((cate) {
           Category = cate["Name"];
           Category_id = cate["Category_id"];
-          return Column(children: <Widget>[
-            Container(
-                child: ListTile(
-              title: Text(
-                "    " + cate["Name"],
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontFamily: 'Raleway',
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            )),
-            Container(
-                child: Row(children: <Widget>[
-              Expanded(
-                child: StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection("Event")
-                      //where อาเรย์
-                      .where("Interests",
-                          arrayContainsAny: [Category_id]).snapshots(),
-                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshots) {
-                    if (snapshots.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else {
-                      return SizedBox(
-                          height: 239,
-                          width: 220,
-                          child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: snapshots.data!.docs.map((Event) {
-                                return Container(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        10, 15, 10, 10),
-                                    child: SizedBox(
-                                      height: 234,
-                                      width: 220,
-                                      child: Card(
-                                        shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(8.0))),
-                                        child: InkWell(
-                                          onTap: () async => {
-                                            await FirebaseFirestore.instance
-                                                .collection("Student")
-                                                .doc(FirebaseAuth
-                                                    .instance.currentUser?.uid)
-                                                .collection("Posts")
-                                                //where เช็คค่า
-                                                .where("Event_id",
-                                                    isEqualTo: Event.id)
-                                                .get()
-                                                .then((value) async => {
-                                                      if (value.docs.isEmpty)
-                                                        {
-                                                          await FirebaseFirestore
-                                                              .instance
-                                                              .collection(
-                                                                  "Event")
-                                                              .doc(Event.id)
-                                                              .collection(
-                                                                  "Joined")
-                                                              .where(
-                                                                  "Student_id",
-                                                                  isEqualTo: FirebaseAuth
+          return Container(
+            // ignore: unrelated_type_equality_checks
+            child: getLength(Category_id, Category) == 0
+                ? Container()
+                : Column(children: <Widget>[
+                    Container(
+                        child: ListTile(
+                      title: Text(
+                        "    " + cate["Name"],
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    )),
+                    Container(
+                        child: Row(children: <Widget>[
+                      Expanded(
+                        child: StreamBuilder(
+                          stream: FirebaseFirestore.instance.collection("Event")
+                              //where อาเรย์
+
+                              //     .where("Host", arrayContains: {
+                              //   "Host": [FirebaseAuth.instance.currentUser?.uid]
+                              // })
+                              .where(
+                            "Interests",
+                            arrayContainsAny: [Category_id],
+                          ).snapshots(),
+                          builder: (context,
+                              AsyncSnapshot<QuerySnapshot> snapshots) {
+                            if (snapshots.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else if (snapshots.data?.docs.length == 0) {
+                              return Container(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 55, 0, 55),
+                                  child: const Text(
+                                    "NOT HAS EVENT.",
+                                    style: TextStyle(
+                                        fontFamily: "Raleway",
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w300),
+                                    textAlign: TextAlign.center,
+                                  ));
+                            } else {
+                              return SizedBox(
+                                  height: 245,
+                                  width: 220,
+                                  child: ListView(
+                                      scrollDirection: Axis.horizontal,
+                                      children:
+                                          snapshots.data!.docs.map((Event) {
+                                        return Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                10, 15, 10, 10),
+                                            child: SizedBox(
+                                              height: 234,
+                                              width: 220,
+                                              child: Card(
+                                                shape:
+                                                    const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    8.0))),
+                                                child: InkWell(
+                                                  onTap: () async => {
+                                                    await FirebaseFirestore
+                                                        .instance
+                                                        .collection("Student")
+                                                        .doc(FirebaseAuth
+                                                            .instance
+                                                            .currentUser
+                                                            ?.uid)
+                                                        .collection("Posts")
+                                                        //where เช็คค่า
+                                                        .where("Event_id",
+                                                            isEqualTo: Event.id)
+                                                        .get()
+                                                        .then((value) async => {
+                                                              if (value
+                                                                  .docs.isEmpty)
+                                                                {
+                                                                  await FirebaseFirestore
                                                                       .instance
-                                                                      .currentUser
-                                                                      ?.uid)
-                                                              .get()
-                                                              .then(
-                                                                  (docsnapshot) =>
-                                                                      {
-                                                                        // ignore: avoid_print
-                                                                        print(docsnapshot
-                                                                            .docs
-                                                                            .length),
-                                                                        if (docsnapshot
-                                                                            .docs
-                                                                            .isEmpty)
-                                                                          // ignore: avoid_print
-                                                                          {
-                                                                            print("dont have"),
-                                                                            Navigator.push(context,
-                                                                                MaterialPageRoute(builder: (context) => eventdetailhome(snap: Event)))
-                                                                          }
-                                                                        else
-                                                                          // ignore: avoid_print
-                                                                          {
-                                                                            print("had"),
-                                                                            Navigator.push(context,
-                                                                                MaterialPageRoute(builder: (context) => Leaveeventhome(snap: Event)))
-                                                                          }
-                                                                      })
-                                                        }
-                                                      else
-                                                        {print("Your Event")}
-                                                    })
-                                          },
-                                          child: Column(
-                                            children: <Widget>[
-                                              ClipRRect(
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                  topLeft: Radius.circular(8.0),
-                                                  topRight:
-                                                      Radius.circular(8.0),
+                                                                      .collection(
+                                                                          "Event")
+                                                                      .doc(Event
+                                                                          .id)
+                                                                      .collection(
+                                                                          "Joined")
+                                                                      .where(
+                                                                          "Student_id",
+                                                                          isEqualTo: FirebaseAuth
+                                                                              .instance
+                                                                              .currentUser
+                                                                              ?.uid)
+                                                                      .get()
+                                                                      .then(
+                                                                          (docsnapshot) =>
+                                                                              {
+                                                                                // ignore: avoid_print
+                                                                                print(docsnapshot.docs.length),
+                                                                                if (docsnapshot.docs.isEmpty)
+                                                                                  // ignore: avoid_print
+                                                                                  {
+                                                                                    print("dont have"),
+                                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => eventdetailhome(snap: Event)))
+                                                                                  }
+                                                                                else
+                                                                                  // ignore: avoid_print
+                                                                                  {
+                                                                                    print("had"),
+                                                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Leaveeventhome(snap: Event)))
+                                                                                  }
+                                                                              })
+                                                                }
+                                                              else
+                                                                {
+                                                                  print(
+                                                                      "Your Event")
+                                                                }
+                                                            })
+                                                  },
+                                                  child: Column(
+                                                    children: <Widget>[
+                                                      ClipRRect(
+                                                        borderRadius:
+                                                            const BorderRadius
+                                                                .only(
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  8.0),
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  8.0),
+                                                        ),
+                                                        child: Image.network(
+                                                            Event["Image"],
+                                                            width:
+                                                                double.infinity,
+                                                            height: 140,
+                                                            fit: BoxFit.fill),
+                                                      ),
+                                                      ListTile(
+                                                        title: Text(
+                                                            Event["Name"],
+                                                            style: const TextStyle(
+                                                                fontFamily:
+                                                                    'Raleway',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600)),
+                                                        subtitle: Text(
+                                                            Event["date"] +
+                                                                "  |  " +
+                                                                Event["Time"],
+                                                            style: const TextStyle(
+                                                                fontFamily:
+                                                                    'Raleway',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontSize: 12)),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                                child: Image.network(
-                                                    Event["Image"],
-                                                    width: double.infinity,
-                                                    height: 150,
-                                                    fit: BoxFit.fill),
                                               ),
-                                              ListTile(
-                                                title: Text(Event["Name"],
-                                                    style: const TextStyle(
-                                                        fontFamily: 'Raleway')),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ));
-                              }).toList()));
-                    }
-                  },
-                ),
-              )
-            ]))
-          ]);
+                                            ));
+                                      }).toList()));
+                            }
+                          },
+                        ),
+                      )
+                    ]))
+                  ]),
+          );
         }).toList());
   }
 
