@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 252, 254, 253),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 30, 150, 140),
+        backgroundColor: const Color.fromARGB(255, 13, 104, 96),
         title: const Text('My Profile'),
       ),
       body: Background(
@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
               stream: authBloc.currentUser,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return const CircularProgressIndicator();
-      
+
                 return Column(
                   children: [
                     const SizedBox(
@@ -68,22 +68,23 @@ class _HomeScreenState extends State<HomeScreen> {
                       backgroundImage:
                           NetworkImage(snapshot.data?.photoURL ?? ""),
                     ),
-                   
                     const SizedBox(
                       height: 20.0,
                     ),
-                    const Text("Profile", 
-                    style:  TextStyle(fontSize: 35.0,color: Colors.white)),
+                    const Text("Profile",
+                        style: TextStyle(fontSize: 35.0, color: Colors.white)),
                     const SizedBox(
                       height: 20.0,
                     ),
                     Text(snapshot.data?.displayName ?? "",
-                        style: const TextStyle(fontSize: 20.0,color: Colors.white)),
-                        const SizedBox(
+                        style: const TextStyle(
+                            fontSize: 20.0, color: Colors.white)),
+                    const SizedBox(
                       height: 20.0,
                     ),
                     Text(snapshot.data?.email ?? "",
-                        style: const TextStyle(fontSize: 20.0,color: Colors.white)),
+                        style: const TextStyle(
+                            fontSize: 20.0, color: Colors.white)),
                     const SizedBox(
                       height: 50.0,
                     ),

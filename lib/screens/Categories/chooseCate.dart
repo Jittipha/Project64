@@ -64,8 +64,9 @@ class _CategoriesState extends State<Categories> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 30, 150, 140),
       appBar: AppBar(
-        backgroundColor: Colors.greenAccent[700],
+        backgroundColor: Color.fromARGB(255, 13, 104, 96),
         title: const Text(
           " Categories",
           style: TextStyle(
@@ -192,6 +193,7 @@ class _CategoriesState extends State<Categories> {
                       child: const Text(
                         "แตะเพื่อเลือกหมวดหมู่ที่คุณสนใจ",
                         style: TextStyle(
+                          color: Colors.black,
                           fontSize: 16,
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.w600,
@@ -218,6 +220,7 @@ class _CategoriesState extends State<Categories> {
                                 listshow[index]['Name'].toString(),
                                 style: const TextStyle(
                                   fontSize: 17,
+                                  color: Colors.black,
                                   fontFamily: 'Raleway',
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -250,7 +253,7 @@ class _CategoriesState extends State<Categories> {
                         children: [
                           Container(
                             height: 30,
-                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 7, 0, 0),
                             child: const Text(
                               "Selected",
                               style: TextStyle(

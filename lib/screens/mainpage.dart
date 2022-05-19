@@ -24,7 +24,7 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 30, 150, 140),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 30, 150, 140),
+        backgroundColor: const Color.fromARGB(255, 13, 104, 96),
         title: const Text(
           "Menu",
           style: TextStyle(
@@ -48,7 +48,7 @@ class MainPage extends StatelessWidget {
               child: ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.green.shade200)),
+                          Colors.yellow.shade200)),
                   child: Wrap(
                     children: const <Widget>[
                       Icon(
@@ -88,7 +88,7 @@ class MainPage extends StatelessWidget {
               child: ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.green.shade200)),
+                          Colors.yellow.shade200)),
                   child: Wrap(
                     children: const <Widget>[
                       Icon(
@@ -128,7 +128,7 @@ class MainPage extends StatelessWidget {
               child: ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.green.shade200)),
+                          Colors.yellow.shade200)),
                   child: Wrap(
                     children: const <Widget>[
                       Icon(
@@ -168,7 +168,7 @@ class MainPage extends StatelessWidget {
               child: ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.green.shade200)),
+                          Colors.yellow.shade200)),
                   child: Wrap(
                     children: const <Widget>[
                       Icon(

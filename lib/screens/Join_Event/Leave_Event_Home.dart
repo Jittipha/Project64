@@ -49,7 +49,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 30, 150, 140),
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 30, 150, 140),
+        backgroundColor: Color.fromARGB(255, 13, 104, 96),
         title: const Text(
           "Event",
           style: TextStyle(
@@ -369,7 +369,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                                   Text(
                                     doc['name'],
                                     style: TextStyle(
-                                      fontSize: 15,
+                                      fontSize: 16,
                                       color: Colors.white,
                                     ),
                                   ),
@@ -391,7 +391,12 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                                   ),
                                 ],
                               ),
-                              subtitle: Text(doc['text']),
+                              subtitle: Text(doc['text'],
+                                  style: TextStyle(
+                                      letterSpacing: 0.3,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black)),
                             ),
                           );
                         }).toList()),

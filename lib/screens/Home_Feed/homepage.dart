@@ -30,7 +30,7 @@ class _HomefeedState extends State<Homefeed> {
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 30, 150, 140),
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 30, 150, 140),
+          backgroundColor: const Color.fromARGB(255, 13, 104, 96),
           title: Text(
             body,
             style: const TextStyle(
@@ -120,6 +120,7 @@ class _HomefeedState extends State<Homefeed> {
                       title: Text(
                         "    " + cate["Name"],
                         style: const TextStyle(
+                          letterSpacing: 0.5,
                           fontSize: 22,
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.w600,
@@ -199,7 +200,6 @@ class _HomefeedState extends State<Homefeed> {
                                                                   .docs.isEmpty)
                                                                 {
                                                                   await FirebaseFirestore
-
                                                                       .instance
                                                                       .collection(
                                                                           "Event")

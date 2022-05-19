@@ -1,4 +1,5 @@
 // ignore_for_file: unused_import, must_be_immutable, avoid_unnecessary_containers, override_on_non_overriding_member, avoid_print, non_constant_identifier_names, duplicate_import, prefer_const_constructors, unused_local_variable, equal_keys_in_map, deprecated_member_use, avoid_function_literals_in_foreach_calls
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,6 @@ import 'package:project/Notification/services/notification.dart';
 import '../Background/bg_EditEvent.dart';
 import 'Interests/editinterests.dart';
 import 'Myevents.dart';
-
 
 class EditEvent extends StatefulWidget {
   EditEvent({
@@ -30,6 +30,7 @@ class _EditEventState extends State<EditEvent> {
   events event = events();
   bool isLoading = false;
   List count_interests = [];
+  List Joined = [];
 
   //set date
   DateTime? dateTime;
@@ -115,7 +116,7 @@ class _EditEventState extends State<EditEvent> {
           return Scaffold(
               backgroundColor: Color.fromARGB(255, 30, 150, 140),
               appBar: AppBar(
-                backgroundColor: Color.fromARGB(255, 30, 150, 140),
+                backgroundColor: Color.fromARGB(255, 13, 104, 96),
                 title: const Text(
                   "Event",
                   style: TextStyle(fontSize: 25, color: Colors.black),
@@ -142,24 +143,28 @@ class _EditEventState extends State<EditEvent> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 20,),
+                          SizedBox(
+                            height: 20,
+                          ),
                           TextFormField(
                             decoration: InputDecoration(
                               icon: const Icon(
-                                  Icons.photo_size_select_small_outlined,color: Colors.white),
+                                  Icons.photo_size_select_small_outlined,
+                                  color: Colors.white),
                               hintText: widget.studenthasposts["Image"],
                             ),
                             initialValue: widget.studenthasposts["Image"],
                             style: TextStyle(color: Colors.white),
-                            validator:
-                                RequiredValidator(errorText: "กรุณาใส่ลิงก์รูป!"),
+                            validator: RequiredValidator(
+                                errorText: "กรุณาใส่ลิงก์รูป!"),
                             onSaved: (value) {
                               setState(() => event.Image = value);
                             },
                           ),
                           TextFormField(
                             decoration: InputDecoration(
-                              icon: const Icon(Icons.account_circle_sharp,color: Colors.white),
+                              icon: const Icon(Icons.account_circle_sharp,
+                                  color: Colors.white),
                               hintText: widget.studenthasposts["Name"],
                             ),
                             initialValue: widget.studenthasposts["Name"],
@@ -172,25 +177,27 @@ class _EditEventState extends State<EditEvent> {
                           ),
                           TextFormField(
                             decoration: InputDecoration(
-                                icon: const Icon(Icons.message_outlined,color: Colors.white),
-                                hintText: widget.studenthasposts["Description"]),
-                                
+                                icon: const Icon(Icons.message_outlined,
+                                    color: Colors.white),
+                                hintText:
+                                    widget.studenthasposts["Description"]),
                             initialValue: widget.studenthasposts["Description"],
                             style: TextStyle(color: Colors.white),
-                            validator:
-                                RequiredValidator(errorText: "กรุณาใส่คำอธิบาย!"),
+                            validator: RequiredValidator(
+                                errorText: "กรุณาใส่คำอธิบาย!"),
                             onSaved: (value) {
                               setState(() => event.Description = value);
                             },
                           ),
                           TextFormField(
                             decoration: InputDecoration(
-                                icon: const Icon(Icons.where_to_vote_sharp,color: Colors.white),
+                                icon: const Icon(Icons.where_to_vote_sharp,
+                                    color: Colors.white),
                                 hintText: widget.studenthasposts["Location"]),
                             initialValue: widget.studenthasposts["Location"],
                             style: TextStyle(color: Colors.white),
-                            validator:
-                                RequiredValidator(errorText: "กรุณาใส่Location!"),
+                            validator: RequiredValidator(
+                                errorText: "กรุณาใส่Location!"),
                             onSaved: (value) {
                               setState(() => event.Location = value);
                             },
@@ -215,8 +222,8 @@ class _EditEventState extends State<EditEvent> {
                             child: ElevatedButton(
                               onPressed: () => pickTime(context),
                               child: Text(getTextTime()),
-                              style:
-                                  ElevatedButton.styleFrom(primary: Colors.white),
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.white),
                             ),
                           ),
                           Container(
@@ -229,8 +236,8 @@ class _EditEventState extends State<EditEvent> {
                               ),
                               title: const Text(
                                 "Interests",
-                                style: TextStyle(fontSize: 20,color: Colors.white),
-                                
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.white),
                               ),
                               trailing: Wrap(
                                 spacing: 13,
@@ -248,7 +255,7 @@ class _EditEventState extends State<EditEvent> {
                                             textAlign: TextAlign.start)),
                                   ),
                                   Icon(
-                                    Icons.navigate_next_rounded ,
+                                    Icons.navigate_next_rounded,
                                     color: Colors.white,
                                     size: 35,
                                   ),
@@ -260,7 +267,7 @@ class _EditEventState extends State<EditEvent> {
                                 //     .instance
                                 //     .collection("Category")
                                 //     .get();
-              
+
                                 // for (int a = 0; a < snap.docs.length; a++) {
                                 //   for (int x = 0;
                                 //       x <
@@ -304,7 +311,8 @@ class _EditEventState extends State<EditEvent> {
                                         shape: MaterialStateProperty.all<
                                                 RoundedRectangleBorder>(
                                             RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(1),
+                                          borderRadius:
+                                              BorderRadius.circular(1),
                                           side: const BorderSide(
                                               color: Colors.green),
                                         ))),
@@ -315,7 +323,7 @@ class _EditEventState extends State<EditEvent> {
                                     onPressed: () async {
                                       //  await model.imageNotification();
                                       isLoading = true;
-              
+
                                       //เรียก method editdatatoFirebase
                                       editdatatoFirebase();
                                       //  เวลาแจ้งเตือน //
@@ -325,24 +333,53 @@ class _EditEventState extends State<EditEvent> {
                                           .format(DateTime.now());
                                       print(Time + date);
                                       print(event.Name);
-              
-                                      await FirebaseFirestore.instance
-                                          .collection("Notification")
-                                          .doc(widget.studenthasposts["Event_id"])
-                                          .update({
-                                        "Photo": event.Image,
-                                        "Name": event.Name,
-                                        "Status": "edited",
-                                        "Time": Time,
-                                        "date": date,
-                                        "Type": '1'
-                                      }).then((value) => {
-                                                Fluttertoast.showToast(
-                                                    msg: "Success!",
-                                                    gravity: ToastGravity.CENTER),
-                                                Navigator.pop(context)
-                                              });
+                                      var join = await FirebaseFirestore
+                                          .instance
+                                          .collection("Event")
+                                          .doc(widget
+                                              .studenthasposts["Event_id"])
+                                          .collection("Joined")
+                                          .get();
+
+                                      join.docs.forEach((element) async {
+                                        var a = element.data();
+                                        await FirebaseFirestore.instance
+                                            .collection("Student")
+                                            .doc(a["Student_id"])
+                                            .collection("Joined")
+                                            .doc(widget
+                                                .studenthasposts["Event_id"])
+                                            .update({
+                                          "Image": event.Image,
+                                          "Name": event.Name,
+                                          "Description": event.Description,
+                                          "Time":
+                                              widget.studenthasposts["Time"],
+                                          "Location": event.Location,
+                                          "date":
+                                              widget.studenthasposts["date"],
+                                        });
+                                      });
+                                      if (join.docs.isNotEmpty) {
+                                        await FirebaseFirestore.instance
+                                            .collection("Notification")
+                                            .doc(widget
+                                                .studenthasposts["Event_id"])
+                                            .update({
+                                          "Photo": event.Image,
+                                          "Name": event.Name,
+                                          "Status": "edited",
+                                          "Time": Time,
+                                          "date": date,
+                                          "Type": '1'
+                                        });
+                                      }
+                                      Fluttertoast.showToast(
+                                          msg: "Success!",
+                                          gravity: ToastGravity.CENTER);
+                                      Navigator.pop(context);
                                     }),
+
                                 ElevatedButton(
                                     style: ButtonStyle(
                                         backgroundColor:
@@ -351,7 +388,8 @@ class _EditEventState extends State<EditEvent> {
                                         shape: MaterialStateProperty.all<
                                                 RoundedRectangleBorder>(
                                             RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(1),
+                                          borderRadius:
+                                              BorderRadius.circular(1),
                                           side: const BorderSide(
                                               color: Colors.green),
                                         ))),
@@ -371,13 +409,15 @@ class _EditEventState extends State<EditEvent> {
                                                   onPressed: () {
                                                     FirebaseFirestore.instance
                                                         .collection('Student')
-                                                        .doc(FirebaseAuth.instance
-                                                            .currentUser?.uid)
+                                                        .doc(FirebaseAuth
+                                                            .instance
+                                                            .currentUser
+                                                            ?.uid)
                                                         .collection('Posts')
                                                         .doc(widget
                                                             .studenthasposts.id)
                                                         .delete();
-              
+
                                                     FirebaseFirestore.instance
                                                         .collection('Event')
                                                         .doc(widget
@@ -386,7 +426,8 @@ class _EditEventState extends State<EditEvent> {
                                                         .delete()
                                                         .then((value) {
                                                       Fluttertoast.showToast(
-                                                          msg: "Delete Success!",
+                                                          msg:
+                                                              "Delete Success!",
                                                           gravity: ToastGravity
                                                               .CENTER);
                                                       Navigator.pop(context);
@@ -402,7 +443,7 @@ class _EditEventState extends State<EditEvent> {
                                               ],
                                             );
                                           });
-              
+
                                       // await FirebaseFirestore.instance
                                       //     .collection('Student')
                                       //     .doc(FirebaseAuth
@@ -410,7 +451,7 @@ class _EditEventState extends State<EditEvent> {
                                       //     .collection('Posts')
                                       //     .doc(widget.studenthasposts.id)
                                       //     .delete();
-              
+
                                       // await FirebaseFirestore.instance
                                       //     .collection('Event')
                                       //     .doc(widget.studenthasposts["Event_id"])
@@ -424,7 +465,7 @@ class _EditEventState extends State<EditEvent> {
                                       //       return const MyEvent();
                                       //     },
                                       //   ));
-              
+
                                       await FirebaseFirestore.instance
                                           .collection('Student')
                                           .doc(FirebaseAuth
@@ -450,7 +491,8 @@ class _EditEventState extends State<EditEvent> {
                                       });
                                       await FirebaseFirestore.instance
                                           .collection('Event')
-                                          .doc(widget.studenthasposts["Event_id"])
+                                          .doc(widget
+                                              .studenthasposts["Event_id"])
                                           .delete()
                                           .then((value) {
                                         Fluttertoast.showToast(
@@ -476,7 +518,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          // await model.imageNotification(event);
+          await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -511,7 +553,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          // await model.imageNotification(event);
+          await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -547,7 +589,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          // await model.imageNotification(event);
+          await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -583,7 +625,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          // await model.imageNotification(event);
+          await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
