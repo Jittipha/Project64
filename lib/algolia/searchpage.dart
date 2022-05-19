@@ -32,7 +32,7 @@ class _SearchBarState extends State<SearchBar> {
       apiKey: 'b57d151dcd4821d1df6a23485e70ec2d',
     );
 
-    AlgoliaQuery query = algolia.instance.index('Event');
+    AlgoliaQuery query = algolia.instance.index('Search');
     query = query.search(_searchText.text);
 
     _results = (await query.getObjects()).hits;

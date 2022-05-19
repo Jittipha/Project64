@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, non_constant_identifier_names, avoid_unnecessary_containers, avoid_print, duplicate_ignore, must_be_immutable, use_key_in_widget_constructors
+// ignore_for_file: unused_import, non_constant_identifier_names, avoid_unnecessary_containers, avoid_print, duplicate_ignore, must_be_immutable, use_key_in_widget_constructors, prefer_is_empty
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
