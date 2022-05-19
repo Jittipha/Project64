@@ -343,14 +343,13 @@ class _EditEventState extends State<EditEvent> {
                                         "Time": Time,
                                         "date": date,
                                         "Type": '1'
-                                      }).then((value) => {
-                                                Fluttertoast.showToast(
-                                                    msg: "Success!",
-                                                    gravity:
-                                                        ToastGravity.CENTER),
-                                                Navigator.pop(context)
-                                              });
+                                      });
+                                      Fluttertoast.showToast(
+                                          msg: "Success!",
+                                          gravity: ToastGravity.CENTER);
+                                      Navigator.pop(context);
                                     }),
+
                                 ElevatedButton(
                                     style: ButtonStyle(
                                         backgroundColor:
