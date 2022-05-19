@@ -1,4 +1,5 @@
 // ignore_for_file: unused_import, must_be_immutable, avoid_unnecessary_containers, override_on_non_overriding_member, avoid_print, non_constant_identifier_names, duplicate_import, prefer_const_constructors, unused_local_variable, equal_keys_in_map, deprecated_member_use, avoid_function_literals_in_foreach_calls
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ class _EditEventState extends State<EditEvent> {
   events event = events();
   bool isLoading = false;
   List count_interests = [];
+  List Joined = [];
 
   //set date
   DateTime? dateTime;
@@ -331,19 +333,47 @@ class _EditEventState extends State<EditEvent> {
                                           .format(DateTime.now());
                                       print(Time + date);
                                       print(event.Name);
-
-                                      await FirebaseFirestore.instance
-                                          .collection("Notification")
+                                      var join = await FirebaseFirestore
+                                          .instance
+                                          .collection("Event")
                                           .doc(widget
                                               .studenthasposts["Event_id"])
-                                          .update({
-                                        "Photo": event.Image,
-                                        "Name": event.Name,
-                                        "Status": "edited",
-                                        "Time": Time,
-                                        "date": date,
-                                        "Type": '1'
+                                          .collection("Joined")
+                                          .get();
+
+                                      join.docs.forEach((element) async {
+                                        var a = element.data();
+                                        await FirebaseFirestore.instance
+                                            .collection("Student")
+                                            .doc(a["Student_id"])
+                                            .collection("Joined")
+                                            .doc(widget
+                                                .studenthasposts["Event_id"])
+                                            .update({
+                                          "Image": event.Image,
+                                          "Name": event.Name,
+                                          "Description": event.Description,
+                                          "Time":
+                                              widget.studenthasposts["Time"],
+                                          "Location": event.Location,
+                                          "date":
+                                              widget.studenthasposts["date"],
+                                        });
                                       });
+                                      if (join.docs.isNotEmpty) {
+                                        await FirebaseFirestore.instance
+                                            .collection("Notification")
+                                            .doc(widget
+                                                .studenthasposts["Event_id"])
+                                            .update({
+                                          "Photo": event.Image,
+                                          "Name": event.Name,
+                                          "Status": "edited",
+                                          "Time": Time,
+                                          "date": date,
+                                          "Type": '1'
+                                        });
+                                      }
                                       Fluttertoast.showToast(
                                           msg: "Success!",
                                           gravity: ToastGravity.CENTER);
@@ -488,7 +518,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          // await model.imageNotification(event);
+          await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -523,7 +553,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          // await model.imageNotification(event);
+          await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -559,7 +589,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          // await model.imageNotification(event);
+          await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -595,7 +625,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          // await model.imageNotification(event);
+          await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
