@@ -39,7 +39,7 @@ class _thisweekState extends State<thisweek> {
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 30, 150, 140),
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 13, 104, 96),
+          backgroundColor: const Color.fromARGB(255, 13, 104, 96),
           title: const Text(
             "This week",
             style: TextStyle(

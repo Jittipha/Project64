@@ -83,8 +83,9 @@ class _editinterest extends State<editinterest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 30, 150, 140),
       appBar: AppBar(
-        backgroundColor: Colors.greenAccent[700],
+        backgroundColor: const Color.fromARGB(255, 13, 104, 96),
         title: const Text(
           " Interests",
           style: TextStyle(

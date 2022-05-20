@@ -30,7 +30,7 @@ class _HomefeedState extends State<Homefeed> {
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 30, 150, 140),
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 13, 104, 96),
+          backgroundColor: const Color.fromARGB(255, 13, 104, 96),
           title: Text(
             body,
             style: const TextStyle(
@@ -134,9 +134,6 @@ class _HomefeedState extends State<Homefeed> {
                           stream: FirebaseFirestore.instance.collection("Event")
                               //where อาเรย์
 
-                              //     .where("Host", arrayContains: {
-                              //   "Host": [FirebaseAuth.instance.currentUser?.uid]
-                              // })
                               .where(
                             "Interests",
                             arrayContainsAny: [Category_id],
@@ -148,6 +145,7 @@ class _HomefeedState extends State<Homefeed> {
                               return const Center(
                                 child: CircularProgressIndicator(),
                               );
+                              // ignore: prefer_is_empty
                             } else if (snapshots.data?.docs.length == 0) {
                               return Container(
                                   padding:

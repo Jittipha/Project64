@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 252, 254, 253),
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 13, 104, 96),
+        backgroundColor: const Color.fromARGB(255, 13, 104, 96),
         title: const Text('My Profile'),
       ),
       body: Background(
