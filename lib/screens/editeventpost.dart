@@ -114,7 +114,7 @@ class _EditEventState extends State<EditEvent> {
             );
           }
           return Scaffold(
-              backgroundColor: Color.fromARGB(255, 30, 150, 140),
+              backgroundColor: Color.fromARGB(255, 48, 180, 169),
               appBar: AppBar(
                 backgroundColor: Color.fromARGB(255, 13, 104, 96),
                 title: const Text(
@@ -384,7 +384,7 @@ class _EditEventState extends State<EditEvent> {
                                     style: ButtonStyle(
                                         backgroundColor:
                                             MaterialStateProperty.all<Color>(
-                                                Colors.red),
+                                                Color.fromARGB(255, 241, 109, 100)),
                                         shape: MaterialStateProperty.all<
                                                 RoundedRectangleBorder>(
                                             RoundedRectangleBorder(
@@ -553,7 +553,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          await model.imageNotification(event);
+          //await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -589,7 +589,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          await model.imageNotification(event);
+          //await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -625,7 +625,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          await model.imageNotification(event);
+          //await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')

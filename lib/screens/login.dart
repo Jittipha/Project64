@@ -32,22 +32,21 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Column(
         children: [
           const SizedBox(
-            height: 150.0,
+            height: 90,
           ),
-          Image.network(
-              'https://firebasestorage.googleapis.com/v0/b/my-project-application-7b7c7.appspot.com/o/logo%2Fdpuvc.gif?alt=media&token=453588bc-5a21-44a1-8c4d-05e5aeb784ec',
-              width: 200),
+          Image.asset(
+              "assets/images/logo_nnn.png",
+              width: 500,
+              
+             ),
           const SizedBox(
-            height: 40,
+            height: 20,
           ),
-          Image.network(
-            'https://firebasestorage.googleapis.com/v0/b/my-project-application-7b7c7.appspot.com/o/logo%2FLogodpu.png?alt=media&token=8ea67ca6-b828-42b0-9d59-ecc48b22fef9',
-            width: 500,
-            height: 70,
-          ),
-          const SizedBox(
-            height: 50,
-          ),
+          //   Image.network(
+          //   'https://firebasestorage.googleapis.com/v0/b/my-project-application-7b7c7.appspot.com/o/logo%2FLogodpu.png?alt=media&token=8ea67ca6-b828-42b0-9d59-ecc48b22fef9',
+          //   width: 500,
+          //   height: 70,
+          // ),
           SignInButton(
             Buttons.Google,
             text: 'Sign in with Google',

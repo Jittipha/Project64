@@ -51,7 +51,7 @@ class _LeaveeventState extends State<Leaveevent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 30, 150, 140),
+      backgroundColor: Color.fromARGB(255, 48, 180, 169),
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 13, 104, 96),
         title: const Text(

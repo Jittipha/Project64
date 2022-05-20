@@ -149,7 +149,7 @@ class _PostState extends State<Post> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 30, 150, 140),
+      backgroundColor: Color.fromARGB(255, 48, 180, 169),
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 13, 104, 96),
         title: const Text(
@@ -168,7 +168,7 @@ class _PostState extends State<Post> {
                       ? Container(
                           child: ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(
-                                  primary: Colors.deepPurple[400]),
+                                  primary: Color.fromARGB(255, 189, 226, 229)),
                               onPressed: () => pickImage(ImageSource.gallery),
                               icon: const Icon(Icons.add_a_photo_outlined),
                               label: const Text("Pick Photo")),
