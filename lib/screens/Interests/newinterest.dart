@@ -49,8 +49,9 @@ class _interesteditedState extends State<interestedited> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 30, 150, 140),
       appBar: AppBar(
-        backgroundColor: Colors.greenAccent[700],
+        backgroundColor: const Color.fromARGB(255, 13, 104, 96),
         title: const Text(
           " Interests",
           style: TextStyle(
@@ -132,7 +133,7 @@ class _interesteditedState extends State<interestedited> {
                     Container(
                       padding: EdgeInsets.all(20),
                       child: const Text(
-                        "แตะเพื่อเลือกหมวดหมู่ที่คุณสนใจ",
+                        "แตะเพื่อเลือกความน่าสนใจของกิจกรรม",
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'Raleway',
