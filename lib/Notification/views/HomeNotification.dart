@@ -39,7 +39,6 @@ class _HomeNotificationState extends State<HomeNotification> {
             .collection("Notification")
             .orderBy('date', descending: true)
             .orderBy('Time', descending: true)
-
             // where อาเรย์
             .where("Student_id", arrayContainsAny: [
           FirebaseAuth.instance.currentUser?.uid
@@ -89,9 +88,9 @@ class _HomeNotificationState extends State<HomeNotification> {
                                     title: Text(
                                       (document["Name"]) +
                                           ("\n") +
-                                          (document["date"]) +
+                                          (document["date"])+
                                           ("\n") +
-                                          (document["Time"]),
+                                          (document["Time"]) ,
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 18,

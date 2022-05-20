@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:intl/intl.dart';
+import 'package:project/PageNotWorking/Event_detail.dart';
 import 'package:project/algolia/searchpage.dart';
 import 'package:project/Background/bg.dart';
 
@@ -50,6 +51,7 @@ class _LeaveeventState extends State<Leaveevent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 30, 150, 140),
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 13, 104, 96),
         title: const Text(
@@ -71,6 +73,8 @@ class _LeaveeventState extends State<Leaveevent> {
               );
             }
             return SingleChildScrollView(
+              padding: const EdgeInsets.only(
+                  bottom: 70, top: 10, right: 10, left: 10),
               child: Column(children: <Widget>[
                 Container(
                   child: Image.network(
@@ -85,6 +89,7 @@ class _LeaveeventState extends State<Leaveevent> {
                   child: Text(
                     widget.snap.data["Name"],
                     style: const TextStyle(
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Raleway',
                         fontSize: 25),
@@ -97,12 +102,14 @@ class _LeaveeventState extends State<Leaveevent> {
                     bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
                   )),
                   child: ListTile(
-                      leading: const Icon(Icons.date_range, size: 30),
+                      leading: const Icon(Icons.date_range,
+                          color: Colors.black, size: 30),
                       title: Text(
                         widget.snap.data["date"] +
                             '     ' +
                             widget.snap.data["Time"],
                         style: const TextStyle(
+                          color: Colors.white,
                           fontSize: 18,
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.w700,
@@ -117,10 +124,12 @@ class _LeaveeventState extends State<Leaveevent> {
                     bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
                   )),
                   child: ListTile(
-                      leading: const Icon(Icons.location_on_outlined, size: 30),
+                      leading: const Icon(Icons.location_on_outlined,
+                          color: Colors.black, size: 30),
                       title: Text(
                         widget.snap.data["Location"],
                         style: const TextStyle(
+                          color: Colors.white,
                           fontSize: 18,
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.w700,
@@ -133,6 +142,7 @@ class _LeaveeventState extends State<Leaveevent> {
                   child: const ListTile(
                     title: Text("About",
                         style: TextStyle(
+                            color: Colors.white,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Raleway',
                             fontSize: 25)),
@@ -147,6 +157,7 @@ class _LeaveeventState extends State<Leaveevent> {
                   child: ListTile(
                     title: Text(widget.snap.data["Description"],
                         style: const TextStyle(
+                          color: Colors.white,
                           fontSize: 15,
                           fontFamily: 'Raleway',
                         )),
@@ -157,6 +168,7 @@ class _LeaveeventState extends State<Leaveevent> {
                   child: const ListTile(
                     title: Text("Host",
                         style: TextStyle(
+                            color: Colors.white,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Raleway',
                             fontSize: 25)),
@@ -178,6 +190,7 @@ class _LeaveeventState extends State<Leaveevent> {
                       title: Text(
                         widget.snap.data['Host'][0]['Name'],
                         style: const TextStyle(
+                          color: Colors.white,
                           fontSize: 18,
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.w400,
@@ -202,6 +215,7 @@ class _LeaveeventState extends State<Leaveevent> {
                             )),
                         title: Text("Joined",
                             style: TextStyle(
+                                color: Colors.white,
                                 fontWeight: FontWeight.w500,
                                 fontFamily: 'Raleway',
                                 fontSize: 25)))),
@@ -236,7 +250,15 @@ class _LeaveeventState extends State<Leaveevent> {
                                       backgroundImage:
                                           NetworkImage(doc['Photo']),
                                     ),
-                                    title: Text(doc['Name']),
+                                    title: Text(
+                                      doc['Name'],
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontFamily: 'Raleway',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
                                   ),
                                 );
                               }).toList()),
@@ -249,6 +271,7 @@ class _LeaveeventState extends State<Leaveevent> {
                   child: const ListTile(
                     title: Text("Comment",
                         style: TextStyle(
+                            color: Colors.white,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Raleway',
                             fontSize: 25)),
@@ -260,15 +283,21 @@ class _LeaveeventState extends State<Leaveevent> {
                     children: [
                       TextFormField(
                         decoration: const InputDecoration(
-                          icon: Icon(Icons.account_circle_sharp),
-                          hintText: 'comment',
-                        ),
+                            icon: Icon(Icons.account_circle_sharp,
+                                color: Colors.black),
+                            hintText: 'comment',
+                            hintStyle: TextStyle(
+                                fontSize: 20.0,
+                                color: Color.fromARGB(255, 250, 248, 248))),
                         validator: RequiredValidator(errorText: "comment!"),
                         onSaved: (value) {
                           comments.text = value;
                         },
                       ),
                       FlatButton(
+                          color: Color.fromARGB(255, 199, 242, 81),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
                           onPressed: () async {
                             await FirebaseFirestore.instance
                                 .collection("Student")
