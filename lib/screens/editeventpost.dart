@@ -546,7 +546,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          await model.imageNotification(event);
+          //  await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -648,6 +648,7 @@ class _EditEventState extends State<EditEvent> {
           Fluttertoast.showToast(msg: err.message!);
         }
       }
+      
       // ถ้า Time ไม่มีค่า แต่ date มีค่า
     } else if (event.Time == null && event.Date != null) {
       if (_formKey.currentState!.validate()) {

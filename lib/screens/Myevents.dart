@@ -37,7 +37,7 @@ class _MyEventState extends State<MyEvent> {
               title: Text(
             "  " + "My Posts",
             style: TextStyle(
-              color: Color.fromARGB(255, 5, 5, 5),
+              color: Color.fromARGB(255, 242, 253, 174),
               fontSize: 24,
               fontFamily: 'Raleway',
               fontWeight: FontWeight.w600,
@@ -153,7 +153,7 @@ class _MyEventState extends State<MyEvent> {
               title: Text(
                 "  " + "My Joined",
                 style: TextStyle(
-                  color: Color.fromARGB(255, 7, 7, 7),
+                  color: Color.fromARGB(255, 242, 253, 174),
                   fontSize: 24,
                   fontFamily: 'Raleway',
                   fontWeight: FontWeight.w600,
