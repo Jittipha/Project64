@@ -150,7 +150,7 @@ class _PostState extends State<Post> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 30, 150, 140),
+      backgroundColor: Color.fromARGB(255, 48, 180, 169),
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 13, 104, 96),
         title: const Text(
@@ -169,9 +169,12 @@ class _PostState extends State<Post> {
                       ? Container(
                           child: ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(
-                                  primary: Colors.deepPurple[400]),
+                                  primary: Color.fromARGB(255, 189, 226, 229)),
                               onPressed: () => pickImage(ImageSource.gallery),
-                              icon: const Icon(Icons.add_a_photo_outlined),
+                              icon: const Icon(
+                                Icons.add_a_photo_outlined,
+                                size: 30,
+                              ),
                               label: const Text("Pick Photo")),
                         )
                       : Image.network(
@@ -180,6 +183,9 @@ class _PostState extends State<Post> {
                           width: 300,
                           height: 150,
                         ),
+                ),
+                SizedBox(
+                  height: 10,
                 ),
 
                 // TextFormField(
@@ -194,33 +200,59 @@ class _PostState extends State<Post> {
                 //     ),
                 TextFormField(
                   decoration: const InputDecoration(
-                    icon: Icon(Icons.account_circle_sharp),
-                    hintText: 'Name',
-                  ),
+                      icon: Icon(
+                        Icons.account_circle_sharp,
+                        size: 35,
+                        color: Color.fromARGB(255, 55, 104, 112),
+                      ),
+                      hintText: 'Name',
+                      border: OutlineInputBorder()),
                   validator: RequiredValidator(errorText: "กรุณาใส่ชื่อ!"),
                   onSaved: (value) {
                     event.Name = value;
                   },
                 ),
+                SizedBox(
+                  height: 10,
+                ),
+
                 TextFormField(
                   decoration: const InputDecoration(
-                      icon: Icon(Icons.message_outlined),
-                      hintText: 'Description'),
+                      icon: Icon(
+                        Icons.message_outlined,
+                        size: 35,
+                        color: Color.fromARGB(255, 55, 104, 112),
+                      ),
+                      hintText: 'Description',
+                      border: OutlineInputBorder()),
                   maxLines: 2,
                   validator: RequiredValidator(errorText: "กรุณาใส่คำอธิบาย!"),
                   onSaved: (value) {
                     event.Description = value;
                   },
                 ),
+                SizedBox(
+                  height: 10,
+                ),
+
                 TextFormField(
                   decoration: const InputDecoration(
-                      icon: Icon(Icons.where_to_vote_sharp),
-                      hintText: 'Location'),
+                      icon: Icon(
+                        Icons.where_to_vote_sharp,
+                        size: 35,
+                        color: Color.fromARGB(255, 55, 104, 112),
+                      ),
+                      hintText: 'Location',
+                      border: OutlineInputBorder()),
                   validator: RequiredValidator(errorText: "กรุณาใส่ที่อยู่!"),
                   onSaved: (value) {
                     event.Location = value;
                   },
                 ),
+                SizedBox(
+                  height: 10,
+                ),
+
                 //เลือกวันที่
                 SizedBox(
                   width: 500,
@@ -228,7 +260,8 @@ class _PostState extends State<Post> {
                   child: ElevatedButton(
                       onPressed: () => pickDate(context),
                       child: Text(getTextDate()),
-                      style: ElevatedButton.styleFrom(primary: Colors.white)),
+                      style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 230, 220, 220))),
                 ),
                 const SizedBox(
                   height: 10,
@@ -241,7 +274,8 @@ class _PostState extends State<Post> {
                   child: ElevatedButton(
                     onPressed: () => pickTime(context),
                     child: Text(getTextTime()),
-                    style: ElevatedButton.styleFrom(primary: Colors.white),
+                    style: ElevatedButton.styleFrom(
+                        primary: Color.fromARGB(255, 230, 220, 220)),
                   ),
                 ),
                 Row(

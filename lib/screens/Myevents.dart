@@ -21,7 +21,7 @@ class _MyEventState extends State<MyEvent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 30, 150, 140),
+        backgroundColor: const Color.fromARGB(255, 48, 180, 169),
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 13, 104, 96),
           title: const Text(

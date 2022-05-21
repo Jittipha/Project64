@@ -120,6 +120,7 @@ class _HomefeedState extends State<Homefeed> {
                       title: Text(
                         "    " + cate["Name"],
                         style: const TextStyle(
+                          color: Color.fromARGB(255, 242, 253, 174),
                           letterSpacing: 0.5,
                           fontSize: 22,
                           fontFamily: 'Raleway',
