@@ -349,7 +349,7 @@ class _CategoriesState extends State<Categories> {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: const Text("Warning!!"),
-      content: const Text("กรุณาเลือกหมวดหมู่"),
+      content: const Text("กรุณาเลือกหมวดหมู่อย่างน้อย 1 หมวดหมู่"),
       actions: [OKButton],
     );
 
