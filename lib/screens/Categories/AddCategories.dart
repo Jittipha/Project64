@@ -38,105 +38,107 @@ class _addcateState extends State<addcate> {
                 fontWeight: FontWeight.w600,
               ),
             )),
-        body: Center(
-          child: Form(
-            key: _formcate,
-            child: Column(
-              children: <Widget>[
-                const SizedBox(
-                  height: 30,
-                ),
-                Container(
-                    alignment: Alignment.center,
-                    child: cate.urlImage == null
-                        ? GestureDetector(
-                            onTap: () {
-                              pickImage(ImageSource.gallery);
-                            },
-                            child: const CircleAvatar(
-                                backgroundColor: Colors.blueGrey,
-                                radius: 93,
-                                child: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      "https://static.thenounproject.com/png/396915-200.png"),
-                                  radius: 90,
-                                )))
+        body: SingleChildScrollView(
+          child: Center(
+            child: Form(
+              key: _formcate,
+              child: Column(
+                children: <Widget>[
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                      alignment: Alignment.center,
+                      child: cate.urlImage == null
+                          ? GestureDetector(
+                              onTap: () {
+                                pickImage(ImageSource.gallery);
+                              },
+                              child: const CircleAvatar(
+                                  backgroundColor: Colors.blueGrey,
+                                  radius: 93,
+                                  child: CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        "https://static.thenounproject.com/png/396915-200.png"),
+                                    radius: 90,
+                                  )))
 
-                        // CircleAvatar(
-                        //     child: ElevatedButton.icon(
-                        //         style: ElevatedButton.styleFrom(
-                        //             primary: Colors.deepPurple[400]),
-                        //         onPressed: () => pickImage(ImageSource.gallery),
-                        //         icon: const Icon(Icons.add_a_photo_outlined),
-                        //         label: const Text("Pick Photo")),
-                        //   )
-                        : GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                RemoveImageinStorage();
-                                cate.urlImage = null;
-                              });
-                              pickImage(ImageSource.gallery);
-                            },
-                            child: CircleAvatar(
-                                backgroundColor: Colors.blueGrey[100],
-                                radius: 93,
-                                child: CircleAvatar(
-                                  backgroundImage: NetworkImage(cate.urlImage!),
-                                  radius: 90,
-                                  child: const Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.white,
-                                      radius: 25.0,
-                                      child: Icon(
-                                        Icons.camera_alt,
-                                        size: 25.0,
-                                        color: Color(0xFF404040),
+                          // CircleAvatar(
+                          //     child: ElevatedButton.icon(
+                          //         style: ElevatedButton.styleFrom(
+                          //             primary: Colors.deepPurple[400]),
+                          //         onPressed: () => pickImage(ImageSource.gallery),
+                          //         icon: const Icon(Icons.add_a_photo_outlined),
+                          //         label: const Text("Pick Photo")),
+                          //   )
+                          : GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  RemoveImageinStorage();
+                                  cate.urlImage = null;
+                                });
+                                pickImage(ImageSource.gallery);
+                              },
+                              child: CircleAvatar(
+                                  backgroundColor: Colors.blueGrey[100],
+                                  radius: 93,
+                                  child: CircleAvatar(
+                                    backgroundImage: NetworkImage(cate.urlImage!),
+                                    radius: 90,
+                                    child: const Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        radius: 25.0,
+                                        child: Icon(
+                                          Icons.camera_alt,
+                                          size: 25.0,
+                                          color: Color(0xFF404040),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                )))),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                        icon: Icon(Icons.account_circle_sharp,
-                            size: 40, color: Colors.white),
-                        hintText: ' Name',
-                        hintStyle: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Raleway',
-                            fontSize: 16,
-                            color: Colors.white)),
-                    validator:
-                        RequiredValidator(errorText: "กรุณาชื่อหมวดหมู่!"),
-                    onSaved: (value) {
-                      cate.Name = value;
-                    },
+                                  )))),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                          icon: Icon(Icons.account_circle_sharp,
+                              size: 40, color: Colors.white),
+                          hintText: ' Name',
+                          hintStyle: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Raleway',
+                              fontSize: 16,
+                              color: Colors.white)),
+                      validator:
+                          RequiredValidator(errorText: "กรุณาชื่อหมวดหมู่!"),
+                      onSaved: (value) {
+                        cate.Name = value;
+                      },
+                    ),
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
-                  child: TextFormField(
-                    maxLines: 4,
-                    decoration: const InputDecoration(
-                        icon: Icon(Icons.message_outlined,
-                            size: 40, color: Colors.white),
-                        hintText: ' Description',
-                        hintStyle: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Raleway',
-                            fontSize: 16,
-                            color: Colors.white)),
-                    validator: RequiredValidator(
-                        errorText: "กรุณาอธิบายรายละเอียดหมวดหมู่!"),
-                    onSaved: (value) {
-                      cate.Description = value;
-                    },
-                  ),
-                )
-              ],
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+                    child: TextFormField(
+                      maxLines: 4,
+                      decoration: const InputDecoration(
+                          icon: Icon(Icons.message_outlined,
+                              size: 40, color: Colors.white),
+                          hintText: ' Description',
+                          hintStyle: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Raleway',
+                              fontSize: 16,
+                              color: Colors.white)),
+                      validator: RequiredValidator(
+                          errorText: "กรุณาอธิบายรายละเอียดหมวดหมู่!"),
+                      onSaved: (value) {
+                        cate.Description = value;
+                      },
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
