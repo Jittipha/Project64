@@ -21,7 +21,7 @@ class _MyEventState extends State<MyEvent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 30, 150, 140),
+        backgroundColor: const Color.fromARGB(255, 48, 180, 169),
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 13, 104, 96),
           title: const Text(
@@ -37,7 +37,7 @@ class _MyEventState extends State<MyEvent> {
               title: Text(
             "  " + "My Posts",
             style: TextStyle(
-              color: Color.fromARGB(255, 242, 253, 174),
+              color: Color.fromARGB(255, 5, 5, 5),
               fontSize: 24,
               fontFamily: 'Raleway',
               fontWeight: FontWeight.w600,
@@ -153,7 +153,7 @@ class _MyEventState extends State<MyEvent> {
               title: Text(
                 "  " + "My Joined",
                 style: TextStyle(
-                  color: Color.fromARGB(255, 242, 253, 174),
+                  color: Color.fromARGB(255, 7, 7, 7),
                   fontSize: 24,
                   fontFamily: 'Raleway',
                   fontWeight: FontWeight.w600,
