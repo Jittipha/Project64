@@ -272,6 +272,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                     decoration: const InputDecoration(
                         icon: Icon(
                           Icons.account_circle_sharp,
+                          size: 35,
                           color: Colors.white,
                         ),
                         hintText: 'comment',

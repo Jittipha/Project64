@@ -144,28 +144,37 @@ class _EditEventState extends State<EditEvent> {
                             ),
                           ),
                           SizedBox(
-                            height: 20,
+                            height: 5,
                           ),
+
                           TextFormField(
                             decoration: InputDecoration(
                               icon: const Icon(
                                   Icons.photo_size_select_small_outlined,
+                                  size: 35,
                                   color: Colors.white),
                               hintText: widget.studenthasposts["Image"],
+                               border: OutlineInputBorder(),
                             ),
                             initialValue: widget.studenthasposts["Image"],
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.white,),
                             validator: RequiredValidator(
                                 errorText: "กรุณาใส่ลิงก์รูป!"),
                             onSaved: (value) {
                               setState(() => event.Image = value);
                             },
                           ),
+                          SizedBox(
+                            height: 5,
+                          ),
+
                           TextFormField(
                             decoration: InputDecoration(
                               icon: const Icon(Icons.account_circle_sharp,
+                              size: 35,
                                   color: Colors.white),
                               hintText: widget.studenthasposts["Name"],
+                              border: OutlineInputBorder(),
                             ),
                             initialValue: widget.studenthasposts["Name"],
                             style: TextStyle(color: Colors.white),
@@ -175,12 +184,18 @@ class _EditEventState extends State<EditEvent> {
                               setState(() => event.Name = value);
                             },
                           ),
+                          SizedBox(
+                            height: 5,
+                          ),
+
                           TextFormField(
                             decoration: InputDecoration(
                                 icon: const Icon(Icons.message_outlined,
+                                size: 35,
                                     color: Colors.white),
                                 hintText:
-                                    widget.studenthasposts["Description"]),
+                                    widget.studenthasposts["Description"],
+                                     border: OutlineInputBorder()),
                             initialValue: widget.studenthasposts["Description"],
                             style: TextStyle(color: Colors.white),
                             validator: RequiredValidator(
@@ -189,11 +204,17 @@ class _EditEventState extends State<EditEvent> {
                               setState(() => event.Description = value);
                             },
                           ),
+                          SizedBox(
+                            height: 5,
+                          ),
+
                           TextFormField(
                             decoration: InputDecoration(
                                 icon: const Icon(Icons.where_to_vote_sharp,
+                                size: 35,
                                     color: Colors.white),
-                                hintText: widget.studenthasposts["Location"]),
+                                hintText: widget.studenthasposts["Location"],
+                                 border: OutlineInputBorder()),
                             initialValue: widget.studenthasposts["Location"],
                             style: TextStyle(color: Colors.white),
                             validator: RequiredValidator(
@@ -202,6 +223,10 @@ class _EditEventState extends State<EditEvent> {
                               setState(() => event.Location = value);
                             },
                           ),
+                          SizedBox(
+                            height: 15,
+                          ),
+
                           //เลือกวันที่
                           SizedBox(
                             width: 500,
@@ -210,11 +235,13 @@ class _EditEventState extends State<EditEvent> {
                                 onPressed: () => pickDate(context),
                                 child: Text(getTextDate()),
                                 style: ElevatedButton.styleFrom(
-                                    primary: Colors.white)),
+                                    primary:
+                                        Color.fromARGB(255, 230, 220, 220))),
                           ),
                           const SizedBox(
                             height: 10,
                           ),
+
                           //เลือกเวลา
                           SizedBox(
                             width: 500,
@@ -223,7 +250,7 @@ class _EditEventState extends State<EditEvent> {
                               onPressed: () => pickTime(context),
                               child: Text(getTextTime()),
                               style: ElevatedButton.styleFrom(
-                                  primary: Colors.white),
+                                  primary: Color.fromARGB(255, 230, 220, 220)),
                             ),
                           ),
                           Container(
@@ -384,7 +411,8 @@ class _EditEventState extends State<EditEvent> {
                                     style: ButtonStyle(
                                         backgroundColor:
                                             MaterialStateProperty.all<Color>(
-                                                Color.fromARGB(255, 241, 109, 100)),
+                                                Color.fromARGB(
+                                                    255, 241, 109, 100)),
                                         shape: MaterialStateProperty.all<
                                                 RoundedRectangleBorder>(
                                             RoundedRectangleBorder(
