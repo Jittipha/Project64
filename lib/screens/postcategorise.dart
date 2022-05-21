@@ -296,14 +296,24 @@ class _PostState extends State<Post> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
+                            //ุถ้ารูปไม่มีค่า
                             if (urlImage == null) {
-                              text = 'กรุณาใส่รูป';
+                              text = 'กรุณาใส่รูปกิจกรรม';
+                              //เรียกใช้งาน alerty และส่ง text ไปด่้วย
                               showAlertDialog(context, text);
-                            } else if (event.Time == null ||
-                                event.Date == null) {
-                              text = 'กรุณาใส่วันและเวลา';
+                              // ถ้าวันไม่มีค่า
+                            } else if (event.Date == null) {
+                              text = 'กรุณาใส่วันที่เริ่มกิจกรรม';
+                              //เรียกใช้งาน alerty และส่ง text ไปด่้วย
                               showAlertDialog(context, text);
-                            } else if (event.Time != null &&
+                              //ถ้า เวลาไม่มีค่า
+                            } else if (event.Time == null) {
+                              text = 'กรุณาใส่เวลาที่เริ่มกิจกรรม';
+                              //เรียกใช้งาน alerty และส่ง text ไปด่้วย
+                              showAlertDialog(context, text);
+                              //ถ้า รูป วัน เวลา มีค่า
+                            } else if (urlImage != null &&
+                                event.Time != null &&
                                 event.Date != null) {
                               await FirebaseFirestore.instance
                                   .collection('Event')
