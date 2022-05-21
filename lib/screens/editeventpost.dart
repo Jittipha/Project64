@@ -154,10 +154,12 @@ class _EditEventState extends State<EditEvent> {
                                   size: 35,
                                   color: Colors.white),
                               hintText: widget.studenthasposts["Image"],
-                               border: OutlineInputBorder(),
+                              border: OutlineInputBorder(),
                             ),
                             initialValue: widget.studenthasposts["Image"],
-                            style: TextStyle(color: Colors.white,),
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
                             validator: RequiredValidator(
                                 errorText: "กรุณาใส่ลิงก์รูป!"),
                             onSaved: (value) {
@@ -171,8 +173,7 @@ class _EditEventState extends State<EditEvent> {
                           TextFormField(
                             decoration: InputDecoration(
                               icon: const Icon(Icons.account_circle_sharp,
-                              size: 35,
-                                  color: Colors.white),
+                                  size: 35, color: Colors.white),
                               hintText: widget.studenthasposts["Name"],
                               border: OutlineInputBorder(),
                             ),
@@ -191,11 +192,9 @@ class _EditEventState extends State<EditEvent> {
                           TextFormField(
                             decoration: InputDecoration(
                                 icon: const Icon(Icons.message_outlined,
-                                size: 35,
-                                    color: Colors.white),
-                                hintText:
-                                    widget.studenthasposts["Description"],
-                                     border: OutlineInputBorder()),
+                                    size: 35, color: Colors.white),
+                                hintText: widget.studenthasposts["Description"],
+                                border: OutlineInputBorder()),
                             initialValue: widget.studenthasposts["Description"],
                             style: TextStyle(color: Colors.white),
                             validator: RequiredValidator(
@@ -211,10 +210,9 @@ class _EditEventState extends State<EditEvent> {
                           TextFormField(
                             decoration: InputDecoration(
                                 icon: const Icon(Icons.where_to_vote_sharp,
-                                size: 35,
-                                    color: Colors.white),
+                                    size: 35, color: Colors.white),
                                 hintText: widget.studenthasposts["Location"],
-                                 border: OutlineInputBorder()),
+                                border: OutlineInputBorder()),
                             initialValue: widget.studenthasposts["Location"],
                             style: TextStyle(color: Colors.white),
                             validator: RequiredValidator(
@@ -546,9 +544,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-
-          //  await model.imageNotification(event);
-
+          // await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -583,9 +579,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-
-          //await model.imageNotification(event);
-
+          // await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -621,9 +615,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-
-          //await model.imageNotification(event);
-
+          // await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -654,15 +646,13 @@ class _EditEventState extends State<EditEvent> {
           Fluttertoast.showToast(msg: err.message!);
         }
       }
-      
+
       // ถ้า Time ไม่มีค่า แต่ date มีค่า
     } else if (event.Time == null && event.Date != null) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-
-          //await model.imageNotification(event);
-
+          // await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')

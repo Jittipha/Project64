@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, unused_import, avoid_unnecessary_containers, prefer_const_constructors
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:project/screens/Home_Feed/thisweek.dart';
 import 'package:project/screens/Home_Feed/today.dart';
@@ -9,6 +11,7 @@ import 'package:project/screens/homepage.dart';
 
 import 'package:flutter/material.dart';
 
+import '../Join_Event/Leave_Event_Home.dart';
 import '../tabbar.dart';
 import 'homepage.dart';
 
@@ -106,14 +109,76 @@ class _TomorrowState extends State<Tomorrow> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(8.0))),
                               child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                eventdetailhome(
-                                                  snap: Eventjusttoday,
-                                                )));
+                                  onTap: () async {
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             eventdetailhome(
+                                    //               snap: Eventjusttoday,
+                                    //             )));
+                                    await FirebaseFirestore.instance
+                                        .collection("Student")
+                                        .doc(FirebaseAuth
+                                            .instance.currentUser?.uid)
+                                        .collection("Posts")
+                                        //where เช็คค่า
+                                        .where("Event_id",
+                                            isEqualTo: Eventjusttoday.id)
+                                        .get()
+                                        .then((value) async => {
+                                              if (value.docs.isEmpty)
+                                                {
+                                                  await FirebaseFirestore
+                                                      .instance
+                                                      .collection("Event")
+                                                      .doc(Eventjusttoday.id)
+                                                      .collection("Joined")
+                                                      .where("Student_id",
+                                                          isEqualTo:
+                                                              FirebaseAuth
+                                                                  .instance
+                                                                  .currentUser
+                                                                  ?.uid)
+                                                      .get()
+                                                      .then((docsnapshot) => {
+                                                            // ignore: avoid_print
+                                                            print(docsnapshot
+                                                                .docs.length),
+                                                            if (docsnapshot
+                                                                .docs.isEmpty)
+                                                              // ignore: avoid_print
+                                                              {
+                                                                print(
+                                                                    "dont have"),
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                eventdetailhome(snap: Eventjusttoday)))
+                                                              }
+                                                            else
+                                                              // ignore: avoid_print
+                                                              {
+                                                                print("had"),
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                Leaveeventhome(snap: Eventjusttoday)))
+                                                              }
+                                                          })
+                                                }
+                                              else
+                                                {
+                                                  Fluttertoast.showToast(
+                                                      msg: "Your Event!",
+                                                      gravity:
+                                                          ToastGravity.CENTER)
+                                                }
+                                            });
                                   },
                                   child: Row(children: <Widget>[
                                     Container(

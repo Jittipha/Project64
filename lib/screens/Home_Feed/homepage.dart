@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:project/algolia/searchpage.dart';
 import 'package:project/components/fill_outline_button.dart';
@@ -15,6 +16,8 @@ import 'package:project/screens/Join_Event/Leave_Event_Home.dart';
 import 'package:project/screens/Join_Event/Leave_Event_Search.dart';
 import 'package:project/screens/Myevents.dart';
 
+import '../editeventpost.dart';
+
 class Homefeed extends StatefulWidget {
   @override
   _HomefeedState createState() => _HomefeedState();
@@ -24,6 +27,9 @@ class _HomefeedState extends State<Homefeed> {
   String Category = "";
   String Category_id = "";
   String body = "Home";
+  var listedit;
+  var list;
+  QuerySnapshot? b;
 
   @override
   Widget build(BuildContext context) {
@@ -234,8 +240,40 @@ class _HomefeedState extends State<Homefeed> {
                                                                 }
                                                               else
                                                                 {
-                                                                  print(
-                                                                      "Your Event")
+                                                                  Fluttertoast.showToast(
+                                                                      msg:
+                                                                          "Your Event!",
+                                                                      gravity:
+                                                                          ToastGravity
+                                                                              .CENTER)
+                                                                  // await FirebaseFirestore
+                                                                  //     .instance
+                                                                  //     .collection(
+                                                                  //         "Student")
+                                                                  //     .doc(FirebaseAuth
+                                                                  //         .instance
+                                                                  //         .currentUser
+                                                                  //         ?.uid)
+                                                                  //     .collection(
+                                                                  //         "Posts")
+                                                                  //     .where(
+                                                                  //         "Event_id",
+                                                                  //         isEqualTo: Event
+                                                                  //             .id)
+                                                                  //     .get()
+                                                                  //     .then((QuerySnapshot
+                                                                  //             value) =>
+                                                                  //         {
+                                                                  //           value.docs.forEach((element) async {
+                                                                  //             list = element.data();
+                                                                  //             // list = await FirebaseFirestore.instance.collection("Student").doc(FirebaseAuth.instance.currentUser?.uid).collection("Posts").doc(element.id).get();
+                                                                  //           })
+                                                                  //         }),
+                                                                  // Navigator.push(
+                                                                  //     context,
+                                                                  //     MaterialPageRoute(
+                                                                  //         builder: (context) =>
+                                                                  //             EditEvent(studenthasposts: list)))
                                                                 }
                                                             })
                                                   },
