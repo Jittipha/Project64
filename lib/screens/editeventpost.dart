@@ -518,7 +518,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          await model.imageNotification(event);
+          // await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -553,7 +553,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          await model.imageNotification(event);
+          // await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -589,7 +589,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          await model.imageNotification(event);
+          // await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -625,7 +625,7 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-          await model.imageNotification(event);
+          // await model.imageNotification(event);
 
           await FirebaseFirestore.instance
               .collection('Event')

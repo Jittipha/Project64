@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:project/screens/Categories/DetailCate.dart';
 import 'package:project/main.dart';
+import 'package:project/screens/mainpage.dart';
 import 'package:snapshot/snapshot.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
