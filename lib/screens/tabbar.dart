@@ -30,6 +30,7 @@ class _TabbarState extends State<Tabbar> {
     //   style: optionStyle,
     // ),
     MainPage(),
+    
   ];
 
   void _onItemTapped(int index) {
@@ -69,6 +70,7 @@ class _TabbarState extends State<Tabbar> {
             label: 'Menu',
             //backgroundColor: Color(0xFF00BF6D),
           ),
+          
         ],
         currentIndex: _selectedIndex,
         unselectedItemColor: Color(0xFF00BF6D),

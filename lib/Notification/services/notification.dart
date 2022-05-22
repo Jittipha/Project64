@@ -75,8 +75,6 @@ class NotificationService extends ChangeNotifier {
       android: android,
     );
 
-    
-
     await _flutterLocalNotificationsPlugin.show(
       1, (event.Name), "This event has changed.", platform,
       //payload: ("Welcome to demo app")
