@@ -428,8 +428,9 @@ class _EditEventState extends State<EditEvent> {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
-                                              title: Text("Are you sure?"),
-                                              content: Text(""),
+                                              title:
+                                                  Text("Delete This Event !!"),
+                                              content: Text("Are you sure?"),
                                               actions: [
                                                 FlatButton(
                                                   onPressed: () async {
