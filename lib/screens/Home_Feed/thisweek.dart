@@ -1,6 +1,8 @@
-// ignore_for_file: camel_case_types, prefer_is_empty, non_constant_identifier_names, avoid_unnecessary_containers
+// ignore_for_file: camel_case_types, prefer_is_empty, non_constant_identifier_names, avoid_unnecessary_containers, avoid_print, duplicate_ignore
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 import 'package:project/screens/Home_Feed/today.dart';
@@ -9,6 +11,7 @@ import 'package:project/screens/Join_Event/Event_detail_Home.dart';
 
 import 'package:flutter/material.dart';
 
+import '../Join_Event/Leave_Event_Home.dart';
 import '../tabbar.dart';
 
 class thisweek extends StatefulWidget {
@@ -116,14 +119,69 @@ class _thisweekState extends State<thisweek> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(8.0))),
                               child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                eventdetailhome(
-                                                  snap: Eventjusttoday,
-                                                )));
+                                  onTap: () async{
+                                    await FirebaseFirestore.instance
+                                        .collection("Student")
+                                        .doc(FirebaseAuth
+                                            .instance.currentUser?.uid)
+                                        .collection("Posts")
+                                        //where เช็คค่า
+                                        .where("Event_id",
+                                            isEqualTo: Eventjusttoday.id)
+                                        .get()
+                                        .then((value) async => {
+                                              if (value.docs.isEmpty)
+                                                {
+                                                  await FirebaseFirestore
+                                                      .instance
+                                                      .collection("Event")
+                                                      .doc(Eventjusttoday.id)
+                                                      .collection("Joined")
+                                                      .where("Student_id",
+                                                          isEqualTo:
+                                                              FirebaseAuth
+                                                                  .instance
+                                                                  .currentUser
+                                                                  ?.uid)
+                                                      .get()
+                                                      .then((docsnapshot) => {
+                                                            // ignore: avoid_print
+                                                            print(docsnapshot
+                                                                .docs.length),
+                                                            if (docsnapshot
+                                                                .docs.isEmpty)
+                                                              // ignore: avoid_print
+                                                              {
+                                                                print(
+                                                                    "dont have"),
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                eventdetailhome(snap: Eventjusttoday)))
+                                                              }
+                                                            else
+                                                              // ignore: avoid_print
+                                                              {
+                                                                print("had"),
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                Leaveeventhome(snap: Eventjusttoday)))
+                                                              }
+                                                          })
+                                                }
+                                              else
+                                                { Fluttertoast.showToast(
+                                                                      msg:
+                                                                          "Your Event!",
+                                                                      gravity:
+                                                                          ToastGravity
+                                                                              .CENTER)}
+                                            });
                                   },
                                   child: Row(children: <Widget>[
                                     Container(

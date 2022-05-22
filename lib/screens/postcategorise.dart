@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, non_constant_identifier_names, avoid_print, avoid_unnecessary_containers, avoid_function_literals_in_foreach_calls, prefer_const_constructors
+// ignore_for_file: unused_import, non_constant_identifier_names, avoid_print, avoid_unnecessary_containers, avoid_function_literals_in_foreach_calls, prefer_const_constructors, deprecated_member_use
 
 import 'dart:io';
 import 'package:get/route_manager.dart';
@@ -42,6 +42,7 @@ class _PostState extends State<Post> {
   bool isLoading = false;
   File? image;
   String? urlImage;
+  String? text;
 
   Future<void> pickImage(ImageSource imageSource) async {
     try {
@@ -295,41 +296,27 @@ class _PostState extends State<Post> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-
-                            await FirebaseFirestore.instance
-                                .collection('Event')
-                                .doc()
-                                .set({
-                              "Image": urlImage,
-                              "Name": event.Name,
-                              "Description": event.Description,
-                              "Time": event.Time?.format(context),
-                              "Location": event.Location,
-                              "date": event.Date,
-                              "Host": [
-                                {
-                                  "Student_id":
-                                      FirebaseAuth.instance.currentUser?.uid,
-                                  "Name": FirebaseAuth
-                                      .instance.currentUser?.displayName,
-                                  "Photo": FirebaseAuth
-                                      .instance.currentUser?.photoURL,
-                                  "Email":
-                                      FirebaseAuth.instance.currentUser?.email
-                                }
-                              ]
-                            });
-                            QuerySnapshot snap = await FirebaseFirestore
-                                .instance
-                                .collection('Event')
-                                .where("Name", isEqualTo: event.Name)
-                                .where("Location", isEqualTo: event.Location)
-                                .get();
-                            snap.docs.forEach((document) async {
+                            //ุถ้ารูปไม่มีค่า
+                            if (urlImage == null) {
+                              text = 'กรุณาใส่รูปกิจกรรม';
+                              //เรียกใช้งาน alerty และส่ง text ไปด่้วย
+                              showAlertDialog(context, text);
+                              // ถ้าวันไม่มีค่า
+                            } else if (event.Date == null) {
+                              text = 'กรุณาใส่วันที่เริ่มกิจกรรม';
+                              //เรียกใช้งาน alerty และส่ง text ไปด่้วย
+                              showAlertDialog(context, text);
+                              //ถ้า เวลาไม่มีค่า
+                            } else if (event.Time == null) {
+                              text = 'กรุณาใส่เวลาที่เริ่มกิจกรรม';
+                              //เรียกใช้งาน alerty และส่ง text ไปด่้วย
+                              showAlertDialog(context, text);
+                              //ถ้า รูป วัน เวลา มีค่า
+                            } else if (urlImage != null &&
+                                event.Time != null &&
+                                event.Date != null) {
                               await FirebaseFirestore.instance
-                                  .collection('Student')
-                                  .doc(FirebaseAuth.instance.currentUser?.uid)
-                                  .collection('Posts')
+                                  .collection('Event')
                                   .doc()
                                   .set({
                                 "Image": urlImage,
@@ -337,17 +324,50 @@ class _PostState extends State<Post> {
                                 "Description": event.Description,
                                 "Time": event.Time?.format(context),
                                 "Location": event.Location,
-                                "Event_id": document.id,
-                                "date": event.Date
-                              }).then((value) => {
-                                        Navigator.pushReplacement(context,
-                                            MaterialPageRoute(
-                                          builder: (context) {
-                                            return interestedited(document);
-                                          },
-                                        ))
-                                      });
-                            });
+                                "date": event.Date,
+                                "Host": [
+                                  {
+                                    "Student_id":
+                                        FirebaseAuth.instance.currentUser?.uid,
+                                    "Name": FirebaseAuth
+                                        .instance.currentUser?.displayName,
+                                    "Photo": FirebaseAuth
+                                        .instance.currentUser?.photoURL,
+                                    "Email":
+                                        FirebaseAuth.instance.currentUser?.email
+                                  }
+                                ]
+                              });
+                              QuerySnapshot snap = await FirebaseFirestore
+                                  .instance
+                                  .collection('Event')
+                                  .where("Name", isEqualTo: event.Name)
+                                  .where("Location", isEqualTo: event.Location)
+                                  .get();
+                              snap.docs.forEach((document) async {
+                                await FirebaseFirestore.instance
+                                    .collection('Student')
+                                    .doc(FirebaseAuth.instance.currentUser?.uid)
+                                    .collection('Posts')
+                                    .doc()
+                                    .set({
+                                  "Image": urlImage,
+                                  "Name": event.Name,
+                                  "Description": event.Description,
+                                  "Time": event.Time?.format(context),
+                                  "Location": event.Location,
+                                  "Event_id": document.id,
+                                  "date": event.Date
+                                }).then((value) => {
+                                          Navigator.pushReplacement(context,
+                                              MaterialPageRoute(
+                                            builder: (context) {
+                                              return interestedited(document);
+                                            },
+                                          ))
+                                        });
+                              });
+                            }
                           }
                         }),
                   ],
@@ -355,6 +375,31 @@ class _PostState extends State<Post> {
               ],
             ),
           )),
+    );
+  }
+
+  showAlertDialog(BuildContext context, text) {
+    // set up the button
+    Widget OKButton = FlatButton(
+      child: const Text("OK"),
+      onPressed: () {
+        Navigator.pop(context, 'Cancel');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Warning!!"),
+      content: Text(text),
+      actions: [OKButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

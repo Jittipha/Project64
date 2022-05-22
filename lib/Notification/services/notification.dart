@@ -11,12 +11,13 @@ import 'package:project/Model/Event.dart';
 import 'package:project/screens/Join_Event/Leave_Event_Home.dart';
 import 'package:snapshot/snapshot.dart';
 
+
 class NotificationService {
-  // String groupKey = 'com.android.example.WORK_EMAIL';
+  String groupKey = 'com.android.example.WORK_EMAIL';
   String groupChannelId = 'grouped channel id';
   String groupChannelName = 'grouped channel name';
   String groupChannelDescription = 'grouped channel description';
-  
+
 
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -61,10 +62,12 @@ class NotificationService {
   //Image notification
   Future imageNotification(event) async {
 
+
     print(event.Image);
     
     //  var bigPicture = largeIcon: const DrawableResourceAndroidBitmap(event.Image);
     
+
     // var bigPicture = const BigPictureStyleInformation(
 
     //     const DrawableResourceAndroidBitmap("ic_launcher"),
@@ -77,12 +80,16 @@ class NotificationService {
         // htmlFormatContentTitle: true);
 
     // ignore: prefer_const_constructors
+
     var android = AndroidNotificationDetails(groupChannelId,groupChannelName, 
     channelDescription: groupChannelDescription,
+    // importance: Importance.max
+   
     // styleInformation: BigPictureStyleInformation(bigPicture)
     // styleInformation: bigPicture
    
       );
+
 
     var platform = new NotificationDetails(
       android: android,
