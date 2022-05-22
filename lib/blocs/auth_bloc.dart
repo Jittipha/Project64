@@ -58,9 +58,14 @@ class AuthBloc {
                     Fluttertoast.showToast(
                         msg: "เข้าสู่ระบบสำเร็จ!",
                         gravity: ToastGravity.CENTER),
-                    Navigator.of(context).pushReplacement(
+                    Navigator.pushAndRemoveUntil(
+                      context,
                       MaterialPageRoute(builder: (context) => const Tabbar()),
-                    ),
+                      (Route<dynamic> route) => false,
+                    )
+                    // Navigator.of(context).pushReplacement(
+                    //   MaterialPageRoute(builder: (context) => const Tabbar()),
+                    // ),
                   });
         } else {
           await FirebaseFirestore.instance
@@ -74,10 +79,16 @@ class AuthBloc {
                     Fluttertoast.showToast(
                         msg: "เข้าสู่ระบบสำเร็จ!",
                         gravity: ToastGravity.CENTER),
-                    Navigator.of(context).pushReplacement(
+                    Navigator.pushAndRemoveUntil(
+                      context,
                       MaterialPageRoute(
                           builder: (context) => const Categories()),
-                    ),
+                      (Route<dynamic> route) => false,
+                    )
+                    // Navigator.of(context).pushReplacement(
+                    //   MaterialPageRoute(
+                    //       builder: (context) => const Categories()),
+                    // ),
                   });
         }
       });
