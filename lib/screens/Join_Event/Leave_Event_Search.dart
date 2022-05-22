@@ -15,9 +15,9 @@ import '../../Model/Comment.dart';
 import '../../Model/Student.dart';
 
 class Leaveevent extends StatefulWidget {
-  Leaveevent({Key? key, required this.snap}) : super(key: key);
+  Leaveevent({Key? key, required this.snap,this.yourevent}) : super(key: key);
   AlgoliaObjectSnapshot snap;
-
+  String? yourevent = "2";
   @override
   _LeaveeventState createState() => _LeaveeventState();
 }
@@ -413,7 +413,15 @@ class _LeaveeventState extends State<Leaveevent> {
               ]),
             );
           }),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: _getfloat(),
+    );
+  }
+
+  Widget _getfloat() {
+    if (widget.yourevent == "1") {
+      return Container();
+    } else {
+      return FloatingActionButton.extended(
         onPressed: () async {
           showAlertDialog(context);
         },
@@ -423,8 +431,8 @@ class _LeaveeventState extends State<Leaveevent> {
         ),
         icon: const Icon(Icons.exit_to_app_outlined),
         backgroundColor: Colors.pink[400],
-      ),
-    );
+      );
+    }
   }
 
   showAlertDialog(BuildContext context) {

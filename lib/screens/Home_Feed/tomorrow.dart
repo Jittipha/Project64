@@ -176,7 +176,16 @@ class _TomorrowState extends State<Tomorrow> {
                                                   Fluttertoast.showToast(
                                                       msg: "Your Event!",
                                                       gravity:
-                                                          ToastGravity.CENTER)
+                                                          ToastGravity.CENTER),
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              Leaveeventhome(
+                                                                snap:
+                                                                    Eventjusttoday,
+                                                                yourevent: "1",
+                                                              )))
                                                 }
                                             });
                                   },

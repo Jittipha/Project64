@@ -245,35 +245,14 @@ class _HomefeedState extends State<Homefeed> {
                                                                           "Your Event!",
                                                                       gravity:
                                                                           ToastGravity
-                                                                              .CENTER)
-                                                                  // await FirebaseFirestore
-                                                                  //     .instance
-                                                                  //     .collection(
-                                                                  //         "Student")
-                                                                  //     .doc(FirebaseAuth
-                                                                  //         .instance
-                                                                  //         .currentUser
-                                                                  //         ?.uid)
-                                                                  //     .collection(
-                                                                  //         "Posts")
-                                                                  //     .where(
-                                                                  //         "Event_id",
-                                                                  //         isEqualTo: Event
-                                                                  //             .id)
-                                                                  //     .get()
-                                                                  //     .then((QuerySnapshot
-                                                                  //             value) =>
-                                                                  //         {
-                                                                  //           value.docs.forEach((element) async {
-                                                                  //             list = element.data();
-                                                                  //             // list = await FirebaseFirestore.instance.collection("Student").doc(FirebaseAuth.instance.currentUser?.uid).collection("Posts").doc(element.id).get();
-                                                                  //           })
-                                                                  //         }),
-                                                                  // Navigator.push(
-                                                                  //     context,
-                                                                  //     MaterialPageRoute(
-                                                                  //         builder: (context) =>
-                                                                  //             EditEvent(studenthasposts: list)))
+                                                                              .CENTER),
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) => Leaveeventhome(
+                                                                                snap: Event,
+                                                                                yourevent: "1",
+                                                                              )))
                                                                 }
                                                             })
                                                   },
