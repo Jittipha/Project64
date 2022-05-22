@@ -12,6 +12,11 @@ import 'package:project/screens/Join_Event/Leave_Event_Home.dart';
 import 'package:snapshot/snapshot.dart';
 
 class NotificationService extends ChangeNotifier {
+  String groupKey = 'com.android.example.WORK_EMAIL';
+  String groupChannelId = 'grouped channel id';
+  String groupChannelName = 'grouped channel name';
+  String groupChannelDescription = 'grouped channel description';
+
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
@@ -54,8 +59,7 @@ class NotificationService extends ChangeNotifier {
 
   //Image notification
   Future imageNotification(event) async {
-
-    // var bigPicture = const BigPictureStyleInformation( 
+    // var bigPicture = const BigPictureStyleInformation(
 
     //     const DrawableResourceAndroidBitmap("ic_launcher"),
 
@@ -67,9 +71,12 @@ class NotificationService extends ChangeNotifier {
     //     htmlFormatContentTitle: true);
 
     // ignore: prefer_const_constructors
-    var android = AndroidNotificationDetails("id", "description",
-        // styleInformation: bigPicture
-        );
+    var android = AndroidNotificationDetails(
+      groupChannelId, groupChannelName,
+      channelDescription: groupChannelDescription,
+
+      // styleInformation: bigPicture
+    );
 
     var platform = new NotificationDetails(
       android: android,

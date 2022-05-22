@@ -21,9 +21,10 @@ import '../tabbar.dart';
 import 'Event_detail_Home.dart';
 
 class Leaveeventhome extends StatefulWidget {
-  Leaveeventhome({Key? key, required this.snap}) : super(key: key);
+  Leaveeventhome({Key? key, required this.snap, this.yourevent})
+      : super(key: key);
   QueryDocumentSnapshot snap;
-
+  String? yourevent = "2";
   @override
   _LeaveeventhomeState createState() => _LeaveeventhomeState();
 }
@@ -406,7 +407,15 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
           ),
         ]),
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: _getfloat(),
+    );
+  }
+
+  Widget _getfloat() {
+    if (widget.yourevent == "1") {
+      return Container();
+    } else {
+      return FloatingActionButton.extended(
         onPressed: () async {
           showAlertDialog(context);
         },
@@ -416,8 +425,8 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
         ),
         icon: const Icon(Icons.exit_to_app_outlined),
         backgroundColor: Colors.pink[400],
-      ),
-    );
+      );
+    }
   }
 
   showAlertDialog(BuildContext context) {

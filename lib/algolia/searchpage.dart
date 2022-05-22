@@ -3,10 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project/screens/Join_Event/Event_detail_Search.dart';
 import 'package:project/screens/Join_Event/Leave_Event_Search.dart';
 import 'package:project/screens/editeventpost.dart';
 import 'package:snapshot/snapshot.dart';
+
+import '../screens/Join_Event/Leave_Event_Home.dart';
 // import 'package:project/algolia/AlgoliaApplication.dart';
 // import 'package:project/algolia/AlgoliaApplication.dart';
 
@@ -193,7 +196,19 @@ class _SearchBarState extends State<SearchBar> {
                                                           })
                                                 }
                                               else
-                                                {print("Your Event")}
+                                                 { Fluttertoast.showToast(
+                                                                      msg:
+                                                                          "Your Event!",
+                                                                      gravity:
+                                                                          ToastGravity
+                                                                              .CENTER),
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) => Leaveevent(
+                                                                                snap: snap,
+                                                                                yourevent: "1",
+                                                                              )))}
                                             });
                                   },
                                   child: Column(

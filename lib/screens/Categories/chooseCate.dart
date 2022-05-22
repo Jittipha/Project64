@@ -202,7 +202,7 @@ class _CategoriesState extends State<Categories> {
                     ),
                     Container(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      height: MediaQuery.of(context).size.height * 0.54,
+                      height: MediaQuery.of(context).size.height * 0.60,
                       child: ListView.builder(
                           itemCount: listshow.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -266,7 +266,7 @@ class _CategoriesState extends State<Categories> {
                           ),
                           Container(
                             padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                            height: MediaQuery.of(context).size.height * 0.15,
+                            height: MediaQuery.of(context).size.height * 0.13,
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: Listchoosed.length,
