@@ -180,7 +180,14 @@ class _thisweekState extends State<thisweek> {
                                                                           "Your Event!",
                                                                       gravity:
                                                                           ToastGravity
-                                                                              .CENTER)}
+                                                                              .CENTER),
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) => Leaveeventhome(
+                                                                                snap: Eventjusttoday,
+                                                                                yourevent: "1",
+                                                                              )))}
                                             });
                                   },
                                   child: Row(children: <Widget>[

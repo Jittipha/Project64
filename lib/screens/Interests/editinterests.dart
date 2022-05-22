@@ -17,10 +17,11 @@ class editinterest extends StatefulWidget {
 class _editinterest extends State<editinterest> {
   List Cate_id = [];
   List Listchoosed = [];
-
+  String? text;
   List listshow = [];
   int length = 0;
   String id = "";
+  String stringcheck = "2";
   @override
   void initState() {
     super.initState();
@@ -100,6 +101,16 @@ class _editinterest extends State<editinterest> {
             textColor: Colors.white,
             onPressed: () async {
               if (Listchoosed.isNotEmpty) {
+                for (int a = 0; a < Listchoosed.length; a++) {
+                  for (int x = 0; x < Listchoosed.length; x++) {
+                    if (a != x) {
+                      if (Listchoosed[a]["Name"] == Listchoosed[x]["Name"]) {
+                        Listchoosed.remove(Listchoosed[x]);
+                      }
+                    }
+                  }
+                }
+
                 FirebaseFirestore.instance
                     .collection('Event')
                     .doc(widget.documents['Event_id'])
@@ -140,7 +151,10 @@ class _editinterest extends State<editinterest> {
                     msg: "Edit Success!", gravity: ToastGravity.CENTER);
                 Navigator.pop(context);
               } else {
-                showAlertDialog(context);
+                showAlertDialog(
+                    context,
+                    text =
+                        "กรุณาเลือกความน่าสนใจของหมวดหมู่ อย่างน้อย 1 หมวดหมู่");
               }
             },
             child: const Text(
@@ -164,7 +178,7 @@ class _editinterest extends State<editinterest> {
                     Container(
                       padding: EdgeInsets.all(20),
                       child: const Text(
-                        "แตะเพื่อเลือกหมวดหมู่ที่คุณสนใจ",
+                        "แตะเพื่อเลือกความน่าสนใจของกิจกรรม",
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'Raleway',
@@ -221,7 +235,7 @@ class _editinterest extends State<editinterest> {
                     Container(
                       padding: EdgeInsets.all(20),
                       child: const Text(
-                        "แตะเพื่อเลือกหมวดหมู่ที่คุณสนใจ",
+                        "แตะเพื่อเลือกความน่าสนใจของกิจกรรม",
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'Raleway',
@@ -263,9 +277,22 @@ class _editinterest extends State<editinterest> {
                                 maxLines: 1,
                               ),
                               onTap: () {
+                                for (int a = 0; a < Listchoosed.length; a++) {
+                                  if (Listchoosed[a]["Name"] ==
+                                      listshow[index]['Name']) {
+                                    stringcheck = "1";
+                                    showAlertDialog(
+                                        context, text = "หมวดหมู่ซ้ำกัน !!");
+                                  } else {}
+                                }
+                                if (stringcheck == "2") {
+                                  setState(() {
+                                    Listchoosed.add(listshow[index]);
+                                    listshow.remove(listshow[index]);
+                                  });
+                                }
                                 setState(() {
-                                  Listchoosed.add(listshow[index]);
-                                  listshow.remove(listshow[index]);
+                                  stringcheck = "2";
                                 });
                               },
                             );
@@ -365,7 +392,7 @@ class _editinterest extends State<editinterest> {
     );
   }
 
-  showAlertDialog(BuildContext context) {
+  showAlertDialog(BuildContext context, text) {
     // set up the button
     Widget OKButton = FlatButton(
       child: const Text("OK"),
@@ -377,7 +404,7 @@ class _editinterest extends State<editinterest> {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: const Text("Warning!!"),
-      content: const Text("กรุณาเลือกหมวดหมู่"),
+      content: Text(text),
       actions: [OKButton],
     );
 
