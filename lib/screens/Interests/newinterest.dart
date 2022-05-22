@@ -191,7 +191,7 @@ class _interesteditedState extends State<interestedited> {
                     Container(
                       padding: EdgeInsets.all(20),
                       child: const Text(
-                        "แตะเพื่อเลือกหมวดหมู่ที่คุณสนใจ",
+                        "แตะเพื่อเลือกความน่าสนใจของกิจกรรม",
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'Raleway',

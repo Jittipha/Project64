@@ -432,32 +432,68 @@ class _EditEventState extends State<EditEvent> {
                                               content: Text(""),
                                               actions: [
                                                 FlatButton(
-                                                  onPressed: () {
-                                                    FirebaseFirestore.instance
-                                                        .collection('Student')
-                                                        .doc(FirebaseAuth
+                                                  onPressed: () async {
+                                                    DeleteNotification();
+                                                    DeleteComment();
+                                                    QuerySnapshot snaps =
+                                                        await FirebaseFirestore
                                                             .instance
-                                                            .currentUser
-                                                            ?.uid)
-                                                        .collection('Posts')
-                                                        .doc(widget
-                                                            .studenthasposts.id)
-                                                        .delete();
-
-                                                    FirebaseFirestore.instance
+                                                            .collection("Event")
+                                                            .doc(widget
+                                                                    .studenthasposts[
+                                                                "Event_id"])
+                                                            .collection(
+                                                                "Joined")
+                                                            .get();
+                                                    snaps.docs.forEach(
+                                                        (element) async {
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection("Student")
+                                                          .doc(element.id)
+                                                          .collection("Joined")
+                                                          .doc(widget
+                                                                  .studenthasposts[
+                                                              "Event_id"])
+                                                          .delete();
+                                                    });
+                                                    QuerySnapshot snap =
+                                                        await FirebaseFirestore
+                                                            .instance
+                                                            .collection("Event")
+                                                            .doc(widget
+                                                                    .studenthasposts[
+                                                                "Event_id"])
+                                                            .collection(
+                                                                "Joined")
+                                                            .get();
+                                                    snap.docs.forEach((data) {
+                                                      FirebaseFirestore.instance
+                                                          .collection("Event")
+                                                          .doc(widget
+                                                                  .studenthasposts[
+                                                              "Event_id"])
+                                                          .collection("Joined")
+                                                          .doc(data.id)
+                                                          .delete();
+                                                    });
+                                                    await FirebaseFirestore
+                                                        .instance
                                                         .collection('Event')
                                                         .doc(widget
                                                                 .studenthasposts[
                                                             "Event_id"])
-                                                        .delete()
-                                                        .then((value) {
-                                                      Fluttertoast.showToast(
-                                                          msg:
-                                                              "Delete Success!",
-                                                          gravity: ToastGravity
-                                                              .CENTER);
-                                                      Navigator.pop(context);
-                                                    });
+                                                        .delete();
+                                                    DeleteEventInstudentPost();
+
+                                                    Fluttertoast.showToast(
+                                                        msg: "Delete Success!",
+                                                        gravity: ToastGravity
+                                                            .CENTER);
+                                                    Navigator.pop(
+                                                        context, 'Cancel');
+                                                    Navigator.pop(context);
+                                                    Navigator.pop(context);
                                                   },
                                                   child: Text('Yes'),
                                                 ),
@@ -469,63 +505,6 @@ class _EditEventState extends State<EditEvent> {
                                               ],
                                             );
                                           });
-
-                                      // await FirebaseFirestore.instance
-                                      //     .collection('Student')
-                                      //     .doc(FirebaseAuth
-                                      //         .instance.currentUser?.uid)
-                                      //     .collection('Posts')
-                                      //     .doc(widget.studenthasposts.id)
-                                      //     .delete();
-
-                                      // await FirebaseFirestore.instance
-                                      //     .collection('Event')
-                                      //     .doc(widget.studenthasposts["Event_id"])
-                                      //     .delete()
-                                      //     .then((value) {
-                                      //   Fluttertoast.showToast(
-                                      //       msg: "Delete Success!",
-                                      //       gravity: ToastGravity.CENTER);
-                                      //   Navigator.push(context, MaterialPageRoute(
-                                      //     builder: (context) {
-                                      //       return const MyEvent();
-                                      //     },
-                                      //   ));
-
-                                      await FirebaseFirestore.instance
-                                          .collection('Student')
-                                          .doc(FirebaseAuth
-                                              .instance.currentUser?.uid)
-                                          .collection('Posts')
-                                          .doc(widget.studenthasposts.id)
-                                          .delete();
-                                      QuerySnapshot snaps =
-                                          await FirebaseFirestore.instance
-                                              .collection("Event")
-                                              .doc(widget
-                                                  .studenthasposts["Event_id"])
-                                              .collection("Joined")
-                                              .get();
-                                      snaps.docs.forEach((element) async {
-                                        await FirebaseFirestore.instance
-                                            .collection("Student")
-                                            .doc(element.id)
-                                            .collection("Joined")
-                                            .doc(widget
-                                                .studenthasposts["Event_id"])
-                                            .delete();
-                                      });
-                                      await FirebaseFirestore.instance
-                                          .collection('Event')
-                                          .doc(widget
-                                              .studenthasposts["Event_id"])
-                                          .delete()
-                                          .then((value) {
-                                        Fluttertoast.showToast(
-                                            msg: "Delete Success!",
-                                            gravity: ToastGravity.CENTER);
-                                        Navigator.pop(context, 'Cancel');
-                                      });
                                     }),
                               ],
                             ),
@@ -689,5 +668,51 @@ class _EditEventState extends State<EditEvent> {
   getlength() {
     length = widget.studenthasposts['Interests'].length.toString();
     setState(() {});
+  }
+
+  void DeleteEventInstudentPost() async {
+    // QuerySnapshot DeleteStudent = await FirebaseFirestore.instance
+    //     .collection("Student")
+    //     .doc(widget.Event["Host"][0]["Student_id"])
+    //     .collection("Posts")
+    //     .where("Event_id", isEqualTo: widget.Event.id)
+    //     .get();
+    // DeleteStudent.docs.forEach((element) async {
+    //   await FirebaseFirestore.instance
+    //     ..collection("Student")
+    //         .doc(widget.Event["Host"][0]["Student_id"])
+    //         .collection("Posts")
+    //         .doc(element.id)
+    //         .delete();
+    // });
+    await FirebaseFirestore.instance
+        .collection('Student')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .collection('Posts')
+        .doc(widget.studenthasposts.id)
+        .delete();
+  }
+
+  // ignore: non_constant_identifier_names
+  void DeleteComment() async {
+    await FirebaseFirestore.instance
+        .collection("Comment")
+        .where("eId", isEqualTo: widget.studenthasposts["Event_id"])
+        .get()
+        .then((value) => {
+              value.docs.forEach((element) {
+                FirebaseFirestore.instance
+                    .collection("Comment")
+                    .doc(element.id)
+                    .delete();
+              })
+            });
+  }
+
+  void DeleteNotification() async {
+    await FirebaseFirestore.instance
+        .collection("Notification")
+        .doc(widget.studenthasposts["Event_id"])
+        .delete();
   }
 }
