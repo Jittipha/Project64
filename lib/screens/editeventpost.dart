@@ -435,6 +435,8 @@ class _EditEventState extends State<EditEvent> {
                                                   onPressed: () async {
                                                     DeleteNotification();
                                                     DeleteComment();
+
+                                                    //ดึงคนที่ join เข้ามาในกิจกรรมนี้
                                                     QuerySnapshot snaps =
                                                         await FirebaseFirestore
                                                             .instance
@@ -445,8 +447,11 @@ class _EditEventState extends State<EditEvent> {
                                                             .collection(
                                                                 "Joined")
                                                             .get();
+
+                                                    // loop ค่าของ snaps
                                                     snaps.docs.forEach(
                                                         (element) async {
+                                                      // delete ตาราง joined ใน student
                                                       await FirebaseFirestore
                                                           .instance
                                                           .collection("Student")
@@ -457,6 +462,7 @@ class _EditEventState extends State<EditEvent> {
                                                               "Event_id"])
                                                           .delete();
                                                     });
+                                                    //ดึงคนที่ join เข้ามาในกิจกรรมนี้
                                                     QuerySnapshot snap =
                                                         await FirebaseFirestore
                                                             .instance
@@ -477,6 +483,8 @@ class _EditEventState extends State<EditEvent> {
                                                           .doc(data.id)
                                                           .delete();
                                                     });
+
+                                                    //delete ตาราง event เลย
                                                     await FirebaseFirestore
                                                         .instance
                                                         .collection('Event')
@@ -490,8 +498,7 @@ class _EditEventState extends State<EditEvent> {
                                                         msg: "Delete Success!",
                                                         gravity: ToastGravity
                                                             .CENTER);
-                                                    Navigator.pop(
-                                                        context, 'Cancel');
+
                                                     Navigator.pop(context);
                                                     Navigator.pop(context);
                                                   },
@@ -700,8 +707,8 @@ class _EditEventState extends State<EditEvent> {
         .where("eId", isEqualTo: widget.studenthasposts["Event_id"])
         .get()
         .then((value) => {
-              value.docs.forEach((element) {
-                FirebaseFirestore.instance
+              value.docs.forEach((element) async {
+                await FirebaseFirestore.instance
                     .collection("Comment")
                     .doc(element.id)
                     .delete();
