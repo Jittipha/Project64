@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, unused_import, avoid_unnecessary_containers, prefer_const_constructors
+// ignore_for_file: non_constant_identifier_names, unused_import, avoid_unnecessary_containers, prefer_const_constructors, avoid_print, duplicate_ignore
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -149,6 +149,7 @@ class _TomorrowState extends State<Tomorrow> {
                                                                 .docs.isEmpty)
                                                               // ignore: avoid_print
                                                               {
+                                                                // ignore: avoid_print
                                                                 print(
                                                                     "dont have"),
                                                                 Navigator.push(

@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types, prefer_is_empty, non_constant_identifier_names, avoid_unnecessary_containers
+// ignore_for_file: camel_case_types, prefer_is_empty, non_constant_identifier_names, avoid_unnecessary_containers, avoid_print, duplicate_ignore
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

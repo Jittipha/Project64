@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:intl/intl.dart';
 import 'package:project/Model/Event.dart';
+import 'package:project/Notification/services/Noti.dart';
 import 'package:project/Notification/services/notification.dart';
 import '../Background/bg_EditEvent.dart';
 import 'Interests/editinterests.dart';
@@ -346,7 +347,9 @@ class _EditEventState extends State<EditEvent> {
                                             fontSize: 20, color: Colors.black),
                                         textAlign: TextAlign.right),
                                     onPressed: () async {
-                                      //  await model.imageNotification();
+                                    //  await createPlantFoodNotification();
+
+                                      //  await model.imageNotification(event);
                                       isLoading = true;
 
                                       //เรียก method editdatatoFirebase
@@ -532,7 +535,12 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
+
           // await model.imageNotification(event);
+          await createPlantFoodNotification(event);
+ 
+         
+
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -567,7 +575,10 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
+
           // await model.imageNotification(event);
+          await createPlantFoodNotification(event);
+
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -603,7 +614,10 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
+
           // await model.imageNotification(event);
+          await createPlantFoodNotification(event);
+
 
           await FirebaseFirestore.instance
               .collection('Event')
@@ -640,7 +654,10 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
+
           // await model.imageNotification(event);
+          await createPlantFoodNotification(event);
+
 
           await FirebaseFirestore.instance
               .collection('Event')

@@ -11,11 +11,13 @@ import 'package:project/Model/Event.dart';
 import 'package:project/screens/Join_Event/Leave_Event_Home.dart';
 import 'package:snapshot/snapshot.dart';
 
-class NotificationService extends ChangeNotifier {
+
+class NotificationService {
   String groupKey = 'com.android.example.WORK_EMAIL';
   String groupChannelId = 'grouped channel id';
   String groupChannelName = 'grouped channel name';
   String groupChannelDescription = 'grouped channel description';
+
 
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -59,33 +61,46 @@ class NotificationService extends ChangeNotifier {
 
   //Image notification
   Future imageNotification(event) async {
+
+
+    print(event.Image);
+    
+    //  var bigPicture = largeIcon: const DrawableResourceAndroidBitmap(event.Image);
+    
+
     // var bigPicture = const BigPictureStyleInformation(
 
     //     const DrawableResourceAndroidBitmap("ic_launcher"),
 
-    //     largeIcon: const DrawableResourceAndroidBitmap("ic_launcher"),
+    //     largeIcon: const DrawableResourceAndroidBitmap("ic_launcher"),);
 
-    //     // contentTitle:"valo",
-    //     // summaryText: "อีเว้นนี้มีการเปลี่ยนแปลง",
-    //     htmlFormatContent: true,
-    //     htmlFormatContentTitle: true);
+        // contentTitle:"valo",
+        // summaryText: "อีเว้นนี้มีการเปลี่ยนแปลง",
+        // htmlFormatContent: true,
+        // htmlFormatContentTitle: true);
 
     // ignore: prefer_const_constructors
-    var android = AndroidNotificationDetails(
-      groupChannelId, groupChannelName,
-      channelDescription: groupChannelDescription,
 
-      // styleInformation: bigPicture
-    );
+    var android = AndroidNotificationDetails(groupChannelId,groupChannelName, 
+    channelDescription: groupChannelDescription,
+    // importance: Importance.max
+   
+    // styleInformation: BigPictureStyleInformation(bigPicture)
+    // styleInformation: bigPicture
+   
+      );
+
 
     var platform = new NotificationDetails(
       android: android,
     );
 
     await _flutterLocalNotificationsPlugin.show(
-      1, (event.Name), "This event has changed.", platform,
+      1, (event.Name), "This event has changed.",platform,
+    
       //payload: ("Welcome to demo app")
     );
     print(event.Name);
+    // print(bigPicture);
   }
 }
