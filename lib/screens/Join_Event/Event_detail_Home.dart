@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project/algolia/searchpage.dart';
+import 'package:project/constants.dart';
 import 'package:project/screens/Home_Feed/homepage.dart';
 
 class eventdetailhome extends StatefulWidget {
@@ -22,9 +23,9 @@ class _eventdetailhomeState extends State<eventdetailhome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 48, 180, 169),
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 13, 104, 96),
+        backgroundColor: iconColor,
         title: const Text(
           "Event",
           style: TextStyle(
@@ -38,7 +39,7 @@ class _eventdetailhomeState extends State<eventdetailhome> {
           Container(
             child: Image.network(
               widget.snap["Image"],
-              fit: BoxFit.fitWidth,
+              fit: BoxFit.cover,
               height: 230,
               width: 500,
             ),

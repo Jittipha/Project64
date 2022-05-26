@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/Notification/views/HomeNotification.dart';
 import 'package:project/algolia/searchpage.dart';
+import 'package:project/constants.dart';
 import 'package:project/screens/mainpage.dart';
 import 'Home_Feed/homepage.dart';
 import 'mainpage.dart';
@@ -73,9 +74,9 @@ class _TabbarState extends State<Tabbar> {
           
         ],
         currentIndex: _selectedIndex,
-        unselectedItemColor: Color(0xFF00BF6D),
+        unselectedItemColor: iconColor,
         selectedItemColor: Colors.black,
-        backgroundColor: Color(0xFF00BF6D),
+        backgroundColor: iconColor,
         
         onTap: _onItemTapped,
       ),
