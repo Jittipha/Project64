@@ -267,9 +267,9 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: backgroundColor,
-                      hintText: 'comment',
+                      hintText: 'กรอกข้อความที่นี้...',
                       hintStyle: TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 17.0,
                       ),
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: iconColor, width: 2),

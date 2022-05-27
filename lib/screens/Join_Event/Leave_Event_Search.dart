@@ -288,9 +288,9 @@ class _LeaveeventState extends State<Leaveevent> {
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: backgroundColor,
-                            hintText: 'comment',
+                            hintText: 'กรอกข้อความที่นี้...',
                             hintStyle: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 17.0,
                             ),
                             focusedBorder: OutlineInputBorder(
                                 borderSide:
