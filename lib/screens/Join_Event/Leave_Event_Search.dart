@@ -4,6 +4,7 @@ import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:intl/intl.dart';
@@ -13,9 +14,10 @@ import 'package:project/Background/bg.dart';
 
 import '../../Model/Comment.dart';
 import '../../Model/Student.dart';
+import '../../constants.dart';
 
 class Leaveevent extends StatefulWidget {
-  Leaveevent({Key? key, required this.snap,this.yourevent}) : super(key: key);
+  Leaveevent({Key? key, required this.snap, this.yourevent}) : super(key: key);
   AlgoliaObjectSnapshot snap;
   String? yourevent = "2";
   @override
@@ -51,9 +53,9 @@ class _LeaveeventState extends State<Leaveevent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 48, 180, 169),
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 13, 104, 96),
+        backgroundColor: iconColor,
         title: const Text(
           "Event",
           style: TextStyle(
@@ -74,7 +76,7 @@ class _LeaveeventState extends State<Leaveevent> {
             }
             return SingleChildScrollView(
               padding: const EdgeInsets.only(
-                  bottom: 70, top: 10, right: 10, left: 10),
+                  bottom: 70, top: 0, right: 10, left: 10),
               child: Column(children: <Widget>[
                 Container(
                   child: Image.network(
@@ -89,7 +91,6 @@ class _LeaveeventState extends State<Leaveevent> {
                   child: Text(
                     widget.snap.data["Name"],
                     style: const TextStyle(
-                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Raleway',
                         fontSize: 25),
@@ -99,17 +100,17 @@ class _LeaveeventState extends State<Leaveevent> {
                   padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                   decoration: const BoxDecoration(
                       border: Border(
-                    bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+                    bottom: BorderSide(
+                        width: 0.5, color: Color.fromARGB(255, 248, 244, 244)),
                   )),
                   child: ListTile(
                       leading: const Icon(Icons.date_range,
-                          color: Colors.black, size: 30),
+                          color: iconColor, size: 30),
                       title: Text(
                         widget.snap.data["date"] +
                             '     ' +
                             widget.snap.data["Time"],
                         style: const TextStyle(
-                          color: Colors.white,
                           fontSize: 18,
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.w700,
@@ -121,15 +122,15 @@ class _LeaveeventState extends State<Leaveevent> {
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                   decoration: const BoxDecoration(
                       border: Border(
-                    bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+                    bottom: BorderSide(
+                        width: 0.5, color: Color.fromARGB(255, 248, 244, 244)),
                   )),
                   child: ListTile(
                       leading: const Icon(Icons.location_on_outlined,
-                          color: Colors.black, size: 30),
+                          color: iconColor, size: 30),
                       title: Text(
                         widget.snap.data["Location"],
                         style: const TextStyle(
-                          color: Colors.white,
                           fontSize: 18,
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.w700,
@@ -142,7 +143,6 @@ class _LeaveeventState extends State<Leaveevent> {
                   child: const ListTile(
                     title: Text("About",
                         style: TextStyle(
-                            color: Colors.white,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Raleway',
                             fontSize: 25)),
@@ -152,14 +152,15 @@ class _LeaveeventState extends State<Leaveevent> {
                   padding: const EdgeInsets.fromLTRB(28, 0, 10, 10),
                   decoration: const BoxDecoration(
                       border: Border(
-                    bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+                    bottom: BorderSide(
+                        width: 0.5, color: Color.fromARGB(255, 248, 244, 244)),
                   )),
                   child: ListTile(
                     title: Text(widget.snap.data["Description"],
                         style: const TextStyle(
-                          color: Colors.white,
                           fontSize: 15,
                           fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w400,
                         )),
                   ),
                 ),
@@ -168,7 +169,6 @@ class _LeaveeventState extends State<Leaveevent> {
                   child: const ListTile(
                     title: Text("Host",
                         style: TextStyle(
-                            color: Colors.white,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Raleway',
                             fontSize: 25)),
@@ -178,11 +178,12 @@ class _LeaveeventState extends State<Leaveevent> {
                   padding: const EdgeInsets.fromLTRB(13, 0, 0, 10),
                   decoration: const BoxDecoration(
                       border: Border(
-                    bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+                    bottom: BorderSide(
+                        width: 0.5, color: Color.fromARGB(255, 248, 244, 244)),
                   )),
                   child: ListTile(
                       leading: CircleAvatar(
-                        radius: 26.0,
+                        radius: 24.0,
                         backgroundImage: NetworkImage(
                             "${widget.snap.data['Host'][0]['Photo']}"),
                         backgroundColor: Colors.transparent,
@@ -190,7 +191,6 @@ class _LeaveeventState extends State<Leaveevent> {
                       title: Text(
                         widget.snap.data['Host'][0]['Name'],
                         style: const TextStyle(
-                          color: Colors.white,
                           fontSize: 18,
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.w400,
@@ -202,7 +202,7 @@ class _LeaveeventState extends State<Leaveevent> {
                     padding: const EdgeInsets.fromLTRB(13, 13, 22, 10),
                     child: ListTile(
                         trailing: CircleAvatar(
-                            backgroundColor: Colors.blueGrey[100],
+                            backgroundColor: Colors.white,
                             radius: 19,
                             child: Align(
                               alignment: Alignment.topCenter,
@@ -215,7 +215,6 @@ class _LeaveeventState extends State<Leaveevent> {
                             )),
                         title: Text("Joined",
                             style: TextStyle(
-                                color: Colors.white,
                                 fontWeight: FontWeight.w500,
                                 fontFamily: 'Raleway',
                                 fontSize: 25)))),
@@ -224,7 +223,8 @@ class _LeaveeventState extends State<Leaveevent> {
                   padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
                   decoration: const BoxDecoration(
                       border: Border(
-                    bottom: BorderSide(width: 0.25, color: Color(0xFF7F7F7F)),
+                    bottom: BorderSide(
+                        width: 0.25, color: Color.fromARGB(255, 248, 244, 244)),
                   )),
                   child: StreamBuilder(
                       stream: FirebaseFirestore.instance
@@ -253,10 +253,9 @@ class _LeaveeventState extends State<Leaveevent> {
                                     title: Text(
                                       doc['Name'],
                                       style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
+                                        fontSize: 20,
                                         fontFamily: 'Raleway',
-                                        fontWeight: FontWeight.w400,
+                                        fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                   ),
@@ -271,7 +270,6 @@ class _LeaveeventState extends State<Leaveevent> {
                   child: const ListTile(
                     title: Text("Comment",
                         style: TextStyle(
-                            color: Colors.white,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Raleway',
                             fontSize: 25)),
@@ -279,68 +277,104 @@ class _LeaveeventState extends State<Leaveevent> {
                 ),
                 Form(
                   key: _formKey,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        decoration: const InputDecoration(
-                            icon: Icon(Icons.account_circle_sharp,
-                                color: Colors.black),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(110),
+                          ],
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: backgroundColor,
                             hintText: 'comment',
                             hintStyle: TextStyle(
-                                fontSize: 20.0,
-                                color: Color.fromARGB(255, 250, 248, 248))),
-                        validator: RequiredValidator(errorText: "comment!"),
-                        onSaved: (value) {
-                          comments.text = value;
-                        },
-                      ),
-                      FlatButton(
-                          color: Color.fromARGB(255, 199, 242, 81),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          onPressed: () async {
-                            await FirebaseFirestore.instance
-                                .collection("Student")
-                                .doc(FirebaseAuth.instance.currentUser?.uid)
-                                .get()
-                                .then((value) => {
-                                      setState(() {
-                                        students.Name = value.data()?["Name"];
-                                        students.Photo = value.data()?["Photo"];
-                                      })
-                                    });
-
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              _formKey.currentState!.reset();
-                              await FirebaseFirestore.instance
-                                  .collection('Comment')
-                                  .doc()
-                                  .set({
-                                "text": comments.text,
-                                "eId": widget.snap.objectID,
-                                "sId": FirebaseAuth.instance.currentUser?.uid,
-                                "name": students.Name,
-                                "year":
-                                    DateFormat('yyyy').format(DateTime.now()),
-                                "hour": DateFormat('kk').format(DateTime.now()),
-                                "min": DateFormat('mm').format(DateTime.now()),
-                                "month":
-                                    DateFormat('MM').format(DateTime.now()),
-                                "day": DateFormat('dd').format(DateTime.now()),
-                                "Photo": students.Photo,
-                              });
-                            }
+                              fontSize: 20.0,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: iconColor, width: 2),
+                                borderRadius: BorderRadius.circular(5)),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: iconColor, width: 2),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          maxLines: 4,
+                          validator: RequiredValidator(errorText: "comment!"),
+                          onSaved: (value) {
+                            comments.text = value;
                           },
-                          child: Text("Post"))
-                    ],
+                        ),
+                        SizedBox(height: 7),
+                        SizedBox(
+                          width: 130,
+                          height: 45,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        backgroundColor),
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  side: const BorderSide(
+                                      color: iconColor, width: 2),
+                                ))),
+                            onPressed: () async {
+                              await FirebaseFirestore.instance
+                                  .collection("Student")
+                                  .doc(FirebaseAuth.instance.currentUser?.uid)
+                                  .get()
+                                  .then((value) => {
+                                        setState(() {
+                                          students.Name = value.data()?["Name"];
+                                          students.Photo =
+                                              value.data()?["Photo"];
+                                        })
+                                      });
+
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
+                                _formKey.currentState!.reset();
+                                await FirebaseFirestore.instance
+                                    .collection('Comment')
+                                    .doc()
+                                    .set({
+                                  "text": comments.text,
+                                  "eId": widget.snap.objectID,
+                                  "sId": FirebaseAuth.instance.currentUser?.uid,
+                                  "name": students.Name,
+                                  "year":
+                                      DateFormat('yyyy').format(DateTime.now()),
+                                  "hour":
+                                      DateFormat('kk').format(DateTime.now()),
+                                  "min":
+                                      DateFormat('mm').format(DateTime.now()),
+                                  "month":
+                                      DateFormat('MM').format(DateTime.now()),
+                                  "day":
+                                      DateFormat('dd').format(DateTime.now()),
+                                  "Photo": students.Photo,
+                                });
+                              }
+                            },
+                            child: Text("Send Comment"),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                   decoration: const BoxDecoration(
                       border: Border(
-                    bottom: BorderSide(width: 0.25, color: Color(0xFF7F7F7F)),
+                    bottom: BorderSide(
+                        width: 0.50, color: Color.fromARGB(255, 248, 244, 244)),
                   )),
                   child: StreamBuilder(
                       stream: FirebaseFirestore.instance
@@ -358,7 +392,7 @@ class _LeaveeventState extends State<Leaveevent> {
                           return const CircularProgressIndicator();
                         }
                         return SizedBox(
-                          height: 90,
+                          height: 130,
                           child: ListView(
                               scrollDirection: Axis.vertical,
                               children: snapshot.data!.docs.map((doc) {
@@ -379,7 +413,10 @@ class _LeaveeventState extends State<Leaveevent> {
                                       children: [
                                         Text(
                                           doc['name'],
-                                          style: TextStyle(fontSize: 15),
+                                          style: TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                            fontSize: 16,
+                                          ),
                                         ),
                                         Text('   '),
                                         Text(
@@ -393,8 +430,8 @@ class _LeaveeventState extends State<Leaveevent> {
                                               ':' +
                                               doc['min'],
                                           style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.blueGrey),
+                                            fontSize: 12,
+                                          ),
                                         ),
                                       ],
                                     ),

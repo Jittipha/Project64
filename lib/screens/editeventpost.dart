@@ -299,7 +299,7 @@ class _EditEventState extends State<EditEvent> {
                                   onSaved: (value) {
                                     setState(() => event.Description = value);
                                   },
-                                   inputFormatters: [
+                                  inputFormatters: [
                                     LengthLimitingTextInputFormatter(500),
                                   ],
                                 ),
@@ -351,8 +351,8 @@ class _EditEventState extends State<EditEvent> {
                                   onSaved: (value) {
                                     setState(() => event.Location = value);
                                   },
-                                   inputFormatters: [
-                                    LengthLimitingTextInputFormatter(30),
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(40),
                                   ],
                                 ),
                               ],

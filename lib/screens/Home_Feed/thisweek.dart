@@ -215,6 +215,7 @@ class _thisweekState extends State<thisweek> {
                                           const SizedBox(height: 19),
                                           Text(Eventjusttoday["Name"],
                                               style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
                                                 fontSize: 14,
                                                 fontFamily: 'Raleway',
                                                 fontWeight: FontWeight.w600,
@@ -229,6 +230,7 @@ class _thisweekState extends State<thisweek> {
                                             Text(
                                               "  " + Eventjusttoday["Location"],
                                               style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
                                                 fontSize: 12,
                                                 fontFamily: 'Raleway',
                                                 fontWeight: FontWeight.w600,

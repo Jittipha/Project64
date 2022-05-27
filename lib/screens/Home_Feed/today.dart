@@ -202,6 +202,7 @@ class _TodayState extends State<Today> {
                                           const SizedBox(height: 19),
                                           Text(Eventjusttoday["Name"],
                                               style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
                                                 fontSize: 14,
                                                 fontFamily: 'Raleway',
                                                 fontWeight: FontWeight.w600,
@@ -216,6 +217,7 @@ class _TodayState extends State<Today> {
                                             Text(
                                               "  " + Eventjusttoday["Location"],
                                               style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
                                                 fontSize: 12,
                                                 fontFamily: 'Raleway',
                                                 fontWeight: FontWeight.w600,

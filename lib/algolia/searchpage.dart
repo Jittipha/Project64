@@ -134,7 +134,7 @@ class _SearchBarState extends State<SearchBar> {
 
                             return Container(
                               padding:
-                                  const EdgeInsets.fromLTRB(10, 15, 10, 10),
+                                  const EdgeInsets.fromLTRB(10, 10, 10, 10),
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                     borderRadius:
@@ -196,41 +196,40 @@ class _SearchBarState extends State<SearchBar> {
                                                           })
                                                 }
                                               else
-                                                 { Fluttertoast.showToast(
-                                                                      msg:
-                                                                          "Your Event!",
-                                                                      gravity:
-                                                                          ToastGravity
-                                                                              .CENTER),
-                                                                  Navigator.push(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                          builder: (context) => Leaveevent(
-                                                                                snap: snap,
-                                                                                yourevent: "1",
-                                                                              )))}
+                                                {
+                                                  Fluttertoast.showToast(
+                                                      msg: "Your Event!",
+                                                      gravity:
+                                                          ToastGravity.CENTER),
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              Leaveevent(
+                                                                snap: snap,
+                                                                yourevent: "1",
+                                                              )))
+                                                }
                                             });
                                   },
                                   child: Column(
                                     children: <Widget>[
-                                      SizedBox(
-                                        height: 10,
-                                      ),
                                       ClipRRect(
                                         borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(8.0),
                                           topRight: Radius.circular(8.0),
-                                          bottomLeft: Radius.circular(8.0),
-                                          bottomRight: Radius.circular(8.0),
+                                          // bottomLeft: Radius.circular(8.0),
+                                          // bottomRight: Radius.circular(8.0),
                                         ),
                                         child: Image.network(snap.data["Image"],
-                                            width: 300,
+                                            width: double.infinity,
                                             height: 150,
                                             fit: BoxFit.fill),
                                       ),
                                       ListTile(
                                         title: Text(snap.data["Name"],
                                             style: TextStyle(
+                                                overflow: TextOverflow.ellipsis,
                                                 fontSize: 22,
                                                 fontFamily: 'Raleway',
                                                 fontWeight: FontWeight.w600)),

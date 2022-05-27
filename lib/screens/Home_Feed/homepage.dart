@@ -277,9 +277,11 @@ class _HomefeedState extends State<Homefeed> {
                                                             fit: BoxFit.fill),
                                                       ),
                                                       ListTile(
-                                                        title: Text(
-                                                            Event["Name"],
+                                                        title: Text(Event["Name"],
                                                             style: const TextStyle(
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
                                                                 fontFamily:
                                                                     'Raleway',
                                                                 fontWeight:
