@@ -296,6 +296,7 @@ class _PostState extends State<Post> {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
 
+                            
                             await FirebaseFirestore.instance
                                 .collection('Event')
                                 .doc()
