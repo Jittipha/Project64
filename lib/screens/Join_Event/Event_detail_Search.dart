@@ -66,7 +66,9 @@ class _eventdetailState extends State<eventdetail> {
                 leading:
                     const Icon(Icons.date_range, color: iconColor, size: 30),
                 title: Text(
-                  widget.snap.data["date"] + '     ' + widget.snap.data["Time"],
+                  widget.snap.data["date"] +
+                      '   |   ' +
+                      widget.snap.data["Time"],
                   style: const TextStyle(
                     fontSize: 18,
                     fontFamily: 'Raleway',
@@ -151,7 +153,7 @@ class _eventdetailState extends State<eventdetail> {
                   style: const TextStyle(
                     fontSize: 18,
                     fontFamily: 'Raleway',
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w600,
                   ),
                   textAlign: TextAlign.start,
                 )),

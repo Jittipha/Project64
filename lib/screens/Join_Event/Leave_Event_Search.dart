@@ -108,7 +108,7 @@ class _LeaveeventState extends State<Leaveevent> {
                           color: iconColor, size: 30),
                       title: Text(
                         widget.snap.data["date"] +
-                            '     ' +
+                            '   |   ' +
                             widget.snap.data["Time"],
                         style: const TextStyle(
                           fontSize: 18,
@@ -193,7 +193,7 @@ class _LeaveeventState extends State<Leaveevent> {
                         style: const TextStyle(
                           fontSize: 18,
                           fontFamily: 'Raleway',
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w600,
                         ),
                         textAlign: TextAlign.start,
                       )),
@@ -244,7 +244,7 @@ class _LeaveeventState extends State<Leaveevent> {
                               children: snapshot.data!.docs.map((doc) {
                                 return SizedBox(
                                   height: 10,
-                                  width: 400,
+                                  width: 300,
                                   child: ListTile(
                                     leading: CircleAvatar(
                                       backgroundImage:
