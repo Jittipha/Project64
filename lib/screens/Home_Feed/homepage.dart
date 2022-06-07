@@ -26,7 +26,7 @@ class Homefeed extends StatefulWidget {
 class _HomefeedState extends State<Homefeed> {
   String Category = "";
   String Category_id = "";
-  String body = "Home";
+
   var listedit;
   var list;
   QuerySnapshot? b;
@@ -37,12 +37,12 @@ class _HomefeedState extends State<Homefeed> {
         backgroundColor: const Color.fromARGB(255, 30, 150, 140),
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 13, 104, 96),
-          title: Text(
-            body,
-            style: const TextStyle(
+          title: const Text(
+            "หน้าหลัก",
+            style: TextStyle(
               fontSize: 22,
               fontFamily: 'Raleway',
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w400,
             ),
           ),
           actions: [
@@ -50,22 +50,22 @@ class _HomefeedState extends State<Homefeed> {
                 data: Theme.of(context).copyWith(dividerColor: Colors.black),
                 child: PopupMenuButton<int>(
                   itemBuilder: (context) => [
-                    const PopupMenuItem<int>(
-                      value: 4,
-                      child: Text("Starting soon!"),
-                    ),
-                    const PopupMenuDivider(),
+                    // const PopupMenuItem<int>(
+                    //   value: 4,
+                    //   child: Text("Starting soon!"),
+                    // ),
+                    // const PopupMenuDivider(),
                     const PopupMenuItem<int>(
                       value: 0,
-                      child: Text("Today"),
+                      child: Text("กิจกรรมของวันนี้"),
                     ),
                     const PopupMenuItem<int>(
                       value: 1,
-                      child: Text("Tomorrow"),
+                      child: Text("กิจกรรมของพรุ่งนี้"),
                     ),
                     const PopupMenuItem<int>(
                       value: 2,
-                      child: Text("This week"),
+                      child: Text("กิจกรรมในอีก 7 วัน"),
                     ),
                     // const PopupMenuDivider(),
                     // const PopupMenuItem<int>(
@@ -277,9 +277,11 @@ class _HomefeedState extends State<Homefeed> {
                                                             fit: BoxFit.fill),
                                                       ),
                                                       ListTile(
-                                                        title: Text(
-                                                            Event["Name"],
+                                                        title: Text(Event["Name"],
                                                             style: const TextStyle(
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
                                                                 fontFamily:
                                                                     'Raleway',
                                                                 fontWeight:
@@ -316,18 +318,16 @@ class _HomefeedState extends State<Homefeed> {
   Selecteditem(BuildContext context, item) {
     switch (item) {
       case 0:
-        body = 'Today';
+        ;
         // print(body);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const Today()));
         break;
       case 1:
-        body = 'Tomorrow';
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const Tomorrow()));
         break;
       case 2:
-        body = 'This Week';
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const thisweek()));
     }

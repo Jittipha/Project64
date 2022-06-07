@@ -4,6 +4,7 @@ import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:form_field_validator/form_field_validator.dart';
@@ -59,8 +60,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
         ),
       ),
       body: SingleChildScrollView(
-        padding:
-            const EdgeInsets.only(bottom: 70, top: 10, right: 10, left: 10),
+        padding: const EdgeInsets.only(bottom: 70, top: 0, right: 10, left: 10),
         child: Column(children: <Widget>[
           Container(
             padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -85,13 +85,14 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.25, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(
+                  width: 0.25, color: Color.fromARGB(255, 248, 244, 244)),
             )),
             child: ListTile(
                 leading:
                     const Icon(Icons.date_range, color: iconColor, size: 30),
                 title: Text(
-                  widget.snap["date"] + '     ' + widget.snap["Time"],
+                  widget.snap["date"] + '   |   ' + widget.snap["Time"],
                   style: const TextStyle(
                     fontSize: 18,
                     fontFamily: 'Raleway',
@@ -176,7 +177,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                   style: const TextStyle(
                     fontSize: 18,
                     fontFamily: 'Raleway',
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w600,
                   ),
                   textAlign: TextAlign.start,
                 )),
@@ -226,7 +227,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                         children: snapshot.data!.docs.map((doc) {
                           return SizedBox(
                             height: 10,
-                            width: 400,
+                            width: 300,
                             child: ListTile(
                               leading: CircleAvatar(
                                 backgroundImage: NetworkImage(doc['Photo']),
@@ -260,12 +261,15 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
               child: Column(
                 children: [
                   TextFormField(
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(110),
+                    ],
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: backgroundColor,
-                      hintText: 'comment',
+                      hintText: 'กรอกข้อความที่นี้...',
                       hintStyle: TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 17.0,
                       ),
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: iconColor, width: 2),
@@ -335,7 +339,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
             decoration: const BoxDecoration(
                 border: Border(
               bottom: BorderSide(
@@ -356,7 +360,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                     return const CircularProgressIndicator();
                   }
                   return SizedBox(
-                    height: 100,
+                    height: 130,
                     child: ListView(
                         scrollDirection: Axis.vertical,
                         children: snapshot.data!.docs.map((doc) {
@@ -377,6 +381,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
                                   Text(
                                     doc['name'],
                                     style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
                                       fontSize: 16,
                                     ),
                                   ),

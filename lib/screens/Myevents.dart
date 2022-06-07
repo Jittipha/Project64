@@ -119,6 +119,8 @@ class _MyEventState extends State<MyEvent> {
                                                   title: Text(
                                                       studenthasposts["Name"],
                                                       style: const TextStyle(
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
                                                           fontFamily: 'Raleway',
                                                           fontWeight:
                                                               FontWeight.w600)),
@@ -236,6 +238,8 @@ class _MyEventState extends State<MyEvent> {
                                                   title: Text(
                                                       studenthaspost["Name"],
                                                       style: const TextStyle(
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
                                                           fontFamily: 'Raleway',
                                                           fontWeight:
                                                               FontWeight.w600)),

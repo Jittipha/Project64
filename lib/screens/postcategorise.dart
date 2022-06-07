@@ -328,7 +328,7 @@ class _PostState extends State<Post> {
                           event.Location = value;
                         },
                         inputFormatters: [
-                          LengthLimitingTextInputFormatter(30),
+                          LengthLimitingTextInputFormatter(40),
                         ],
                       ),
                     ],
@@ -433,57 +433,23 @@ class _PostState extends State<Post> {
                             text = "กรุณาใส่เวลา";
                             showAlertDialog(context, text);
                           } else {
-
-                            String timenow =  DateFormat("HH")
-                                          .format(DateTime.now());
-                                          print(event.Time);
-                                          int time=int.parse(timenow);
-                                          final split = event.Time.toString().split(":");
-                                          print(split[0]);
-                                         List<int> dataListAsInt = split.map((data) => int.parse(data)).toList();
-                                         
-                                          if(dataListAsInt[0] <= time){
-                                            text = 'กรุณาเลือกเวลาหลังจากเวลาปัจจุบัน 1 ชั่วโมง';
-                                            showAlertDialog(context, text);
-                                          }
-                                          else
-                                          {
-
-                                          
-                            await FirebaseFirestore.instance
-                                .collection('Event')
-                                .doc()
-                                .set({
-                              "Image": urlImage,
-                              "Name": event.Name,
-                              "Description": event.Description,
-                              "Time": event.Time?.format(context),
-                              "Location": event.Location,
-                              "date": event.Date,
-                              "Host": [
-                                {
-                                  "Student_id":
-                                      FirebaseAuth.instance.currentUser?.uid,
-                                  "Name": FirebaseAuth
-                                      .instance.currentUser?.displayName,
-                                  "Photo": FirebaseAuth
-                                      .instance.currentUser?.photoURL,
-                                  "Email":
-                                      FirebaseAuth.instance.currentUser?.email
-                                }
-                              ]
-                            });
-                            QuerySnapshot snap = await FirebaseFirestore
-                                .instance
-                                .collection('Event')
-                                .where("Name", isEqualTo: event.Name)
-                                .where("Location", isEqualTo: event.Location)
-                                .get();
-                            snap.docs.forEach((document) async {
+                            String time =
+                                DateFormat("HH").format(DateTime.now());
+                            String datenow =
+                                DateFormat("dd/MM/yyyy").format(DateTime.now());
+                            int timenow = int.parse(time);
+                            String a = formatTimeOfDay(event.Time);
+                            int timeselect = int.parse(a);
+                            print(timeselect);
+                            print(time);
+                            if (timeselect <= timenow &&
+                                event.Date == datenow) {
+                              text =
+                                  'กรุณาเลือกเวลาหลังจากเวลาปัจจุบัน 1 ชั่วโมง';
+                              showAlertDialog(context, text);
+                            } else {
                               await FirebaseFirestore.instance
-                                  .collection('Student')
-                                  .doc(FirebaseAuth.instance.currentUser?.uid)
-                                  .collection('Posts')
+                                  .collection('Event')
                                   .doc()
                                   .set({
                                 "Image": urlImage,
@@ -491,25 +457,65 @@ class _PostState extends State<Post> {
                                 "Description": event.Description,
                                 "Time": event.Time?.format(context),
                                 "Location": event.Location,
-                                "Event_id": document.id,
-                                "date": event.Date
-                              }).then((value) => {
-                                        Navigator.pushReplacement(context,
-                                            MaterialPageRoute(
-                                          builder: (context) {
-                                            return interestedited(document);
-                                          },
-                                        ))
-                                      });
-                            });
+                                "date": event.Date,
+                                "Host": [
+                                  {
+                                    "Student_id":
+                                        FirebaseAuth.instance.currentUser?.uid,
+                                    "Name": FirebaseAuth
+                                        .instance.currentUser?.displayName,
+                                    "Photo": FirebaseAuth
+                                        .instance.currentUser?.photoURL,
+                                    "Email":
+                                        FirebaseAuth.instance.currentUser?.email
+                                  }
+                                ]
+                              });
+                              QuerySnapshot snap = await FirebaseFirestore
+                                  .instance
+                                  .collection('Event')
+                                  .where("Name", isEqualTo: event.Name)
+                                  .where("Location", isEqualTo: event.Location)
+                                  .get();
+                              snap.docs.forEach((document) async {
+                                await FirebaseFirestore.instance
+                                    .collection('Student')
+                                    .doc(FirebaseAuth.instance.currentUser?.uid)
+                                    .collection('Posts')
+                                    .doc()
+                                    .set({
+                                  "Image": urlImage,
+                                  "Name": event.Name,
+                                  "Description": event.Description,
+                                  "Time": event.Time?.format(context),
+                                  "Location": event.Location,
+                                  "Event_id": document.id,
+                                  "date": event.Date
+                                }).then((value) => {
+                                          Navigator.pushReplacement(context,
+                                              MaterialPageRoute(
+                                            builder: (context) {
+                                              return interestedited(document);
+                                            },
+                                          ))
+                                        });
+                              });
+                            }
                           }
-                        }}
+                        }
                       }),
                 ),
               ],
             ),
           )),
     );
+  }
+
+  String formatTimeOfDay(TimeOfDay? tod) {
+    final now = new DateTime.now();
+    final dt = DateTime(now.year, now.month, now.day, tod!.hour, tod.minute);
+    final format = DateFormat.H();
+    return format.format(dt);
   }
 
   showAlertDialog(BuildContext context, text) {
