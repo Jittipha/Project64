@@ -50,18 +50,29 @@ class _SearchBarState extends State<SearchBar> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 30, 150, 140),
       appBar: AppBar(
-        title: const Text(
-          'Search',
-          style: TextStyle(
-            letterSpacing: 0,
-            fontSize: 22,
-            fontFamily: 'Raleway',
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        backgroundColor: Color.fromARGB(255, 13, 104, 96),
+        // title: const Text(
+        //   'Search',
+        //   style: TextStyle(
+        //     letterSpacing: 0,
+        //     fontSize: 22,
+        //     fontFamily: 'Raleway',
+        //     fontWeight: FontWeight.w600,
+        //   ),
+        // ),
+        // backgroundColor: Color.fromARGB(255, 13, 104, 96),
+         backgroundColor:const Color.fromARGB(255, 30, 150, 140)
       ),
       body: Container(
+        // height: double.infinity,
+        //     width: double.infinity,
+        //     decoration: const BoxDecoration(
+        //       image: DecorationImage(
+        //           image: NetworkImage(
+        //               //"https://images.pexels.com/photos/7135115/pexels-photo-7135115.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        //               //"https://images.pexels.com/photos/12117995/pexels-photo-12117995.jpeg"
+        //               "https://i.pinimg.com/736x/63/50/d7/6350d7c23b4ddd32b10e2c1710641ee2--smart-phones-material-design.jpg"),
+        //           fit: BoxFit.cover),
+        //     ),
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,9 +89,9 @@ class _SearchBarState extends State<SearchBar> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   prefixIcon: Icon(Icons.search, color: Colors.white),
-                  hintText: "Search.....",
+                  hintText: "Search by event name ",
                   hintStyle: TextStyle(
-                      fontSize: 20.0,
+                      fontSize: 15.0,
                       color: Color.fromARGB(255, 250, 248, 248)),
                 ),
               ),
@@ -139,6 +150,7 @@ class _SearchBarState extends State<SearchBar> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(8.0))),
+                                 //ตัวกำหนดกรอบสามารถกดได้หมด       
                                 child: InkWell(
                                   onTap: () async {
                                     await FirebaseFirestore.instance
