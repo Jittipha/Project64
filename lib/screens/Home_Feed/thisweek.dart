@@ -36,8 +36,8 @@ class _thisweekState extends State<thisweek> {
       .format(DateTime.now().add(const Duration(days: 5)));
   String date6 = DateFormat("dd/MM/yyyy")
       .format(DateTime.now().add(const Duration(days: 6)));
-  String date = DateFormat("dd/MM/yyyy")
-      .format(DateTime.now().add(const Duration(days: 8)));
+  // String date = DateFormat("dd/MM/yyyy")
+  //     .format(DateTime.now().add(const Duration(days: 8)));
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +85,7 @@ class _thisweekState extends State<thisweek> {
                 stream: FirebaseFirestore.instance
                     .collection("Event")
                     .where("date", whereIn: [
-                  date,
+                  // date,
                   date1,
                   date2,
                   date3,
@@ -111,6 +111,7 @@ class _thisweekState extends State<thisweek> {
                               fontWeight: FontWeight.w600),
                           textAlign: TextAlign.center,
                         )));
+                  
                   } else {
                     return ListView(
                         children: snapshot.data!.docs.map((Eventjusttoday) {
@@ -256,7 +257,7 @@ class _thisweekState extends State<thisweek> {
                                   ]))));
                     }).toList());
                   }
-                },
+                }
               ),
             ),
           ],
@@ -283,21 +284,21 @@ class _thisweekState extends State<thisweek> {
   }
 
   Conditiondays(getday, time) {
-    String date = DateFormat("dd/MM/yyyy").format(DateTime.now());
-    String date1 = DateFormat("dd/MM/yyyy")
-        .format(DateTime.now().add(const Duration(days: 1)));
-    String date2 = DateFormat("dd/MM/yyyy")
-        .format(DateTime.now().add(const Duration(days: 2)));
-    String date3 = DateFormat("dd/MM/yyyy")
-        .format(DateTime.now().add(const Duration(days: 3)));
-    String date4 = DateFormat("dd/MM/yyyy")
-        .format(DateTime.now().add(const Duration(days: 4)));
-    String date5 = DateFormat("dd/MM/yyyy")
-        .format(DateTime.now().add(const Duration(days: 5)));
-    String date6 = DateFormat("dd/MM/yyyy")
-        .format(DateTime.now().add(const Duration(days: 6)));
-    String date7 = DateFormat("dd/MM/yyyy")
-        .format(DateTime.now().add(const Duration(days: 7)));
+     String date = DateFormat("dd/MM/yyyy").format(DateTime.now());
+    // String date1 = DateFormat("dd/MM/yyyy")
+    //     .format(DateTime.now().add(const Duration(days: 1)));
+    // String date2 = DateFormat("dd/MM/yyyy")
+    //     .format(DateTime.now().add(const Duration(days: 2)));
+    // String date3 = DateFormat("dd/MM/yyyy")
+    //     .format(DateTime.now().add(const Duration(days: 3)));
+    // String date4 = DateFormat("dd/MM/yyyy")
+    //     .format(DateTime.now().add(const Duration(days: 4)));
+    // String date5 = DateFormat("dd/MM/yyyy")
+    //     .format(DateTime.now().add(const Duration(days: 5)));
+    // String date6 = DateFormat("dd/MM/yyyy")
+    //     .format(DateTime.now().add(const Duration(days: 6)));
+    // String date7 = DateFormat("dd/MM/yyyy")
+    //     .format(DateTime.now().add(const Duration(days: 7)));
     String Day;
     String Text;
     String dateshow;
