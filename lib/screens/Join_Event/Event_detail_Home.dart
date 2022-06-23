@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project/algolia/searchpage.dart';
+import 'package:project/constants.dart';
 import 'package:project/screens/Home_Feed/homepage.dart';
 
 class eventdetailhome extends StatefulWidget {
@@ -22,9 +23,9 @@ class _eventdetailhomeState extends State<eventdetailhome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 48, 180, 169),
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 13, 104, 96),
+        backgroundColor: iconColor,
         title: const Text(
           "Event",
           style: TextStyle(
@@ -32,13 +33,12 @@ class _eventdetailhomeState extends State<eventdetailhome> {
         ),
       ),
       body: SingleChildScrollView(
-        padding:
-            const EdgeInsets.only(bottom: 70, top: 10, right: 10, left: 10),
+        padding: const EdgeInsets.only(bottom: 70, top: 0, right: 10, left: 10),
         child: Column(children: <Widget>[
           Container(
             child: Image.network(
               widget.snap["Image"],
-              fit: BoxFit.fitWidth,
+              fit: BoxFit.cover,
               height: 230,
               width: 500,
             ),
@@ -48,7 +48,6 @@ class _eventdetailhomeState extends State<eventdetailhome> {
             child: Text(
               widget.snap["Name"],
               style: const TextStyle(
-                color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Raleway',
                   fontSize: 25),
@@ -59,14 +58,15 @@ class _eventdetailhomeState extends State<eventdetailhome> {
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(
+                  width: 0.5, color: Color.fromARGB(255, 248, 244, 244)),
             )),
             child: ListTile(
-                leading: const Icon(Icons.date_range,color: Colors.white, size: 30),
+                leading:
+                    const Icon(Icons.date_range, color: iconColor, size: 30),
                 title: Text(
-                  widget.snap["date"] + '     ' + widget.snap["Time"],
+                  widget.snap["date"] + '   |   ' + widget.snap["Time"],
                   style: const TextStyle(
-                    color: Colors.white,
                     fontSize: 18,
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.w700,
@@ -79,14 +79,15 @@ class _eventdetailhomeState extends State<eventdetailhome> {
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(
+                  width: 0.5, color: Color.fromARGB(255, 248, 244, 244)),
             )),
             child: ListTile(
-                leading: const Icon(Icons.location_on_outlined,color: Colors.white, size: 30),
+                leading: const Icon(Icons.location_on_outlined,
+                    color: iconColor, size: 30),
                 title: Text(
                   widget.snap["Location"],
                   style: const TextStyle(
-                    color: Colors.white,
                     fontSize: 18,
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.w700,
@@ -99,7 +100,6 @@ class _eventdetailhomeState extends State<eventdetailhome> {
             child: const ListTile(
               title: Text("About",
                   style: TextStyle(
-                    color: Colors.white,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Raleway',
                       fontSize: 25)),
@@ -109,13 +109,13 @@ class _eventdetailhomeState extends State<eventdetailhome> {
             padding: const EdgeInsets.fromLTRB(28, 0, 10, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(
+                  width: 0.5, color: Color.fromARGB(255, 248, 244, 244)),
             )),
             child: ListTile(
                 title: Text(
               "   " + widget.snap["Description"],
               style: const TextStyle(
-                color: Colors.white,
                 fontSize: 15,
                 fontFamily: 'Raleway',
                 fontWeight: FontWeight.w400,
@@ -127,7 +127,6 @@ class _eventdetailhomeState extends State<eventdetailhome> {
             child: const ListTile(
               title: Text("Host",
                   style: TextStyle(
-                    color: Colors.white,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Raleway',
                       fontSize: 25)),
@@ -137,7 +136,8 @@ class _eventdetailhomeState extends State<eventdetailhome> {
             padding: const EdgeInsets.fromLTRB(13, 0, 0, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(
+                  width: 0.5, color: Color.fromARGB(255, 248, 244, 244)),
             )),
             child: ListTile(
                 leading: CircleAvatar(
@@ -149,10 +149,9 @@ class _eventdetailhomeState extends State<eventdetailhome> {
                 title: Text(
                   widget.snap['Host'][0]['Name'],
                   style: const TextStyle(
-                    color: Colors.white,
                     fontSize: 18,
                     fontFamily: 'Raleway',
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w600,
                   ),
                   textAlign: TextAlign.start,
                 )),

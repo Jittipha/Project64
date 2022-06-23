@@ -9,6 +9,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project/algolia/searchpage.dart';
 import 'package:project/screens/Home_Feed/homepage.dart';
 
+import '../../constants.dart';
+
 class eventdetail extends StatefulWidget {
   eventdetail({Key? key, required this.snap}) : super(key: key);
   //final QueryDocumentSnapshot<Object?> studenthasposts;
@@ -22,9 +24,10 @@ class _eventdetailState extends State<eventdetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 48, 180, 169),
+      backgroundColor: backgroundColor,
+
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 13, 104, 96),
+        backgroundColor: iconColor,
         title: const Text(
           "Event",
           style: TextStyle(
@@ -32,8 +35,7 @@ class _eventdetailState extends State<eventdetail> {
         ),
       ),
       body: SingleChildScrollView(
-         padding:
-            const EdgeInsets.only(bottom: 70, top: 10, right: 10, left: 10),
+        padding: const EdgeInsets.only(bottom: 70, top: 0, right: 10, left: 10),
         child: Column(children: <Widget>[
           Container(
             child: Image.network(
@@ -48,7 +50,6 @@ class _eventdetailState extends State<eventdetail> {
             child: Text(
               widget.snap.data["Name"],
               style: const TextStyle(
-                color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Raleway',
                   fontSize: 25),
@@ -58,14 +59,17 @@ class _eventdetailState extends State<eventdetail> {
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(
+                  width: 0.5, color: Color.fromARGB(255, 248, 244, 244)),
             )),
             child: ListTile(
-                leading: const Icon(Icons.date_range,color: Colors.black, size: 30),
+                leading:
+                    const Icon(Icons.date_range, color: iconColor, size: 30),
                 title: Text(
-                  widget.snap.data["date"] + '     ' + widget.snap.data["Time"],
+                  widget.snap.data["date"] +
+                      '   |   ' +
+                      widget.snap.data["Time"],
                   style: const TextStyle(
-                    color: Colors.white,
                     fontSize: 18,
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.w700,
@@ -77,14 +81,15 @@ class _eventdetailState extends State<eventdetail> {
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(
+                  width: 0.5, color: Color.fromARGB(255, 248, 244, 244)),
             )),
             child: ListTile(
-                leading: const Icon(Icons.location_on_outlined,color: Colors.black, size: 30),
+                leading: const Icon(Icons.location_on_outlined,
+                    color: iconColor, size: 30),
                 title: Text(
                   widget.snap.data["Location"],
                   style: const TextStyle(
-                    color: Colors.white,
                     fontSize: 18,
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.w700,
@@ -97,7 +102,6 @@ class _eventdetailState extends State<eventdetail> {
             child: const ListTile(
               title: Text("About",
                   style: TextStyle(
-                    color: Colors.white,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Raleway',
                       fontSize: 25)),
@@ -107,13 +111,13 @@ class _eventdetailState extends State<eventdetail> {
             padding: const EdgeInsets.fromLTRB(28, 0, 10, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(
+                  width: 0.5, color: Color.fromARGB(255, 248, 244, 244)),
             )),
             child: ListTile(
                 title: Text(
               "   " + widget.snap.data["Description"],
               style: const TextStyle(
-                color: Colors.white,
                 fontSize: 15,
                 fontFamily: 'Raleway',
                 fontWeight: FontWeight.w500,
@@ -125,7 +129,6 @@ class _eventdetailState extends State<eventdetail> {
             child: const ListTile(
               title: Text("Host",
                   style: TextStyle(
-                    color: Colors.white,
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Raleway',
                       fontSize: 25)),
@@ -135,7 +138,8 @@ class _eventdetailState extends State<eventdetail> {
             padding: const EdgeInsets.fromLTRB(13, 0, 0, 10),
             decoration: const BoxDecoration(
                 border: Border(
-              bottom: BorderSide(width: 0.5, color: Color(0xFF7F7F7F)),
+              bottom: BorderSide(
+                  width: 0.5, color: Color.fromARGB(255, 248, 244, 244)),
             )),
             child: ListTile(
                 leading: CircleAvatar(
@@ -147,10 +151,9 @@ class _eventdetailState extends State<eventdetail> {
                 title: Text(
                   widget.snap.data['Host'][0]['Name'],
                   style: const TextStyle(
-                    color: Colors.white,
                     fontSize: 18,
                     fontFamily: 'Raleway',
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w600,
                   ),
                   textAlign: TextAlign.start,
                 )),

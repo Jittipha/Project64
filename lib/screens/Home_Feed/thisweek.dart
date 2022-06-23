@@ -36,7 +36,8 @@ class _thisweekState extends State<thisweek> {
       .format(DateTime.now().add(const Duration(days: 5)));
   String date6 = DateFormat("dd/MM/yyyy")
       .format(DateTime.now().add(const Duration(days: 6)));
-  String date = DateFormat("dd/MM/yyyy").format(DateTime.now());
+  String date = DateFormat("dd/MM/yyyy")
+      .format(DateTime.now().add(const Duration(days: 8)));
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,11 +45,11 @@ class _thisweekState extends State<thisweek> {
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 13, 104, 96),
           title: const Text(
-            "This week",
+            "กิจกรรมในอีก 7 วัน",
             style: TextStyle(
               fontSize: 22,
               fontFamily: 'Raleway',
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w400,
             ),
           ),
           actions: [
@@ -58,16 +59,16 @@ class _thisweekState extends State<thisweek> {
                   itemBuilder: (context) => [
                     const PopupMenuItem<int>(
                       value: 0,
-                      child: Text("Today"),
+                      child: Text("กิจกรรมของวันนี้"),
                     ),
                     const PopupMenuItem<int>(
                       value: 1,
-                      child: Text("Tomorrow"),
+                      child: Text("กิจกรรมของวันพรุ่งนี้"),
                     ),
                     const PopupMenuDivider(),
                     const PopupMenuItem<int>(
                       value: 2,
-                      child: Text("Default"),
+                      child: Text("หน้าหลัก"),
                     ),
                   ],
                   onSelected: (item) => Selecteditem(context, item),
@@ -119,7 +120,7 @@ class _thisweekState extends State<thisweek> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(8.0))),
                               child: InkWell(
-                                  onTap: () async{
+                                  onTap: () async {
                                     await FirebaseFirestore.instance
                                         .collection("Student")
                                         .doc(FirebaseAuth
@@ -175,19 +176,21 @@ class _thisweekState extends State<thisweek> {
                                                           })
                                                 }
                                               else
-                                                { Fluttertoast.showToast(
-                                                                      msg:
-                                                                          "Your Event!",
-                                                                      gravity:
-                                                                          ToastGravity
-                                                                              .CENTER),
-                                                                  Navigator.push(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                          builder: (context) => Leaveeventhome(
-                                                                                snap: Eventjusttoday,
-                                                                                yourevent: "1",
-                                                                              )))}
+                                                {
+                                                  Fluttertoast.showToast(
+                                                      msg: "Your Event!",
+                                                      gravity:
+                                                          ToastGravity.CENTER),
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              Leaveeventhome(
+                                                                snap:
+                                                                    Eventjusttoday,
+                                                                yourevent: "1",
+                                                              )))
+                                                }
                                             });
                                   },
                                   child: Row(children: <Widget>[
@@ -212,6 +215,7 @@ class _thisweekState extends State<thisweek> {
                                           const SizedBox(height: 19),
                                           Text(Eventjusttoday["Name"],
                                               style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
                                                 fontSize: 14,
                                                 fontFamily: 'Raleway',
                                                 fontWeight: FontWeight.w600,
@@ -226,6 +230,7 @@ class _thisweekState extends State<thisweek> {
                                             Text(
                                               "  " + Eventjusttoday["Location"],
                                               style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
                                                 fontSize: 12,
                                                 fontFamily: 'Raleway',
                                                 fontWeight: FontWeight.w600,

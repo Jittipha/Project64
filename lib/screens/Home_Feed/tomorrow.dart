@@ -38,11 +38,11 @@ class _TomorrowState extends State<Tomorrow> {
         appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 13, 104, 96),
           title: const Text(
-            "Tomorrow",
+            "กิจกรรมของวันนี้",
             style: TextStyle(
               fontSize: 22,
               fontFamily: 'Raleway',
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w400,
             ),
           ),
           actions: [
@@ -52,16 +52,16 @@ class _TomorrowState extends State<Tomorrow> {
                   itemBuilder: (context) => [
                     const PopupMenuItem<int>(
                       value: 0,
-                      child: Text("Today"),
+                      child: Text("กิจกรรมของวันนี้"),
                     ),
                     const PopupMenuItem<int>(
                       value: 1,
-                      child: Text("This week"),
+                      child: Text("กิจกรรมในอีก 7 วัน"),
                     ),
                     const PopupMenuDivider(),
                     const PopupMenuItem<int>(
                       value: 2,
-                      child: Text("Default"),
+                      child: Text("หน้าหลัก"),
                     ),
                   ],
                   onSelected: (item) => Selecteditem(context, item),
@@ -214,6 +214,7 @@ class _TomorrowState extends State<Tomorrow> {
                                           const SizedBox(height: 19),
                                           Text(Eventjusttoday["Name"],
                                               style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
                                                 fontSize: 14,
                                                 fontFamily: 'Raleway',
                                                 fontWeight: FontWeight.w600,
@@ -227,6 +228,7 @@ class _TomorrowState extends State<Tomorrow> {
                                             ),
                                             Text(
                                               "  " + Eventjusttoday["Location"],
+                                              overflow: TextOverflow.ellipsis,
                                               style: const TextStyle(
                                                 fontSize: 12,
                                                 fontFamily: 'Raleway',

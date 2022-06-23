@@ -22,6 +22,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final authBloc = Provider.of<AuthBloc>(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color.fromARGB(255, 48, 180, 169),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 13, 104, 96),

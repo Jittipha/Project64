@@ -1,14 +1,20 @@
 // ignore_for_file: unused_import, must_be_immutable, avoid_unnecessary_containers, override_on_non_overriding_member, avoid_print, non_constant_identifier_names, duplicate_import, prefer_const_constructors, unused_local_variable, equal_keys_in_map, deprecated_member_use, avoid_function_literals_in_foreach_calls, duplicate_ignore
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:project/Model/Event.dart';
 import 'package:project/Notification/services/Noti.dart';
 import 'package:project/Notification/services/notification.dart';
+import 'package:project/constants.dart';
 import '../Background/bg_EditEvent.dart';
 import 'Interests/editinterests.dart';
 import 'Myevents.dart';
@@ -47,10 +53,17 @@ class _EditEventState extends State<EditEvent> {
 
   Future pickDate(BuildContext context) async {
     final initialDate = DateTime.now();
+    //  String date = DateFormat("dd").format(DateTime.now());
+    // int dd = int.parse(date);
+    // String MM = DateFormat("MM").format(DateTime.now());
+    // int mm = int.parse(MM);
+    // String Y = DateFormat("yyyy").format(DateTime.now());
+    // int yyyy = int.parse(Y);
     final newDate = await showDatePicker(
       context: context,
       initialDate: dateTime ?? initialDate,
-      firstDate: DateTime(DateTime.now().year),
+      firstDate: DateTime.now().subtract(Duration(days: 0)),
+      //  firstDate: DateTime.utc(yyyy, mm, dd),
       lastDate: DateTime(DateTime.now().year + 5),
     );
     if (newDate == null) return;
@@ -97,6 +110,60 @@ class _EditEventState extends State<EditEvent> {
     // TODO: implement initState
     super.initState();
     getlength();
+    IMG();
+  }
+  
+  File? image;
+   String? urlImage ;
+   String? urlImaged ;
+   void IMG(){
+    urlImage=widget.studenthasposts["Image"];setState(() {
+      
+    });
+   }
+   Future<void> pickImage(ImageSource imageSource) async {
+    try {
+      final Image = await ImagePicker().pickImage(source: imageSource);
+      if (Image == null) return;
+
+      final imageTemporary = File(Image.path);
+      setState(() {
+        image = imageTemporary;
+        print("image : $image");
+        isLoading = true;
+      });
+
+      upLoadImageToStorage();
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  Future<void> upLoadImageToStorage() async {
+    String time = DateTime.now() //12:00 12-06-2022
+        .toString()
+        .replaceAll("-", "_")
+        .replaceAll(":", "_")
+        .replaceAll(" ", "_");
+    print('time : $time');
+
+    FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+
+    Reference reference = firebaseStorage.ref().child('Event/Event$time.jpg');
+
+    UploadTask uploadTask = reference.putFile(image!);
+    await uploadTask.then((TaskSnapshot taskSnapshot) async => {
+          await taskSnapshot.ref.getDownloadURL().then((dynamic url) => {
+                print("url : $url"),
+                urlImage = url.toString(),
+                setState(() {
+                  isLoading = false;
+                })
+              })
+        });
+  }
+   Future<void> RemoveImageinStorage() async {
+    FirebaseStorage.instance.refFromURL(urlImaged!).delete();
   }
 
   @override
@@ -115,9 +182,9 @@ class _EditEventState extends State<EditEvent> {
             );
           }
           return Scaffold(
-              backgroundColor: Color.fromARGB(255, 48, 180, 169),
+              //backgroundColor: backgroundColor,
               appBar: AppBar(
-                backgroundColor: Color.fromARGB(255, 13, 104, 96),
+                backgroundColor: iconColor,
                 title: const Text(
                   "Event",
                   style: TextStyle(fontSize: 25, color: Colors.black),
@@ -130,146 +197,294 @@ class _EditEventState extends State<EditEvent> {
                     child: Form(
                         key: _formKey,
                         child: Column(children: <Widget>[
+                           GestureDetector(
+                            
+                            onTap: () {
+                                setState(() {
+                                  urlImaged = urlImage;
+                                  
+                                }); 
+                                pickImage(ImageSource.gallery);
+                              },
+                            child :
                           Container(
                             child: ClipRRect(
                               borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(20.0),
-                                  topRight: Radius.circular(20.0),
-                                  bottomLeft: Radius.circular(20.0),
-                                  bottomRight: Radius.circular(20.0)),
+                                  topLeft: Radius.circular(10.0),
+                                  topRight: Radius.circular(10.0),
+                                  bottomLeft: Radius.circular(10.0),
+                                  bottomRight: Radius.circular(10.0)),
                               child: Image.network(
-                                '${widget.studenthasposts["Image"]}',
-                                height: 300,
+                                urlImage!,
+                                height: 250,
                                 width: 300,
+                                fit: BoxFit.cover,
+                                
                               ),
                             ),
                           ),
+                           ),
                           SizedBox(
                             height: 5,
                           ),
 
-                          TextFormField(
-                            decoration: InputDecoration(
-                              icon: const Icon(
-                                  Icons.photo_size_select_small_outlined,
-                                  size: 35,
-                                  color: Colors.white),
-                              hintText: widget.studenthasposts["Image"],
-                              border: OutlineInputBorder(),
+                          SizedBox(
+                            width: 350,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Align(
+                                  alignment:  Alignment.center,
+                                  child: Text(
+                                    '  คลิกที่รูปเพื่อเปลี่ยน',
+                                    style: TextStyle(fontSize: 18,
+                                    color: Colors.red,
+                                    
+                              
+                                    ),   
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  '  Name',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                TextFormField(
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    prefixIcon: Icon(
+                                      Icons.account_circle_rounded,
+                                      size: 30,
+                                      color: iconColor,
+                                    ),
+                                    hintText: widget.studenthasposts["Name"],
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                  initialValue: widget.studenthasposts["Name"],
+                                  validator: RequiredValidator(
+                                      errorText: "กรุณาใส่ชื่อ!"),
+                                  onSaved: (value) {
+                                    setState(() => event.Name = value);
+                                  },
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(30),
+                                  ],
+                                ),
+                              ],
                             ),
-                            initialValue: widget.studenthasposts["Image"],
-                            style: TextStyle(
-                              color: Colors.white,
+                          ),
+
+                          SizedBox(
+                            height: 5,
+                          ),
+
+                          SizedBox(
+                            width: 350,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '  Description',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                TextFormField(
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    prefixIcon: Icon(
+                                      Icons.message_outlined,
+                                      size: 30,
+                                      color: iconColor,
+                                    ),
+                                    hintText:
+                                        widget.studenthasposts["Description"],
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                  maxLines: 4,
+                                  initialValue:
+                                      widget.studenthasposts["Description"],
+                                  validator: RequiredValidator(
+                                      errorText: "กรุณาใส่คำอธิบาย!"),
+                                  onSaved: (value) {
+                                    setState(() => event.Description = value);
+                                  },
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(500),
+                                  ],
+                                ),
+                              ],
                             ),
-                            validator: RequiredValidator(
-                                errorText: "กรุณาใส่ลิงก์รูป!"),
-                            onSaved: (value) {
-                              setState(() => event.Image = value);
-                            },
                           ),
                           SizedBox(
                             height: 5,
                           ),
 
-                          TextFormField(
-                            decoration: InputDecoration(
-                              icon: const Icon(Icons.account_circle_sharp,
-                                  size: 35, color: Colors.white),
-                              hintText: widget.studenthasposts["Name"],
-                              border: OutlineInputBorder(),
+                          SizedBox(
+                            width: 350,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '  Location',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                TextFormField(
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    prefixIcon: Icon(
+                                      Icons.where_to_vote_sharp,
+                                      size: 30,
+                                      color: iconColor,
+                                    ),
+                                    hintText:
+                                        widget.studenthasposts["Location"],
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                  initialValue:
+                                      widget.studenthasposts["Location"],
+                                  validator: RequiredValidator(
+                                      errorText: "กรุณาใส่Location!"),
+                                  onSaved: (value) {
+                                    setState(() => event.Location = value);
+                                  },
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(40),
+                                  ],
+                                ),
+                              ],
                             ),
-                            initialValue: widget.studenthasposts["Name"],
-                            style: TextStyle(color: Colors.white),
-                            validator:
-                                RequiredValidator(errorText: "กรุณาใส่ชื่อ!"),
-                            onSaved: (value) {
-                              setState(() => event.Name = value);
-                            },
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-
-                          TextFormField(
-                            decoration: InputDecoration(
-                                icon: const Icon(Icons.message_outlined,
-                                    size: 35, color: Colors.white),
-                                hintText: widget.studenthasposts["Description"],
-                                border: OutlineInputBorder()),
-                            initialValue: widget.studenthasposts["Description"],
-                            style: TextStyle(color: Colors.white),
-                            validator: RequiredValidator(
-                                errorText: "กรุณาใส่คำอธิบาย!"),
-                            onSaved: (value) {
-                              setState(() => event.Description = value);
-                            },
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-
-                          TextFormField(
-                            decoration: InputDecoration(
-                                icon: const Icon(Icons.where_to_vote_sharp,
-                                    size: 35, color: Colors.white),
-                                hintText: widget.studenthasposts["Location"],
-                                border: OutlineInputBorder()),
-                            initialValue: widget.studenthasposts["Location"],
-                            style: TextStyle(color: Colors.white),
-                            validator: RequiredValidator(
-                                errorText: "กรุณาใส่Location!"),
-                            onSaved: (value) {
-                              setState(() => event.Location = value);
-                            },
                           ),
                           SizedBox(
                             height: 15,
                           ),
+                          //วันเวลา
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              //เลือกวันที่
+                              SizedBox(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '  Date',
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    SizedBox(
+                                      height: 3,
+                                    ),
+                                    SizedBox(
+                                      height: 45,
+                                      width: 160,
+                                      child: ElevatedButton.icon(
+                                        onPressed: () => pickDate(context),
+                                        label: Text(getTextDate()),
+                                        style: ElevatedButton.styleFrom(
+                                            primary: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15))),
+                                        icon: Icon(Icons.calendar_month_rounded,
+                                            size: 30, color: iconColor),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
 
-                          //เลือกวันที่
-                          SizedBox(
-                            width: 500,
-                            height: 35,
-                            child: ElevatedButton(
-                                onPressed: () => pickDate(context),
-                                child: Text(getTextDate()),
-                                style: ElevatedButton.styleFrom(
-                                    primary:
-                                        Color.fromARGB(255, 230, 220, 220))),
-                          ),
-                          const SizedBox(
-                            height: 10,
+                              //เลือกเวลา
+                              SizedBox(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '  Time',
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    SizedBox(
+                                      height: 3,
+                                    ),
+                                    SizedBox(
+                                      height: 45,
+                                      width: 160,
+                                      child: ElevatedButton.icon(
+                                          onPressed: () => pickTime(context),
+                                          label: Text(getTextTime()),
+                                          style: ElevatedButton.styleFrom(
+                                              primary: Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15))),
+                                          icon: Icon(Icons.watch_later_rounded,
+                                              size: 30, color: iconColor)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
 
-                          //เลือกเวลา
-                          SizedBox(
-                            width: 500,
-                            height: 35,
-                            child: ElevatedButton(
-                              onPressed: () => pickTime(context),
-                              child: Text(getTextTime()),
-                              style: ElevatedButton.styleFrom(
-                                  primary: Color.fromARGB(255, 230, 220, 220)),
-                            ),
-                          ),
                           Container(
                             padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                             child: ListTile(
                               leading: const Icon(
                                 Icons.category,
-                                color: Colors.white,
+                                color: iconColor,
                                 size: 30,
                               ),
                               title: const Text(
                                 "Interests",
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.white),
+                                style: TextStyle(),
                               ),
                               trailing: Wrap(
                                 spacing: 13,
                                 children: <Widget>[
                                   CircleAvatar(
-                                    backgroundColor: Colors.grey[300],
+                                    backgroundColor: Colors.white,
                                     radius: 17,
                                     child: Align(
                                         alignment: Alignment.center,
@@ -326,123 +541,176 @@ class _EditEventState extends State<EditEvent> {
                           Padding(
                             padding: const EdgeInsets.only(left: 20, right: 20),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 //ปุ่ม++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                                ElevatedButton(
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.orangeAccent),
-                                        shape: MaterialStateProperty.all<
-                                                RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(1),
-                                          side: const BorderSide(
-                                              color: Colors.green),
-                                        ))),
-                                    child: const Text("Save",
-                                        style: TextStyle(
-                                            fontSize: 20, color: Colors.black),
-                                        textAlign: TextAlign.right),
-                                    onPressed: () async {
-                                    //  await createPlantFoodNotification();
+                                SizedBox(
+                                  width: 130,
+                                  height: 40,
+                                  child: ElevatedButton(
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  backgroundColor),
+                                          shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            side: const BorderSide(
+                                                color: iconColor, width: 2),
+                                          ))),
+                                      child: const Text("Save",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black),
+                                          textAlign: TextAlign.right),
+                                      onPressed: () async {
+                                        print(urlImage);
+                                        //  await createPlantFoodNotification();
 
-                                      //  await model.imageNotification(event);
-                                      isLoading = true;
+                                        //  await model.imageNotification(event);
+                                        isLoading = true;
 
-                                      //เรียก method editdatatoFirebase
-                                      editdatatoFirebase();
-                                      //  เวลาแจ้งเตือน //
-                                      String Time = DateFormat("hh:mm:ss")
-                                          .format(DateTime.now());
-                                      String date = DateFormat("dd/MM/yyyy")
-                                          .format(DateTime.now());
-                                      print(Time + date);
-                                      print(event.Name);
-                                      var join = await FirebaseFirestore
-                                          .instance
-                                          .collection("Event")
-                                          .doc(widget
-                                              .studenthasposts["Event_id"])
-                                          .collection("Joined")
-                                          .get();
-
-                                      join.docs.forEach((element) async {
-                                        var a = element.data();
-                                        await FirebaseFirestore.instance
-                                            .collection("Student")
-                                            .doc(a["Student_id"])
+                                        //เรียก method editdatatoFirebase
+                                        editdatatoFirebase();
+                                        print(event.Name);
+                                        //  เวลาแจ้งเตือน //
+                                        String Time = DateFormat("hh:mm:ss")
+                                            .format(DateTime.now());
+                                        String date = DateFormat("dd/MM/yyyy")
+                                            .format(DateTime.now());
+                                        print(Time + date);
+                                        print(event.Name);
+                                        var join = await FirebaseFirestore
+                                            .instance
+                                            .collection("Event")
+                                            .doc(widget
+                                                .studenthasposts["Event_id"])
                                             .collection("Joined")
-                                            .doc(widget
-                                                .studenthasposts["Event_id"])
-                                            .update({
-                                          "Image": event.Image,
-                                          "Name": event.Name,
-                                          "Description": event.Description,
-                                          "Time":
-                                              widget.studenthasposts["Time"],
-                                          "Location": event.Location,
-                                          "date":
-                                              widget.studenthasposts["date"],
-                                        });
-                                      });
-                                      if (join.docs.isNotEmpty) {
-                                        await FirebaseFirestore.instance
-                                            .collection("Notification")
-                                            .doc(widget
-                                                .studenthasposts["Event_id"])
-                                            .update({
-                                          "Photo": event.Image,
-                                          "Name": event.Name,
-                                          "Status": "edited",
-                                          "Time": Time,
-                                          "date": date,
-                                          "Type": '1'
-                                        });
-                                      }
-                                      Fluttertoast.showToast(
-                                          msg: "Success!",
-                                          gravity: ToastGravity.CENTER);
-                                      Navigator.pop(context);
-                                    }),
+                                            .get();
 
-                                ElevatedButton(
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Color.fromARGB(
-                                                    255, 241, 109, 100)),
-                                        shape: MaterialStateProperty.all<
-                                                RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(1),
-                                          side: const BorderSide(
-                                              color: Colors.green),
-                                        ))),
-                                    child: const Text("DELETE",
-                                        style: TextStyle(
-                                            fontSize: 20, color: Colors.black),
-                                        textAlign: TextAlign.right),
-                                    onPressed: () async {
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title:
-                                                  Text("Delete This Event !!"),
-                                              content: Text("Are you sure?"),
-                                              actions: [
-                                                FlatButton(
-                                                  onPressed: () async {
-                                                    DeleteNotification();
-                                                    DeleteComment();
+                                        join.docs.forEach((element) async {
+                                          var a = element.data();
+                                          await FirebaseFirestore.instance
+                                              .collection("Student")
+                                              .doc(a["Student_id"])
+                                              .collection("Joined")
+                                              .doc(widget
+                                                  .studenthasposts["Event_id"])
+                                              .update({
+                                            "Image": urlImage,
+                                            "Name": event.Name,
+                                            "Description": event.Description,
+                                            "Time":
+                                                widget.studenthasposts["Time"],
+                                            "Location": event.Location,
+                                            "date":
+                                                widget.studenthasposts["date"],
+                                          });
+                                        });
+                                        if (join.docs.isNotEmpty) {
+                                          await FirebaseFirestore.instance
+                                              .collection("Notification")
+                                              .doc(widget
+                                                  .studenthasposts["Event_id"])
+                                              .update({
+                                            "Photo": urlImage,
+                                            "Name": event.Name,
+                                            "Status": "edited",
+                                            "Time": Time,
+                                            "date": date,
+                                            "Type": '1'
+                                          });
+                                        }
+                                        RemoveImageinStorage();
+                                        Fluttertoast.showToast(
+                                            msg: "Success!",
+                                            gravity: ToastGravity.CENTER);
+                                        Navigator.pop(context);
+                                      }),
+                                ),
+                                SizedBox(
+                                  width: 25,
+                                ),
+                                SizedBox(
+                                  width: 130,
+                                  height: 40,
+                                  child: ElevatedButton(
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  backgroundColor),
+                                          shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            side: const BorderSide(
+                                                color: iconColor, width: 2),
+                                          ))),
+                                      child: const Text("DELETE",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black),
+                                          textAlign: TextAlign.right),
+                                      onPressed: () async {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: Text(
+                                                    "Delete This Event !!"),
+                                                content: Text("Are you sure?"),
+                                                actions: [
+                                                  FlatButton(
+                                                    onPressed: () async {
+                                                      DeleteNotification();
+                                                      DeleteComment();
 
-                                                    //ดึงคนที่ join เข้ามาในกิจกรรมนี้
-                                                    QuerySnapshot snaps =
+                                                      //ดึงคนที่ join เข้ามาในกิจกรรมนี้
+                                                      QuerySnapshot snaps =
+                                                          await FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  "Event")
+                                                              .doc(widget
+                                                                      .studenthasposts[
+                                                                  "Event_id"])
+                                                              .collection(
+                                                                  "Joined")
+                                                              .get();
+
+                                                      // loop ค่าของ snaps
+                                                      snaps.docs.forEach(
+                                                          (element) async {
+                                                        // delete ตาราง joined ใน student
                                                         await FirebaseFirestore
+                                                            .instance
+                                                            .collection(
+                                                                "Student")
+                                                            .doc(element.id)
+                                                            .collection(
+                                                                "Joined")
+                                                            .doc(widget
+                                                                    .studenthasposts[
+                                                                "Event_id"])
+                                                            .delete();
+                                                      });
+                                                      //ดึงคนที่ join เข้ามาในกิจกรรมนี้
+                                                      QuerySnapshot snap =
+                                                          await FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  "Event")
+                                                              .doc(widget
+                                                                      .studenthasposts[
+                                                                  "Event_id"])
+                                                              .collection(
+                                                                  "Joined")
+                                                              .get();
+                                                      snap.docs.forEach((data) {
+                                                        FirebaseFirestore
                                                             .instance
                                                             .collection("Event")
                                                             .doc(widget
@@ -450,73 +718,41 @@ class _EditEventState extends State<EditEvent> {
                                                                 "Event_id"])
                                                             .collection(
                                                                 "Joined")
-                                                            .get();
+                                                            .doc(data.id)
+                                                            .delete();
+                                                      });
 
-                                                    // loop ค่าของ snaps
-                                                    snaps.docs.forEach(
-                                                        (element) async {
-                                                      // delete ตาราง joined ใน student
+                                                      //delete ตาราง event เลย
                                                       await FirebaseFirestore
                                                           .instance
-                                                          .collection("Student")
-                                                          .doc(element.id)
-                                                          .collection("Joined")
+                                                          .collection('Event')
                                                           .doc(widget
                                                                   .studenthasposts[
                                                               "Event_id"])
                                                           .delete();
-                                                    });
-                                                    //ดึงคนที่ join เข้ามาในกิจกรรมนี้
-                                                    QuerySnapshot snap =
-                                                        await FirebaseFirestore
-                                                            .instance
-                                                            .collection("Event")
-                                                            .doc(widget
-                                                                    .studenthasposts[
-                                                                "Event_id"])
-                                                            .collection(
-                                                                "Joined")
-                                                            .get();
-                                                    snap.docs.forEach((data) {
-                                                      FirebaseFirestore.instance
-                                                          .collection("Event")
-                                                          .doc(widget
-                                                                  .studenthasposts[
-                                                              "Event_id"])
-                                                          .collection("Joined")
-                                                          .doc(data.id)
-                                                          .delete();
-                                                    });
+                                                      DeleteEventInstudentPost();
 
-                                                    //delete ตาราง event เลย
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection('Event')
-                                                        .doc(widget
-                                                                .studenthasposts[
-                                                            "Event_id"])
-                                                        .delete();
-                                                    DeleteEventInstudentPost();
+                                                      Fluttertoast.showToast(
+                                                          msg:
+                                                              "Delete Success!",
+                                                          gravity: ToastGravity
+                                                              .CENTER);
 
-                                                    Fluttertoast.showToast(
-                                                        msg: "Delete Success!",
-                                                        gravity: ToastGravity
-                                                            .CENTER);
-
-                                                    Navigator.pop(context);
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Text('Yes'),
-                                                ),
-                                                FlatButton(
-                                                    onPressed: () {
+                                                      Navigator.pop(context);
                                                       Navigator.pop(context);
                                                     },
-                                                    child: Text("Cancle"))
-                                              ],
-                                            );
-                                          });
-                                    }),
+                                                    child: Text('Yes'),
+                                                  ),
+                                                  FlatButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text("Cancle"))
+                                                ],
+                                              );
+                                            });
+                                      }),
+                                ),
                               ],
                             ),
                           )
@@ -534,18 +770,14 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-
           // await model.imageNotification(event);
           await createPlantFoodNotification(event);
- 
-         
-
 
           await FirebaseFirestore.instance
               .collection('Event')
               .doc(widget.studenthasposts["Event_id"])
               .update({
-            "Image": event.Image,
+            "Image": urlImage,
             "Name": event.Name,
             "Description": event.Description,
             "Time": widget.studenthasposts["Time"],
@@ -559,7 +791,7 @@ class _EditEventState extends State<EditEvent> {
               .collection('Posts')
               .doc(widget.studenthasposts.id)
               .update({
-            "Image": event.Image,
+            "Image": urlImage,
             "Name": event.Name,
             "Description": event.Description,
             "Time": widget.studenthasposts["Time"],
@@ -574,16 +806,14 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-
           // await model.imageNotification(event);
           await createPlantFoodNotification(event);
-
 
           await FirebaseFirestore.instance
               .collection('Event')
               .doc(widget.studenthasposts["Event_id"])
               .update({
-            "Image": event.Image,
+            "Image": urlImage,
             "Name": event.Name,
             "Description": event.Description,
             "Time": event.Time?.format(context),
@@ -597,7 +827,7 @@ class _EditEventState extends State<EditEvent> {
               .collection('Posts')
               .doc(widget.studenthasposts.id)
               .update({
-            "Image": event.Image,
+            "Image": urlImage,
             "Name": event.Name,
             "Description": event.Description,
             "Time": event.Time?.format(context),
@@ -613,16 +843,14 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-
           // await model.imageNotification(event);
           await createPlantFoodNotification(event);
-
 
           await FirebaseFirestore.instance
               .collection('Event')
               .doc(widget.studenthasposts["Event_id"])
               .update({
-            "Image": event.Image,
+            "Image": urlImage,
             "Name": event.Name,
             "Description": event.Description,
             "Time": event.Time?.format(context),
@@ -636,7 +864,7 @@ class _EditEventState extends State<EditEvent> {
               .collection('Posts')
               .doc(widget.studenthasposts.id)
               .update({
-            "Image": event.Image,
+            "Image": urlImage,
             "Name": event.Name,
             "Description": event.Description,
             "Time": event.Time?.format(context),
@@ -653,16 +881,14 @@ class _EditEventState extends State<EditEvent> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         try {
-
           // await model.imageNotification(event);
           await createPlantFoodNotification(event);
-
 
           await FirebaseFirestore.instance
               .collection('Event')
               .doc(widget.studenthasposts["Event_id"])
               .update({
-            "Image": event.Image,
+            "Image": urlImage,
             "Name": event.Name,
             "Description": event.Description,
             "Time": widget.studenthasposts["Time"],
@@ -676,7 +902,7 @@ class _EditEventState extends State<EditEvent> {
               .collection('Posts')
               .doc(widget.studenthasposts.id)
               .update({
-            "Image": event.Image,
+            "Image": urlImage,
             "Name": event.Name,
             "Description": event.Description,
             "Time": widget.studenthasposts["Time"],
