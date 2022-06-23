@@ -1,11 +1,15 @@
 // ignore_for_file: unused_import, must_be_immutable, avoid_unnecessary_containers, override_on_non_overriding_member, avoid_print, non_constant_identifier_names, duplicate_import, prefer_const_constructors, unused_local_variable, equal_keys_in_map, deprecated_member_use, avoid_function_literals_in_foreach_calls
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:project/Model/Event.dart';
 import 'package:project/Notification/services/Noti.dart';
@@ -106,6 +110,60 @@ class _EditEventState extends State<EditEvent> {
     // TODO: implement initState
     super.initState();
     getlength();
+    IMG();
+  }
+  
+  File? image;
+   String? urlImage ;
+   String? urlImaged ;
+   void IMG(){
+    urlImage=widget.studenthasposts["Image"];setState(() {
+      
+    });
+   }
+   Future<void> pickImage(ImageSource imageSource) async {
+    try {
+      final Image = await ImagePicker().pickImage(source: imageSource);
+      if (Image == null) return;
+
+      final imageTemporary = File(Image.path);
+      setState(() {
+        image = imageTemporary;
+        print("image : $image");
+        isLoading = true;
+      });
+
+      upLoadImageToStorage();
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  Future<void> upLoadImageToStorage() async {
+    String time = DateTime.now() //12:00 12-06-2022
+        .toString()
+        .replaceAll("-", "_")
+        .replaceAll(":", "_")
+        .replaceAll(" ", "_");
+    print('time : $time');
+
+    FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+
+    Reference reference = firebaseStorage.ref().child('Event/Event$time.jpg');
+
+    UploadTask uploadTask = reference.putFile(image!);
+    await uploadTask.then((TaskSnapshot taskSnapshot) async => {
+          await taskSnapshot.ref.getDownloadURL().then((dynamic url) => {
+                print("url : $url"),
+                urlImage = url.toString(),
+                setState(() {
+                  isLoading = false;
+                })
+              })
+        });
+  }
+   Future<void> RemoveImageinStorage() async {
+    FirebaseStorage.instance.refFromURL(urlImaged!).delete();
   }
 
   @override
@@ -139,6 +197,16 @@ class _EditEventState extends State<EditEvent> {
                     child: Form(
                         key: _formKey,
                         child: Column(children: <Widget>[
+                           GestureDetector(
+                            
+                            onTap: () {
+                                setState(() {
+                                  urlImaged = urlImage;
+                                  
+                                }); 
+                                pickImage(ImageSource.gallery);
+                              },
+                            child :
                           Container(
                             child: ClipRRect(
                               borderRadius: const BorderRadius.only(
@@ -147,61 +215,15 @@ class _EditEventState extends State<EditEvent> {
                                   bottomLeft: Radius.circular(10.0),
                                   bottomRight: Radius.circular(10.0)),
                               child: Image.network(
-                                '${widget.studenthasposts["Image"]}',
+                                urlImage!,
                                 height: 250,
                                 width: 300,
                                 fit: BoxFit.cover,
+                                
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
-
-                          SizedBox(
-                            width: 350,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '  Link Image',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                TextFormField(
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    prefixIcon: Icon(
-                                      Icons.linked_camera_outlined,
-                                      size: 30,
-                                      color: iconColor,
-                                    ),
-                                    hintText: widget.studenthasposts["Image"],
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.white),
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.white),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                  ),
-                                  initialValue: widget.studenthasposts["Image"],
-                                  validator: RequiredValidator(
-                                      errorText: "กรุณาใส่ลิงก์รูป!"),
-                                  onSaved: (value) {
-                                    setState(() => event.Image = value);
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-
+                           ),
                           SizedBox(
                             height: 5,
                           ),
@@ -211,6 +233,20 @@ class _EditEventState extends State<EditEvent> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Align(
+                                  alignment:  Alignment.center,
+                                  child: Text(
+                                    '  คลิกที่รูปเพื่อเปลี่ยน',
+                                    style: TextStyle(fontSize: 18,
+                                    color: Colors.red,
+                                    
+                              
+                                    ),   
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
                                 Text(
                                   '  Name',
                                   style: TextStyle(fontSize: 15),
@@ -530,6 +566,7 @@ class _EditEventState extends State<EditEvent> {
                                               color: Colors.black),
                                           textAlign: TextAlign.right),
                                       onPressed: () async {
+                                        print(urlImage);
                                         //  await createPlantFoodNotification();
 
                                         //  await model.imageNotification(event);
@@ -562,7 +599,7 @@ class _EditEventState extends State<EditEvent> {
                                               .doc(widget
                                                   .studenthasposts["Event_id"])
                                               .update({
-                                            "Image": event.Image,
+                                            "Image": urlImage,
                                             "Name": event.Name,
                                             "Description": event.Description,
                                             "Time":
@@ -578,7 +615,7 @@ class _EditEventState extends State<EditEvent> {
                                               .doc(widget
                                                   .studenthasposts["Event_id"])
                                               .update({
-                                            "Photo": event.Image,
+                                            "Photo": urlImage,
                                             "Name": event.Name,
                                             "Status": "edited",
                                             "Time": Time,
@@ -586,6 +623,7 @@ class _EditEventState extends State<EditEvent> {
                                             "Type": '1'
                                           });
                                         }
+                                        RemoveImageinStorage();
                                         Fluttertoast.showToast(
                                             msg: "Success!",
                                             gravity: ToastGravity.CENTER);
@@ -739,7 +777,7 @@ class _EditEventState extends State<EditEvent> {
               .collection('Event')
               .doc(widget.studenthasposts["Event_id"])
               .update({
-            "Image": event.Image,
+            "Image": urlImage,
             "Name": event.Name,
             "Description": event.Description,
             "Time": widget.studenthasposts["Time"],
@@ -753,7 +791,7 @@ class _EditEventState extends State<EditEvent> {
               .collection('Posts')
               .doc(widget.studenthasposts.id)
               .update({
-            "Image": event.Image,
+            "Image": urlImage,
             "Name": event.Name,
             "Description": event.Description,
             "Time": widget.studenthasposts["Time"],
@@ -775,7 +813,7 @@ class _EditEventState extends State<EditEvent> {
               .collection('Event')
               .doc(widget.studenthasposts["Event_id"])
               .update({
-            "Image": event.Image,
+            "Image": urlImage,
             "Name": event.Name,
             "Description": event.Description,
             "Time": event.Time?.format(context),
@@ -789,7 +827,7 @@ class _EditEventState extends State<EditEvent> {
               .collection('Posts')
               .doc(widget.studenthasposts.id)
               .update({
-            "Image": event.Image,
+            "Image": urlImage,
             "Name": event.Name,
             "Description": event.Description,
             "Time": event.Time?.format(context),
@@ -812,7 +850,7 @@ class _EditEventState extends State<EditEvent> {
               .collection('Event')
               .doc(widget.studenthasposts["Event_id"])
               .update({
-            "Image": event.Image,
+            "Image": urlImage,
             "Name": event.Name,
             "Description": event.Description,
             "Time": event.Time?.format(context),
@@ -826,7 +864,7 @@ class _EditEventState extends State<EditEvent> {
               .collection('Posts')
               .doc(widget.studenthasposts.id)
               .update({
-            "Image": event.Image,
+            "Image": urlImage,
             "Name": event.Name,
             "Description": event.Description,
             "Time": event.Time?.format(context),
@@ -850,7 +888,7 @@ class _EditEventState extends State<EditEvent> {
               .collection('Event')
               .doc(widget.studenthasposts["Event_id"])
               .update({
-            "Image": event.Image,
+            "Image": urlImage,
             "Name": event.Name,
             "Description": event.Description,
             "Time": widget.studenthasposts["Time"],
@@ -864,7 +902,7 @@ class _EditEventState extends State<EditEvent> {
               .collection('Posts')
               .doc(widget.studenthasposts.id)
               .update({
-            "Image": event.Image,
+            "Image": urlImage,
             "Name": event.Name,
             "Description": event.Description,
             "Time": widget.studenthasposts["Time"],

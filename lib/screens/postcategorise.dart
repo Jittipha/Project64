@@ -86,10 +86,13 @@ class _PostState extends State<Post> {
               })
         });
   }
-
+  Future<void> RemoveImageinStorage() async {
+    FirebaseStorage.instance.refFromURL(urlImage!).delete();
+  }
 //set date
   DateTime? dateTime;
   String? date;
+
   //DateTime? newDate;
   String getTextDate() {
     if (date == null) {
@@ -111,6 +114,7 @@ class _PostState extends State<Post> {
       context: context,
       initialDate: dateTime ?? initialDate,
       firstDate: DateTime.now().subtract(Duration(days: 0)),
+      
       // firstDate: DateTime.utc(yyyy, mm, dd),
       lastDate: DateTime(DateTime.now().year + 5),
     );
@@ -193,12 +197,22 @@ class _PostState extends State<Post> {
                                 label: const Text("Pick Photo")),
                           ),
                         )
-                      : Image.network(
+                      : GestureDetector(
+                            onTap: () {
+                                setState(() {
+                                  RemoveImageinStorage();
+                                  urlImage = null;
+                                  
+                                });
+                                pickImage(ImageSource.gallery);
+                              },
+                       child: Image.network(
                           urlImage!,
                           fit: BoxFit.fill,
                           width: 300,
                           height: 150,
                         ),
+                      )
                 ),
                 SizedBox(
                   height: 20,
@@ -437,13 +451,15 @@ class _PostState extends State<Post> {
                                 DateFormat("HH").format(DateTime.now());
                             String datenow =
                                 DateFormat("dd/MM/yyyy").format(DateTime.now());
+                                // เวลานะปัจจุบัน
                             int timenow = int.parse(time);
                             String a = formatTimeOfDay(event.Time);
                             int timeselect = int.parse(a);
+                           
+                            //เวลาที่ผู้ใช้เลือก
                             print(timeselect);
                             print(time);
-                            if (timeselect <= timenow &&
-                                event.Date == datenow) {
+                            if (timeselect <= timenow && event.Date == datenow) {
                               text =
                                   'กรุณาเลือกเวลาหลังจากเวลาปัจจุบัน 1 ชั่วโมง';
                               showAlertDialog(context, text);
