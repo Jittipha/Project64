@@ -48,52 +48,64 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 252, 254, 253),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 13, 104, 96),
+        // backgroundColor: Color.fromARGB(255, 24, 80, 163),
+         backgroundColor: const Color.fromARGB(255, 13, 104, 96),
         title: const Text('My Profile'),
       ),
       body: Background(
-        child: Center(
-          child: StreamBuilder<User?>(
-              stream: authBloc.currentUser,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) return const CircularProgressIndicator();
+        child: Container(
+          height: double.infinity,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: NetworkImage(
+                      //"https://images.pexels.com/photos/7135115/pexels-photo-7135115.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                      "https://i.pinimg.com/originals/92/c6/f1/92c6f1f583f498c74ef5bb0a5b128d8e.jpg"),
+                  fit: BoxFit.cover),
+            ),
+          child: Center(
+            child: StreamBuilder<User?>(
+                stream: authBloc.currentUser,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return const CircularProgressIndicator();
 
-                return Column(
-                  children: [
-                    const SizedBox(
-                      height: 60,
-                    ),
-                    CircleAvatar(
-                      maxRadius: 70,
-                      backgroundImage:
-                          NetworkImage(snapshot.data?.photoURL ?? ""),
-                    ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    const Text("Profile",
-                        style: TextStyle(fontSize: 35.0, color: Colors.white)),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    Text(snapshot.data?.displayName ?? "",
-                        style: const TextStyle(
-                            fontSize: 20.0, color: Colors.white)),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    Text(snapshot.data?.email ?? "",
-                        style: const TextStyle(
-                            fontSize: 20.0, color: Colors.white)),
-                    const SizedBox(
-                      height: 50.0,
-                    ),
-                    SignInButton(Buttons.Google,
-                        text: 'Sign Out of Google',
-                        onPressed: () => authBloc.logout())
-                  ],
-                );
-              }),
+                  return Column(
+                    children: [
+                      const SizedBox(
+                        height: 70,
+                      ),
+                      CircleAvatar(
+                        maxRadius: 80,
+                        backgroundImage:
+                            NetworkImage(snapshot.data?.photoURL ?? ""),
+                      ),
+                      const SizedBox(
+                        height:80,
+                      ),
+                      const Text("Profile",
+                          style: TextStyle(fontSize: 35.0, color: Colors.white)),
+                      const SizedBox(
+                        height: 50.0,
+                      ),
+                      Text(snapshot.data?.displayName ?? "",
+                          style: const TextStyle(
+                              fontSize: 25, color: Colors.white)),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      Text(snapshot.data?.email ?? "",
+                          style: const TextStyle(
+                              fontSize: 25, color: Colors.white)),
+                      const SizedBox(
+                        height: 50.0,
+                      ),
+                      SignInButton(Buttons.Google,
+                          text: 'Sign Out of Google',
+                          onPressed: () => authBloc.logout())
+                    ],
+                  );
+                }),
+          ),
         ),
       ),
     );

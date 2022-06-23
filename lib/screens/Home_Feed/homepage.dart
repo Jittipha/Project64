@@ -77,26 +77,39 @@ class _HomefeedState extends State<Homefeed> {
                 ))
           ],
         ),
-        body: ListView(children: [
-          Container(
-              height: MediaQuery.of(context).size.height * 0.765,
-              padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-              child: StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('Student')
-                      .doc(FirebaseAuth.instance.currentUser?.uid)
-                      .collection('Categories')
-                      .snapshots(),
-                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else {
-                      return HomeBody(snapshot);
-                    }
-                  }))
-        ]));
+        body: Container(
+          // height: double.infinity,
+          //   width: double.infinity,
+          //   decoration: const BoxDecoration(
+          //     image: DecorationImage(
+          //         image: NetworkImage(
+          //             //"https://images.pexels.com/photos/7135115/pexels-photo-7135115.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          //             //"https://images.pexels.com/photos/12117995/pexels-photo-12117995.jpeg"
+          //             "https://i.pinimg.com/originals/04/0c/17/040c17aaaca451eb4626e2ada7fa4b58.jpg"),
+          //         fit: BoxFit.cover),
+          //   ),
+          child: ListView(children: [
+            Container(
+              
+                height: MediaQuery.of(context).size.height * 0.765,
+                padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('Student')
+                        .doc(FirebaseAuth.instance.currentUser?.uid)
+                        .collection('Categories')
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        return HomeBody(snapshot);
+                      }
+                    }))
+          ]),
+        ));
   }
 
   Future getLength(Category_id, Category) async {

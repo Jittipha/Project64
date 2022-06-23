@@ -68,8 +68,8 @@ Future createPlantFoodNotification(event) async {
           channelKey: 'basic_channel',
           title: event.Name,
           body:'This event has changed.',
-          // bigPicture:(event.Image),
-          // notificationLayout: NotificationLayout.BigPicture
+          bigPicture:(event.Image),
+          notificationLayout: NotificationLayout.BigPicture
         ));
         
          
