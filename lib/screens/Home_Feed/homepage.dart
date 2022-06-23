@@ -36,15 +36,15 @@ class _HomefeedState extends State<Homefeed> {
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 30, 150, 140),
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 13, 104, 96),
-          title: const Text(
-            "หน้าหลัก",
-            style: TextStyle(
-              fontSize: 22,
-              fontFamily: 'Raleway',
-              fontWeight: FontWeight.w400,
-            ),
-          ),
+          backgroundColor: const Color.fromARGB(255, 30, 150, 140),
+          // title: const Text(
+          //   "หน้าหลัก",
+          //   style: TextStyle(
+          //     fontSize: 22,
+          //     fontFamily: 'Raleway',
+          //     fontWeight: FontWeight.w400,
+          //   ),
+          // ),
           actions: [
             Theme(
                 data: Theme.of(context).copyWith(dividerColor: Colors.black),

@@ -25,16 +25,17 @@ class MainPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color.fromARGB(255, 48, 180, 169),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 13, 104, 96),
-        title: const Text(
-          "Menu",
-          style: TextStyle(
-            fontSize: 25,
-            letterSpacing: 0.5,
-            fontFamily: 'Raleway',
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+       backgroundColor: const Color.fromARGB(255, 30, 150, 140),
+          // title: const Text(
+        // title: const Text(
+        //   "Menu",
+        //   style: TextStyle(
+        //     fontSize: 25,
+        //     letterSpacing: 0.5,
+        //     fontFamily: 'Raleway',
+        //     fontWeight: FontWeight.w600,
+        //   ),
+        // ),
       ),
       body: Container(
         // height: double.infinity,

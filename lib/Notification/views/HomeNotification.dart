@@ -23,16 +23,16 @@ class _HomeNotificationState extends State<HomeNotification> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 30, 150, 140),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 13, 104, 96),
-        title: const Text(
-          "Notification",
-          style: TextStyle(
-            letterSpacing: 1,
-            fontSize: 22,
-            fontFamily: 'Raleway',
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        backgroundColor: const Color.fromARGB(255, 30, 150, 140),
+        // title: const Text(
+        //   "Notification",
+        //   style: TextStyle(
+        //     letterSpacing: 1,
+        //     fontSize: 22,
+        //     fontFamily: 'Raleway',
+        //     fontWeight: FontWeight.w600,
+        //   ),
+        // ),
       ),
       body: Container(
         // height: double.infinity,

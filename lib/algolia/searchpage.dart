@@ -50,16 +50,17 @@ class _SearchBarState extends State<SearchBar> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 30, 150, 140),
       appBar: AppBar(
-        title: const Text(
-          'Search',
-          style: TextStyle(
-            letterSpacing: 0,
-            fontSize: 22,
-            fontFamily: 'Raleway',
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        backgroundColor: Color.fromARGB(255, 13, 104, 96),
+        // title: const Text(
+        //   'Search',
+        //   style: TextStyle(
+        //     letterSpacing: 0,
+        //     fontSize: 22,
+        //     fontFamily: 'Raleway',
+        //     fontWeight: FontWeight.w600,
+        //   ),
+        // ),
+        // backgroundColor: Color.fromARGB(255, 13, 104, 96),
+         backgroundColor:const Color.fromARGB(255, 30, 150, 140)
       ),
       body: Container(
         // height: double.infinity,

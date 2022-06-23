@@ -164,11 +164,12 @@ class _PostState extends State<Post> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: iconColor,
+       backgroundColor: Color.fromARGB(255, 13, 104, 96),
         title: const Text(
           "Post",
           style: TextStyle(fontSize: 25, color: Colors.black),
         ),
+        
       ),
       body: SingleChildScrollView(
           padding: const EdgeInsets.all(10),
