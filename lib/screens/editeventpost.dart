@@ -112,16 +112,16 @@ class _EditEventState extends State<EditEvent> {
     getlength();
     IMG();
   }
-  
+
   File? image;
-   String? urlImage ;
-   String? urlImaged ;
-   void IMG(){
-    urlImage=widget.studenthasposts["Image"];setState(() {
-      
-    });
-   }
-   Future<void> pickImage(ImageSource imageSource) async {
+  String? urlImage;
+  String? urlImaged;
+  void IMG() {
+    urlImage = widget.studenthasposts["Image"];
+    setState(() {});
+  }
+
+  Future<void> pickImage(ImageSource imageSource) async {
     try {
       final Image = await ImagePicker().pickImage(source: imageSource);
       if (Image == null) return;
@@ -162,7 +162,8 @@ class _EditEventState extends State<EditEvent> {
               })
         });
   }
-   Future<void> RemoveImageinStorage() async {
+
+  Future<void> RemoveImageinStorage() async {
     FirebaseStorage.instance.refFromURL(urlImaged!).delete();
   }
 
@@ -182,11 +183,12 @@ class _EditEventState extends State<EditEvent> {
             );
           }
           return Scaffold(
+
               //backgroundColor: backgroundColor,
               appBar: AppBar(
                 backgroundColor: iconColor,
                 title: const Text(
-                  "Event",
+                  "เเก้ไขข้อมูล",
                   style: TextStyle(fontSize: 25, color: Colors.black),
                 ),
               ),
@@ -197,33 +199,29 @@ class _EditEventState extends State<EditEvent> {
                     child: Form(
                         key: _formKey,
                         child: Column(children: <Widget>[
-                           GestureDetector(
-                            
+                          GestureDetector(
                             onTap: () {
-                                setState(() {
-                                  urlImaged = urlImage;
-                                  
-                                }); 
-                                pickImage(ImageSource.gallery);
-                              },
-                            child :
-                          Container(
-                            child: ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(10.0),
-                                  topRight: Radius.circular(10.0),
-                                  bottomLeft: Radius.circular(10.0),
-                                  bottomRight: Radius.circular(10.0)),
-                              child: Image.network(
-                                urlImage!,
-                                height: 250,
-                                width: 300,
-                                fit: BoxFit.cover,
-                                
+                              setState(() {
+                                urlImaged = urlImage;
+                              });
+                              pickImage(ImageSource.gallery);
+                            },
+                            child: Container(
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(10.0),
+                                    topRight: Radius.circular(10.0),
+                                    bottomLeft: Radius.circular(10.0),
+                                    bottomRight: Radius.circular(10.0)),
+                                child: Image.network(
+                                  urlImage!,
+                                  height: 250,
+                                  width: 300,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),
-                           ),
                           SizedBox(
                             height: 5,
                           ),
@@ -234,14 +232,13 @@ class _EditEventState extends State<EditEvent> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Align(
-                                  alignment:  Alignment.center,
+                                  alignment: Alignment.center,
                                   child: Text(
-                                    '  คลิกที่รูปเพื่อเปลี่ยน',
-                                    style: TextStyle(fontSize: 18,
-                                    color: Colors.red,
-                                    
-                              
-                                    ),   
+                                    '  คลิกที่รูปเพื่อเปลี่ยน !!!',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
