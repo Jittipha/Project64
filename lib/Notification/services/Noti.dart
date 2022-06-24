@@ -1,4 +1,3 @@
-
 // ignore_for_file: file_names
 
 import 'package:awesome_notifications/awesome_notifications.dart';
@@ -12,6 +11,7 @@ class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
+
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
@@ -36,11 +36,8 @@ class _MyHomePageState extends State<MyHomePage> {
 final FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
 events event = events();
-
-
 Future createPlantFoodNotification(event) async {
-
- await AwesomeNotifications().initialize(
+  await AwesomeNotifications().initialize(
       // 'android/app/src/mainres/drawable/ic_launcher.png',
       null,
       [
@@ -50,7 +47,10 @@ Future createPlantFoodNotification(event) async {
             channelName: 'Basic notifications',
             channelDescription: 'Notification channel for basic tests',
             defaultColor: const Color(0xFF9D50DD),
-            ledColor: Colors.white)
+            ledColor: Colors.white,
+            playSound: true,
+            enableLights: true,
+            enableVibration: true)
       ],
       // Channel groups are only visual and are not required
       channelGroups: [
@@ -60,17 +60,12 @@ Future createPlantFoodNotification(event) async {
       ],
       debug: true);
 
-    
-
  await AwesomeNotifications().createNotification(
       content: NotificationContent(
-          id: 2,
+          id: 1,
           channelKey: 'basic_channel',
           title: event.Name,
-          body:'This event has changed.',
-          bigPicture:(event.Image),
-          notificationLayout: NotificationLayout.BigPicture
-        ));
-        
-         
+          body: 'This event has changed.',
+          bigPicture: event.Image,
+          notificationLayout: NotificationLayout.BigPicture));
 }

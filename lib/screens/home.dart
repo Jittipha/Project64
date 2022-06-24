@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
          backgroundColor: const Color.fromARGB(255, 13, 104, 96),
         title: const Text('My Profile'),
       ),
-      body: Background(
+      body: Center(
         child: Container(
           height: double.infinity,
             width: double.infinity,
@@ -72,10 +72,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Column(
                     children: [
                       const SizedBox(
-                        height: 70,
+                        height: 80,
                       ),
                       CircleAvatar(
-                        maxRadius: 80,
+                        maxRadius: 70,
                         backgroundImage:
                             NetworkImage(snapshot.data?.photoURL ?? ""),
                       ),

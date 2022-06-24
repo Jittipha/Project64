@@ -60,7 +60,7 @@ class _LeaveeventhomeState extends State<Leaveeventhome> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: 70, top: 0, right: 10, left: 10),
+        padding: const EdgeInsets.only(bottom: 60, top: 0, right: 2, left: 2),
         child: Column(children: <Widget>[
           Container(
             padding: EdgeInsets.fromLTRB(10, 10, 10, 10),

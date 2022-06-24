@@ -33,7 +33,7 @@ class _eventdetailhomeState extends State<eventdetailhome> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: 70, top: 0, right: 10, left: 10),
+        padding: const EdgeInsets.only(bottom: 70, top: 10, right: 10, left: 10),
         child: Column(children: <Widget>[
           Container(
             child: Image.network(

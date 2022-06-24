@@ -771,6 +771,7 @@ class _EditEventState extends State<EditEvent> {
         _formKey.currentState!.save();
         try {
           // await model.imageNotification(event);
+          event.Image = urlImage;
           await createPlantFoodNotification(event);
 
           await FirebaseFirestore.instance
