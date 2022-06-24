@@ -11,6 +11,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:project/Model/Category.dart';
+import 'package:provider/provider.dart';
+
+import '../../blocs/auth_bloc.dart';
+import '../login.dart';
 
 class addcate extends StatefulWidget {
   const addcate({Key? key}) : super(key: key);
@@ -24,6 +28,21 @@ class _addcateState extends State<addcate> {
   File? image;
   final _formcate = GlobalKey<FormState>();
   bool isLoading = false;
+  @override
+  void initState() {
+    var authBloc = Provider.of<AuthBloc>(context, listen: false);
+    authBloc.currentUser.listen((User) async {
+      if (User == null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const LoginScreen(),
+          ),
+        );
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +102,8 @@ class _addcateState extends State<addcate> {
                                   backgroundColor: Colors.blueGrey[100],
                                   radius: 93,
                                   child: CircleAvatar(
-                                    backgroundImage: NetworkImage(cate.urlImage!),
+                                    backgroundImage:
+                                        NetworkImage(cate.urlImage!),
                                     radius: 90,
                                     child: const Align(
                                       alignment: Alignment.bottomRight,

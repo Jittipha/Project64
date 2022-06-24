@@ -4,9 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Model/Student.dart';
+import 'package:provider/provider.dart';
 
+import '../blocs/auth_bloc.dart';
 import 'Join_Event/Leave_Event_Home.dart';
 import 'editeventpost.dart';
+import 'login.dart';
 
 class MyEvent extends StatefulWidget {
   const MyEvent({Key? key}) : super(key: key);
@@ -16,6 +19,21 @@ class MyEvent extends StatefulWidget {
 }
 
 class _MyEventState extends State<MyEvent> {
+ @override
+  void initState() {
+    var authBloc = Provider.of<AuthBloc>(context, listen: false);
+    authBloc.currentUser.listen((User) async {
+      if (User == null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const LoginScreen(),
+          ),
+        );
+      }
+    });
+    super.initState();
+  }
+  
   Students student = Students();
   final String test = "Fuck";
   @override

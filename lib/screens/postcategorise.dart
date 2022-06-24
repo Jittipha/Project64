@@ -19,9 +19,12 @@ import 'package:project/screens/Myevents.dart';
 
 import 'package:project/screens/tabbar.dart';
 import 'package:project/Model/Student.dart';
+import 'package:provider/provider.dart';
 
 import '../PageNotWorking/Interests.dart';
+import '../blocs/auth_bloc.dart';
 import 'editeventpost.dart';
+import 'login.dart';
 
 //import 'package:flutter_application_1/screen/addcategorise.dart';
 //import 'package:flutter_application_1/screen/createeventspost.dart';
@@ -156,6 +159,18 @@ class _PostState extends State<Post> {
   @override
   void initState() {
     dateinput.text = ""; //set the initial value of text field
+  
+    var authBloc = Provider.of<AuthBloc>(context, listen: false);
+    authBloc.currentUser.listen((User) async {
+      if (User == null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const LoginScreen(),
+          ),
+        );
+      }
+    });
+  
     super.initState();
   }
 

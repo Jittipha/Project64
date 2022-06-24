@@ -15,9 +15,12 @@ import 'package:project/Model/Event.dart';
 import 'package:project/Notification/services/Noti.dart';
 import 'package:project/Notification/services/notification.dart';
 import 'package:project/constants.dart';
+import 'package:provider/provider.dart';
 import '../Background/bg_EditEvent.dart';
+import '../blocs/auth_bloc.dart';
 import 'Interests/editinterests.dart';
 import 'Myevents.dart';
+import 'login.dart';
 
 class EditEvent extends StatefulWidget {
   EditEvent({
@@ -108,6 +111,17 @@ class _EditEventState extends State<EditEvent> {
   void initState() {
     // ignore: todo
     // TODO: implement initState
+
+    var authBloc = Provider.of<AuthBloc>(context, listen: false);
+    authBloc.currentUser.listen((User) async {
+      if (User == null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const LoginScreen(),
+          ),
+        );
+      }
+    });
     super.initState();
     getlength();
     IMG();

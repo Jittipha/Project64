@@ -7,6 +7,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:http/http.dart';
 import 'package:project/screens/Join_Event/Leave_Event_Home.dart';
+import 'package:provider/provider.dart';
+
+import '../../blocs/auth_bloc.dart';
+import '../../screens/login.dart';
 
 class HomeNotification extends StatefulWidget {
   const HomeNotification({Key? key}) : super(key: key);
@@ -17,7 +21,20 @@ class HomeNotification extends StatefulWidget {
 
 class _HomeNotificationState extends State<HomeNotification> {
   String Student_id = "";
-
+ @override
+  void initState() {
+    var authBloc = Provider.of<AuthBloc>(context, listen: false);
+    authBloc.currentUser.listen((User) async {
+      if (User == null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const LoginScreen(),
+          ),
+        );
+      }
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,10 +76,20 @@ class _HomeNotificationState extends State<HomeNotification> {
               return const Center(
                 child: CircularProgressIndicator(),
               );
+            } else if (snapshots.data!.docs.isEmpty) {
+              return const Center(
+                child: Text('no notification',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 23,
+                      fontFamily: 'Raleway',
+                      fontWeight: FontWeight.w500,
+                    )),
+              );
             } else {
               return Center(
                   child: ListView(
-                    padding: const EdgeInsets.fromLTRB(0, 10,0,0),
+                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                       scrollDirection: Axis.vertical,
                       children: snapshots.data!.docs.map((document) {
                         return Container(
@@ -99,7 +126,6 @@ class _HomeNotificationState extends State<HomeNotification> {
                                     width: 10,
                                   ),
                                   SizedBox(
-                                    
                                     width: 220,
                                     height: 90,
                                     child: ListTile(
