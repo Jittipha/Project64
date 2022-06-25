@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final authBloc = Provider.of<AuthBloc>(context);
 
-    return Background(
+    return Center(
       child: Container(
         height: double.infinity,
             width: double.infinity,
@@ -41,15 +41,15 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           children: [
             const SizedBox(
-              height: 90,
+              height: 120,
             ),
             Image.asset(
                 "assets/images/logo_nnn.png",
-                width: 500,
+                width: 200,
                 
                ),
             const SizedBox(
-              height: 20,
+              height: 120,
             ),
             //   Image.network(
             //   'https://firebasestorage.googleapis.com/v0/b/my-project-application-7b7c7.appspot.com/o/logo%2FLogodpu.png?alt=media&token=8ea67ca6-b828-42b0-9d59-ecc48b22fef9',

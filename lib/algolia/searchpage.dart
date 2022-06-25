@@ -7,9 +7,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:project/screens/Join_Event/Event_detail_Search.dart';
 import 'package:project/screens/Join_Event/Leave_Event_Search.dart';
 import 'package:project/screens/editeventpost.dart';
+import 'package:provider/provider.dart';
 import 'package:snapshot/snapshot.dart';
 
+import '../blocs/auth_bloc.dart';
 import '../screens/Join_Event/Leave_Event_Home.dart';
+import '../screens/login.dart';
 // import 'package:project/algolia/AlgoliaApplication.dart';
 // import 'package:project/algolia/AlgoliaApplication.dart';
 
@@ -24,6 +27,20 @@ class _SearchBarState extends State<SearchBar> {
   final TextEditingController _searchText = TextEditingController(text: "");
   List<AlgoliaObjectSnapshot> _results = [];
   bool _searching = false;
+   @override
+  void initState() {
+    var authBloc = Provider.of<AuthBloc>(context, listen: false);
+    authBloc.currentUser.listen((User) async {
+      if (User == null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const LoginScreen(),
+          ),
+        );
+      }
+    });
+    super.initState();
+  }
 
   _search() async {
     setState(() {

@@ -15,8 +15,11 @@ import 'package:project/screens/Join_Event/Event_detail_Search.dart';
 import 'package:project/screens/Join_Event/Leave_Event_Home.dart';
 import 'package:project/screens/Join_Event/Leave_Event_Search.dart';
 import 'package:project/screens/Myevents.dart';
+import 'package:provider/provider.dart';
 
+import '../../blocs/auth_bloc.dart';
 import '../editeventpost.dart';
+import '../login.dart';
 
 class Homefeed extends StatefulWidget {
   @override
@@ -30,7 +33,20 @@ class _HomefeedState extends State<Homefeed> {
   var listedit;
   var list;
   QuerySnapshot? b;
-
+ @override
+  void initState() {
+    var authBloc = Provider.of<AuthBloc>(context, listen: false);
+    authBloc.currentUser.listen((User) async {
+      if (User == null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const LoginScreen(),
+          ),
+        );
+      }
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
