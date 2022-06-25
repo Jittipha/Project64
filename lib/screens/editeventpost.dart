@@ -188,7 +188,7 @@ class _EditEventState extends State<EditEvent> {
               appBar: AppBar(
                 backgroundColor: iconColor,
                 title: const Text(
-                  "เเก้ไขข้อมูล",
+                  "Edit",
                   style: TextStyle(fontSize: 25, color: Colors.black),
                 ),
               ),
@@ -572,6 +572,7 @@ class _EditEventState extends State<EditEvent> {
                                         //เรียก method editdatatoFirebase
                                         editdatatoFirebase();
                                         print(event.Name);
+                                        
                                         //  เวลาแจ้งเตือน //
                                         String Time = DateFormat("hh:mm:ss")
                                             .format(DateTime.now());

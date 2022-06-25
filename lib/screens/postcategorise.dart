@@ -166,7 +166,7 @@ class _PostState extends State<Post> {
       appBar: AppBar(
        backgroundColor: Color.fromARGB(255, 13, 104, 96),
         title: const Text(
-          "โพสต์",
+          "Post",
           style: TextStyle(fontSize: 25, color: Colors.black),
         ),
         

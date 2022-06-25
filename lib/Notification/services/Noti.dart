@@ -69,7 +69,7 @@ Future createPlantFoodNotification(event) async {
           title: event.Name,
           body:'This event has changed.',
           bigPicture:(event.Image),
-          notificationLayout: NotificationLayout.BigPicture
+          //  notificationLayout: NotificationLayout.BigPicture
         ));
         
          
