@@ -15,11 +15,13 @@ class eventdetailhome extends StatefulWidget {
   //final QueryDocumentSnapshot<Object?> studenthasposts;
   QueryDocumentSnapshot snap;
 
+
   @override
   _eventdetailhomeState createState() => _eventdetailhomeState();
 }
 
 class _eventdetailhomeState extends State<eventdetailhome> {
+  int sum = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,6 +162,13 @@ class _eventdetailhomeState extends State<eventdetailhome> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
+          // await FirebaseFirestore.instance
+          //  .collection("Event")
+          //     .doc(widget.snap.id)
+          //     .collection("Joined")
+          //     .get().then((value) => sum = value.size);
+
+
           await FirebaseFirestore.instance
               .collection("Event")
               .doc(widget.snap.id)
@@ -169,7 +178,8 @@ class _eventdetailhomeState extends State<eventdetailhome> {
             "Student_id": FirebaseAuth.instance.currentUser?.uid,
             "Name": FirebaseAuth.instance.currentUser?.displayName,
             "Photo": FirebaseAuth.instance.currentUser?.photoURL,
-            "Email": FirebaseAuth.instance.currentUser?.email
+            "Email": FirebaseAuth.instance.currentUser?.email,
+            // "Length" : sum+1
           });
 
           var checkid = await FirebaseFirestore.instance
