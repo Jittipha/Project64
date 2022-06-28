@@ -1,56 +1,28 @@
-// ignore_for_file: file_names, unused_import, unused_local_variable, unused_element, deprecated_member_use, non_constant_identifier_names, avoid_function_literals_in_foreach_calls, prefer_is_empty, prefer_const_constructors, duplicate_ignore
-
-import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
-import 'package:project/screens/Categories/DetailCate.dart';
-import 'package:project/main.dart';
-import 'package:snapshot/snapshot.dart';
-import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-import '../tabbar.dart';
-
-class Categories extends StatefulWidget {
-  const Categories({Key? key}) : super(key: key);
+class editcate extends StatefulWidget {
+  const editcate({Key? key}) : super(key: key);
 
   @override
-  _CategoriesState createState() => _CategoriesState();
+  State<editcate> createState() => _editcateState();
 }
 
-class _CategoriesState extends State<Categories> {
-  // Future<List<Cate>> _getCates() async {
-  //   var url = Uri.parse("https://api-test-project64.herokuapp.com/ListCate");
-  //   var res = await http.get(url);
-
-  //   var jsondata = json.decode(res.body);
-  //   List<Cate> cates = [];
-  //   for (var u in jsondata) {
-  //     Cate cate = Cate(u["CategoryID"], u["Name"], u["Description"]);
-  //     cates.add(cate);
-  //   }
-  //   print(cates.length);
-  //   return cates;
-  // }
-  Map<String, bool> values = {
-    'foo': true,
-    'bar': false,
-  };
+class _editcateState extends State<editcate> {
   List Cate_id = [];
   List Listchoosed = [];
-
+  String? text;
   List listshow = [];
   int length = 0;
   String id = "";
+  String stringcheck = "2";
   @override
   void initState() {
     super.initState();
     addtolist();
+    // cutlistshow();
   }
 
   Future addtolist() async {
@@ -58,20 +30,53 @@ class _CategoriesState extends State<Categories> {
         await FirebaseFirestore.instance.collection("Category").get();
     List allData = snap.docs.map((doc) => doc.data()).toList();
     listshow = allData;
+
+    QuerySnapshot snapforchoosed = await FirebaseFirestore.instance
+        .collection("Student")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("Categories")
+        .get();
+    List hasData = snapforchoosed.docs.map((doc) => doc.data()).toList();
+    Listchoosed = hasData;
+    print('listshow>>> $listshow');
+    print('listchoosed >> $Listchoosed');
+    for (int a = 0; a < Listchoosed.length; a++) {
+      for (int z = listshow.length - 1; z >= 0; z--) {
+        if (Listchoosed[a]['Name'] == listshow[z]['Name']) {
+          listshow.removeAt(z);
+        }
+      }
+    }
     setState(() {});
   }
+
+  // Future cutlistshow() async {
+  //   // for (int x = 0; x < Listchoosed.length; x++) {
+  //   //   print(Listchoosed[x]);
+  //   //   if (Listchoosed[x] == listshow[5]) {
+  //   //     print("Yes");
+  //   //   } else {
+  //   //     print("No");
+  //   //   }
+  //   //   // for (int s = 0;s < listshow.length;s++) {}
+  //   //   // if(){
+
+  //   //   // }
+  //   // }
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 30, 150, 140),
+      backgroundColor: const Color.fromARGB(255, 30, 150, 140),
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 13, 104, 96),
+        backgroundColor: const Color.fromARGB(255, 13, 104, 96),
         title: const Text(
-          " Categories",
+          "Edit your Categories",
           style: TextStyle(
             letterSpacing: 1,
-            fontSize: 23,
+            fontSize: 20,
             fontFamily: 'Raleway',
             fontWeight: FontWeight.w800,
           ),
@@ -81,6 +86,19 @@ class _CategoriesState extends State<Categories> {
             textColor: Colors.white,
             onPressed: () async {
               if (Listchoosed.isNotEmpty) {
+                QuerySnapshot delete = await FirebaseFirestore.instance
+                    .collection('Student')
+                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                    .collection('Categories')
+                    .get();
+                delete.docs.forEach((element) async {
+                  await FirebaseFirestore.instance
+                      .collection('Student')
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .collection('Categories')
+                      .doc(element.id)
+                      .delete();
+                });
                 for (int a = 0; a < Listchoosed.length; a++) {
                   QuerySnapshot snaps = await FirebaseFirestore.instance
                       .collection("Category")
@@ -93,25 +111,25 @@ class _CategoriesState extends State<Categories> {
                   });
                   FirebaseFirestore.instance
                       .collection('Student')
-                      .doc(FirebaseAuth.instance.currentUser?.uid)
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
                       .collection('Categories')
                       .doc()
                       .set({
                     "Description": Listchoosed[a]['Description'],
                     "Name": Listchoosed[a]['Name'],
                     "Category_id": id,
-                    'Image' : Listchoosed[a]['Image']
+                    'Image': Listchoosed[a]['Image']
                   });
                 }
+
                 Fluttertoast.showToast(
-                    msg: "Success!", gravity: ToastGravity.CENTER);
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Tabbar()),
-                  (Route<dynamic> route) => false,
-                );
+                    msg: "Edit Success!", gravity: ToastGravity.CENTER);
+                Navigator.pop(context);
               } else {
-                showAlertDialog(context);
+                showAlertDialog(
+                    context,
+                    text =
+                        "กรุณาเลือกความน่าสนใจของหมวดหมู่ อย่างน้อย 1 หมวดหมู่");
               }
             },
             child: const Text(
@@ -123,8 +141,8 @@ class _CategoriesState extends State<Categories> {
                 fontWeight: FontWeight.w900,
               ),
             ),
-            // ignore: prefer_const_constructors
-            shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+            shape:
+                const CircleBorder(side: BorderSide(color: Colors.transparent)),
           ),
         ],
       ),
@@ -135,7 +153,7 @@ class _CategoriesState extends State<Categories> {
                     Container(
                       padding: EdgeInsets.all(20),
                       child: const Text(
-                        "แตะเพื่อเลือกหมวดหมู่ที่คุณสนใจ",
+                        "แตะเพื่อเลือกความน่าสนใจของกิจกรรม",
                         style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'Raleway',
@@ -192,9 +210,8 @@ class _CategoriesState extends State<Categories> {
                     Container(
                       padding: EdgeInsets.all(20),
                       child: const Text(
-                        "แตะเพื่อเลือกหมวดหมู่ที่คุณสนใจ",
+                        "แตะเพื่อเลือกความน่าสนใจของกิจกรรม",
                         style: TextStyle(
-                          color: Colors.black,
                           fontSize: 16,
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.w600,
@@ -203,7 +220,7 @@ class _CategoriesState extends State<Categories> {
                     ),
                     Container(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      height: MediaQuery.of(context).size.height * 0.54,
+                      height: MediaQuery.of(context).size.height * 0.60,
                       child: ListView.builder(
                           itemCount: listshow.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -221,7 +238,6 @@ class _CategoriesState extends State<Categories> {
                                 listshow[index]['Name'].toString(),
                                 style: const TextStyle(
                                   fontSize: 17,
-                                  color: Colors.black,
                                   fontFamily: 'Raleway',
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -236,9 +252,19 @@ class _CategoriesState extends State<Categories> {
                                 maxLines: 1,
                               ),
                               onTap: () {
+                                if (Listchoosed.length == 3) {
+                                  text = "จำกัดหมวดหมู่แค่ 3 หมวดหมู่";
+                                  showAlertDialog(context, text);
+                                } else {
+                                  if (stringcheck == "2") {
+                                    setState(() {
+                                      Listchoosed.add(listshow[index]);
+                                      listshow.remove(listshow[index]);
+                                    });
+                                  }
+                                }
                                 setState(() {
-                                  Listchoosed.add(listshow[index]);
-                                  listshow.remove(listshow[index]);
+                                  stringcheck = "2";
                                 });
                               },
                             );
@@ -254,7 +280,7 @@ class _CategoriesState extends State<Categories> {
                         children: [
                           Container(
                             height: 30,
-                            padding: const EdgeInsets.fromLTRB(0, 7, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                             child: const Text(
                               "Selected",
                               style: TextStyle(
@@ -267,7 +293,7 @@ class _CategoriesState extends State<Categories> {
                           ),
                           Container(
                             padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                            height: MediaQuery.of(context).size.height * 0.15,
+                            height: MediaQuery.of(context).size.height * 0.13,
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: Listchoosed.length,
@@ -338,7 +364,7 @@ class _CategoriesState extends State<Categories> {
     );
   }
 
-  showAlertDialog(BuildContext context) {
+  showAlertDialog(BuildContext context, text) {
     // set up the button
     Widget OKButton = FlatButton(
       child: const Text("OK"),
@@ -350,7 +376,7 @@ class _CategoriesState extends State<Categories> {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: const Text("Warning!!"),
-      content: const Text("กรุณาเลือกหมวดหมู่อย่างน้อย 1 หมวดหมู่"),
+      content: Text(text),
       actions: [OKButton],
     );
 

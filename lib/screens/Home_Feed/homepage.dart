@@ -1,5 +1,7 @@
 // ignore_for_file: unused_import, non_constant_identifier_names, avoid_unnecessary_containers, avoid_print, duplicate_ignore, must_be_immutable, use_key_in_widget_constructors, prefer_is_empty, prefer_typing_uninitialized_variables
 
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,12 +31,55 @@ class Homefeed extends StatefulWidget {
 class _HomefeedState extends State<Homefeed> {
   String Category = "";
   String Category_id = "";
-
+  List ListCate = [];
+  List Listcheckmax = [];
+  List Cateshow = [];
+  String? id;
   var listedit;
   var list;
   QuerySnapshot? b;
- @override
+
+  Future<void> adddataCategory() async {
+    QuerySnapshot snap =
+        await FirebaseFirestore.instance.collection("Category").get();
+    List allData = snap.docs.map((doc) => doc.data()).toList();
+    ListCate = allData;
+    for (int a = 0; a < ListCate.length; a++) {
+      QuerySnapshot snaps = await FirebaseFirestore.instance
+          .collection("Category")
+          .where('Name', isEqualTo: ListCate[a]['Name'])
+          .where('Description', isEqualTo: ListCate[a]['Description'])
+          .get();
+      snaps.docs.forEach((element) {
+        id = element.id;
+      });
+
+      var check = await FirebaseFirestore.instance.collection("Event").where(
+        "Interests",
+        arrayContainsAny: [id],
+      ).get();
+      var lenght = check.docs.length;
+      QuerySnapshot snap = await FirebaseFirestore.instance
+          .collection('Student')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('Categories')
+          .where('Category_id', isEqualTo: id)
+          .get();
+
+      snap.docs.forEach((element) async {
+        await FirebaseFirestore.instance
+            .collection('Student')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('Categories')
+            .doc(element.id)
+            .update({'Count_Event': lenght});
+      });
+    }
+  }
+
+  @override
   void initState() {
+    adddataCategory();
     var authBloc = Provider.of<AuthBloc>(context, listen: false);
     authBloc.currentUser.listen((User) async {
       if (User == null) {
@@ -47,6 +92,26 @@ class _HomefeedState extends State<Homefeed> {
     });
     super.initState();
   }
+
+  // Future addtolist() async {
+  //   QuerySnapshot snapforchoosed = await FirebaseFirestore.instance
+  //       .collection("Student")
+  //       .doc(FirebaseAuth.instance.currentUser!.uid)
+  //       .collection("Categories")
+  //       .get();
+  //   List hasData = snapforchoosed.docs.map((doc) => doc.data()).toList();
+  //   ListCate = hasData;
+  //   for (int a = 0; a < ListCate.length; a++) {
+  //     QuerySnapshot Countevent = await FirebaseFirestore.instance
+  //         .collection('Event')
+  //         .where('Interests',
+  //             arrayContainsAny: [ListCate[a]['Category_id']]).get();
+  //     Listcheckmax.add(Countevent.docs.length);
+  //   }
+
+  //   setState(() {});
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,7 +171,6 @@ class _HomefeedState extends State<Homefeed> {
           //   ),
           child: ListView(children: [
             Container(
-              
                 height: MediaQuery.of(context).size.height * 0.765,
                 padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: StreamBuilder(
@@ -114,6 +178,8 @@ class _HomefeedState extends State<Homefeed> {
                         .collection('Student')
                         .doc(FirebaseAuth.instance.currentUser?.uid)
                         .collection('Categories')
+                        .orderBy('Count_Event', descending: true)
+                        .orderBy('Name', descending: true)
                         .snapshots(),
                     builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -133,9 +199,9 @@ class _HomefeedState extends State<Homefeed> {
       "Interests",
       arrayContainsAny: [Category_id],
     ).get();
-    print(Category);
+
     var lenght = check.docs.length;
-    print(lenght);
+
     return lenght;
   }
 

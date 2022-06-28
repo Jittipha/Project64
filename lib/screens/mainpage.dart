@@ -5,6 +5,7 @@ import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:project/blocs/auth_bloc.dart';
 import 'package:project/screens/Categories/AddCategories.dart';
+import 'package:project/screens/Categories/editCate.dart';
 import 'package:project/screens/Myevents.dart';
 import 'package:project/Background/bg_menu.dart';
 import 'package:project/screens/home.dart';
@@ -25,8 +26,8 @@ class MainPage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color.fromARGB(255, 48, 180, 169),
       appBar: AppBar(
-       backgroundColor: const Color.fromARGB(255, 30, 150, 140),
-          // title: const Text(
+        backgroundColor: const Color.fromARGB(255, 30, 150, 140),
+        // title: const Text(
         // title: const Text(
         //   "Menu",
         //   style: TextStyle(
@@ -54,6 +55,45 @@ class MainPage extends StatelessWidget {
             children: [
               const SizedBox(
                 height: 8,
+              ),
+              SizedBox(
+                height: 60,
+                width: double.infinity,
+                child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Colors.yellow.shade200)),
+                    child: Wrap(
+                      children: const <Widget>[
+                        Icon(
+                          Icons.control_point_outlined,
+                          color: Color.fromARGB(255, 9, 9, 9),
+                          size: 30,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        SizedBox(
+                          width: 200,
+                          child: Text(
+                            "Edit your Categories",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontFamily: 'RobotoMono',
+                                color: Colors.black),
+                          ),
+                        ),
+                      ],
+                    ),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const editcate();
+                      }));
+                    }),
+              ),
+              const SizedBox(
+                height: 20,
               ),
               SizedBox(
                 height: 60,

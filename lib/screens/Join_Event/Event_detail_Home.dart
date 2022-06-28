@@ -33,7 +33,8 @@ class _eventdetailhomeState extends State<eventdetailhome> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: 70, top: 10, right: 10, left: 10),
+        padding:
+            const EdgeInsets.only(bottom: 70, top: 10, right: 10, left: 10),
         child: Column(children: <Widget>[
           Container(
             child: Image.network(
@@ -181,8 +182,9 @@ class _eventdetailhomeState extends State<eventdetailhome> {
                 .collection("Notification")
                 .doc(widget.snap.id)
                 .update({
-              'Student_id': FieldValue.arrayUnion(
-                  [FirebaseAuth.instance.currentUser?.uid])
+              'Student_id': FieldValue.arrayUnion([
+                {'ID': FirebaseAuth.instance.currentUser?.uid, 'Stage': '0'}
+              ])
             });
           } else {
             await FirebaseFirestore.instance

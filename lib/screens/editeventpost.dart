@@ -178,7 +178,9 @@ class _EditEventState extends State<EditEvent> {
   }
 
   Future<void> RemoveImageinStorage() async {
-    FirebaseStorage.instance.refFromURL(urlImaged!).delete();
+    if (urlImage != null) {
+      FirebaseStorage.instance.refFromURL(urlImaged!).delete();
+    }
   }
 
   @override
@@ -586,7 +588,7 @@ class _EditEventState extends State<EditEvent> {
                                         //เรียก method editdatatoFirebase
                                         editdatatoFirebase();
                                         print(event.Name);
-                                        
+
                                         //  เวลาแจ้งเตือน //
                                         String Time = DateFormat("hh:mm:ss")
                                             .format(DateTime.now());
