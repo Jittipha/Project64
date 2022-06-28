@@ -137,6 +137,7 @@ class _EditEventState extends State<EditEvent> {
   File? image;
   String? urlImage;
   String? urlImaged;
+
   void IMG() {
     urlImage = widget.studenthasposts["Image"];
     setState(() {});
@@ -176,6 +177,7 @@ class _EditEventState extends State<EditEvent> {
     await uploadTask.then((TaskSnapshot taskSnapshot) async => {
           await taskSnapshot.ref.getDownloadURL().then((dynamic url) => {
                 print("url : $url"),
+                urlImaged = urlImage,
                 urlImage = url.toString(),
                 setState(() {
                   isLoading = false;
@@ -224,10 +226,8 @@ class _EditEventState extends State<EditEvent> {
                         child: Column(children: <Widget>[
                           GestureDetector(
                             onTap: () {
-                              setState(() {
-                                urlImaged = urlImage;
-                              });
                               pickImage(ImageSource.gallery);
+                              setState(() {});
                             },
                             child: Container(
                               child: ClipRRect(
@@ -819,7 +819,7 @@ class _EditEventState extends State<EditEvent> {
             //วันนี้
           } else if (dayevent == daynow) {
             if (minutenow >= 45) {
-              mincondition = (minselect + 15) - 60;
+              mincondition = (minutenow + 15) - 60;
               if (timeselect > hournow) {
                 if ((timeselect - 1) == hournow) {
                   if (minselect > mincondition) {
