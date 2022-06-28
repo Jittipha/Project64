@@ -253,7 +253,7 @@ class _editcateState extends State<editcate> {
                               ),
                               onTap: () {
                                 if (Listchoosed.length == 3) {
-                                  text = "จำกัดหมวดหมู่แค่ 3 หมวดหมู่";
+                                  text = "จำกัดแค่ 3 หมวดหมู่";
                                   showAlertDialog(context, text);
                                 } else {
                                   if (stringcheck == "2") {
