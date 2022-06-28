@@ -9,6 +9,7 @@ import 'package:project/screens/Categories/editCate.dart';
 import 'package:project/screens/Myevents.dart';
 import 'package:project/Background/bg_menu.dart';
 import 'package:project/screens/home.dart';
+import 'package:project/screens/summarize.dart';
 import 'package:provider/provider.dart';
 
 import 'postcategorise.dart';
@@ -242,6 +243,7 @@ class MainPage extends StatelessWidget {
                                 color: Colors.black),
                           ),
                         ),
+                        
                       ],
                     ),
                     onPressed: () {
@@ -251,6 +253,48 @@ class MainPage extends StatelessWidget {
                       }));
                     }),
               ),
+               const SizedBox(
+                height: 20,
+                width: double.infinity,
+              ),
+              SizedBox(
+                height: 60,
+                width: double.infinity,
+                child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Colors.yellow.shade200)),
+                    child: Wrap(
+                      children: const <Widget>[
+                        Icon(
+                          Icons.summarize_outlined,
+                          color: Color.fromARGB(255, 9, 9, 9),
+                          size: 30,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        SizedBox(
+                          width: 200,
+                          child: Text(
+                            "Summarize",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontFamily: 'RobotoMono',
+                                color: Colors.black),
+                          ),
+                        ),
+                        
+                      ],
+                    ),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const Summarize();
+                      }));
+                    }),
+              ),
+              
             ],
           ),
         ),
