@@ -1,25 +1,18 @@
-// ignore_for_file: file_names, unused_import, must_be_immutable, camel_case_types, avoid_unnecessary_containers, prefer_const_constructors, unnecessary_import
-
-import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:project/algolia/searchpage.dart';
 import 'package:project/constants.dart';
-import 'package:project/screens/Home_Feed/homepage.dart';
 
-class eventdetailhome extends StatefulWidget {
-  eventdetailhome({Key? key, required this.snap}) : super(key: key);
-  //final QueryDocumentSnapshot<Object?> studenthasposts;
+class detailnoti extends StatefulWidget {
+  detailnoti({Key? key, required this.snap}) : super(key: key);
   QueryDocumentSnapshot snap;
 
   @override
-  _eventdetailhomeState createState() => _eventdetailhomeState();
+  State<detailnoti> createState() => _detailnotiState();
 }
 
-class _eventdetailhomeState extends State<eventdetailhome> {
+class _detailnotiState extends State<detailnoti> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +26,8 @@ class _eventdetailhomeState extends State<eventdetailhome> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: 70, top: 10, right: 10, left: 10),
+        padding:
+            const EdgeInsets.only(bottom: 70, top: 10, right: 10, left: 10),
         child: Column(children: <Widget>[
           Container(
             child: Image.network(
@@ -161,70 +155,19 @@ class _eventdetailhomeState extends State<eventdetailhome> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           await FirebaseFirestore.instance
-              .collection("Event")
-              .doc(widget.snap.id)
-              .collection("Joined")
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .set({
-            "Student_id": FirebaseAuth.instance.currentUser?.uid,
-            "Name": FirebaseAuth.instance.currentUser?.displayName,
-            "Photo": FirebaseAuth.instance.currentUser?.photoURL,
-            "Email": FirebaseAuth.instance.currentUser?.email
-          });
-
-          var checkid = await FirebaseFirestore.instance
               .collection("Notification")
               .doc(widget.snap.id)
-              .get();
-          if (checkid.exists) {
-            await FirebaseFirestore.instance
-                .collection("Notification")
-                .doc(widget.snap.id)
-                .update({
-              'Student_id':FieldValue.arrayUnion(
-                  [FirebaseAuth.instance.currentUser?.uid] )
-            });
-          } else {
-            await FirebaseFirestore.instance
-                .collection("Notification")
-                .doc(widget.snap.id)
-                .set({
-              "Photo": widget.snap["Image"],
-              "Name": widget.snap["Name"],
-              "Student_id":([
-                FirebaseAuth.instance.currentUser?.uid
-              ])
-            });
-          }
-
-          await FirebaseFirestore.instance
-              .collection("Student")
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .collection("Joined")
-              .doc(widget.snap.id)
-              .set({
-            "Image": widget.snap["Image"],
-            "Name": widget.snap["Name"],
-            "Description": widget.snap["Description"],
-            "Time": widget.snap["Time"],
-            "date": widget.snap["date"],
-            "Location": widget.snap["Location"],
-            "Host": [
-              {
-                "Student_id": widget.snap['Host'][0]['Student_id'],
-                "Name": widget.snap['Host'][0]['Name'],
-                "Photo": widget.snap['Host'][0]['Photo'],
-                "Email": widget.snap['Host'][0]['Email']
-              }
-            ]
+              .update({
+            "Student_id":
+                FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid])
           }).then((value) {
             Fluttertoast.showToast(
-                msg: "เข้าร่วมกิจกรรมแล้ว!", gravity: ToastGravity.CENTER);
+                msg: "อ่านแจ้งเตือนแล้ว", gravity: ToastGravity.CENTER);
             Navigator.pop(context);
           });
         },
-        label: const Text('JOIN'),
-        icon: const Icon(Icons.person_add_alt),
+        label: const Text('อ่านแล้ว'),
+        icon: const Icon(Icons.done_outline),
         backgroundColor: Colors.green[400],
       ),
     );

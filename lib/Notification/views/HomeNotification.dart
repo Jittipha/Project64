@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:http/http.dart';
+import 'package:project/Notification/views/Homedetailnoto.dart';
 import 'package:project/screens/Join_Event/Leave_Event_Home.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +22,13 @@ class HomeNotification extends StatefulWidget {
 
 class _HomeNotificationState extends State<HomeNotification> {
   String Student_id = "";
+
+  // Future<void> getdata() async{
+  //   QuerySnapshot snap = await FirebaseFirestore.instance.collection('Notification').get();
+  //   snap.docs.forEach((element) {
+  //     element['']
+  //   })
+  // }
  @override
   void initState() {
     var authBloc = Provider.of<AuthBloc>(context, listen: false);
@@ -68,9 +76,12 @@ class _HomeNotificationState extends State<HomeNotification> {
               .orderBy('date', descending: true)
               .orderBy('Time', descending: true)
               // where อาเรย์
-              .where("Student_id", arrayContainsAny: [
+              .where("Student_id",arrayContainsAny: [
             FirebaseAuth.instance.currentUser?.uid
-          ]).snapshots(),
+          ]
+
+          
+          ).snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshots) {
             if (snapshots.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -171,7 +182,11 @@ class _HomeNotificationState extends State<HomeNotification> {
     late String text;
     if (document['Type'] == '1') {
       text = "This event has changed.";
-    } else {
+    } 
+    // else if(){
+
+    // }
+    else {
       if (document['StatusofApproved'] == 'correct') {
         text = "This category is correct.";
       } else {
@@ -193,7 +208,7 @@ class _HomeNotificationState extends State<HomeNotification> {
       await Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => Leaveeventhome(snap: element)));
+              builder: (context) => detailnoti(snap: element)));
     });
   }
 }

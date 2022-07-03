@@ -186,7 +186,7 @@ class _eventdetailState extends State<eventdetail> {
                 .doc(widget.snap.objectID)
                 .update({
               'Student_id': FieldValue.arrayUnion(
-                  [FirebaseAuth.instance.currentUser?.uid])
+                  [FirebaseAuth.instance.currentUser?.uid ])
             });
           } else {
             await FirebaseFirestore.instance
@@ -195,9 +195,9 @@ class _eventdetailState extends State<eventdetail> {
                 .set({
               "Photo": widget.snap.data["Image"],
               "Name": widget.snap.data["Name"],
-              "Student_id": [
-                FirebaseAuth.instance.currentUser?.uid,
-              ]
+              "Student_id": ([
+               FirebaseAuth.instance.currentUser?.uid ,
+              ])
             });
           }
           // await FirebaseFirestore.instance

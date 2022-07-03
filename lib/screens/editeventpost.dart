@@ -586,7 +586,7 @@ class _EditEventState extends State<EditEvent> {
                                         //เรียก method editdatatoFirebase
                                         editdatatoFirebase();
                                         print(event.Name);
-                                        
+
                                         //  เวลาแจ้งเตือน //
                                         String Time = DateFormat("hh:mm:ss")
                                             .format(DateTime.now());
@@ -594,6 +594,10 @@ class _EditEventState extends State<EditEvent> {
                                             .format(DateTime.now());
                                         print(Time + date);
                                         print(event.Name);
+
+                                        //
+
+
                                         var join = await FirebaseFirestore
                                             .instance
                                             .collection("Event")
@@ -601,6 +605,15 @@ class _EditEventState extends State<EditEvent> {
                                                 .studenthasposts["Event_id"])
                                             .collection("Joined")
                                             .get();
+                                        FirebaseFirestore.instance
+                                            .collection('Notification')
+                                            .doc(widget
+                                                .studenthasposts["Event_id"])
+                                            .update({
+                                          'Student_id': FieldValue.delete()
+                                        }).whenComplete(() {
+                                          print('Field Deleted');
+                                        });
 
                                         join.docs.forEach((element) async {
                                           var a = element.data();
@@ -620,6 +633,17 @@ class _EditEventState extends State<EditEvent> {
                                             "date":
                                                 widget.studenthasposts["date"],
                                           });
+                                          await FirebaseFirestore.instance
+                                              .collection('Notification')
+                                              .doc(widget
+                                                  .studenthasposts["Event_id"])
+                                              .update({
+                                            "Student_id":
+                                                FieldValue.arrayUnion([
+                                                  element.id
+                                             
+                                            ])
+                                          });
                                         });
                                         if (join.docs.isNotEmpty) {
                                           await FirebaseFirestore.instance
@@ -636,6 +660,7 @@ class _EditEventState extends State<EditEvent> {
                                           });
                                         }
                                         RemoveImageinStorage();
+
                                         Fluttertoast.showToast(
                                             msg: "Success!",
                                             gravity: ToastGravity.CENTER);
@@ -677,6 +702,7 @@ class _EditEventState extends State<EditEvent> {
                                                 actions: [
                                                   FlatButton(
                                                     onPressed: () async {
+                                                      
                                                       DeleteNotification();
                                                       DeleteComment();
 
