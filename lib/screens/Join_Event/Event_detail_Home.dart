@@ -20,6 +20,7 @@ class eventdetailhome extends StatefulWidget {
 }
 
 class _eventdetailhomeState extends State<eventdetailhome> {
+  int sum = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +34,8 @@ class _eventdetailhomeState extends State<eventdetailhome> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: 70, top: 10, right: 10, left: 10),
+        padding:
+            const EdgeInsets.only(bottom: 70, top: 10, right: 10, left: 10),
         child: Column(children: <Widget>[
           Container(
             child: Image.network(
@@ -160,6 +162,12 @@ class _eventdetailhomeState extends State<eventdetailhome> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
+          // await FirebaseFirestore.instance
+          //  .collection("Event")
+          //     .doc(widget.snap.id)
+          //     .collection("Joined")
+          //     .get().then((value) => sum = value.size);
+
           await FirebaseFirestore.instance
               .collection("Event")
               .doc(widget.snap.id)
@@ -169,7 +177,8 @@ class _eventdetailhomeState extends State<eventdetailhome> {
             "Student_id": FirebaseAuth.instance.currentUser?.uid,
             "Name": FirebaseAuth.instance.currentUser?.displayName,
             "Photo": FirebaseAuth.instance.currentUser?.photoURL,
-            "Email": FirebaseAuth.instance.currentUser?.email
+            "Email": FirebaseAuth.instance.currentUser?.email,
+            // "Length" : sum+1
           });
 
           var checkid = await FirebaseFirestore.instance
@@ -181,8 +190,8 @@ class _eventdetailhomeState extends State<eventdetailhome> {
                 .collection("Notification")
                 .doc(widget.snap.id)
                 .update({
-              'Student_id':FieldValue.arrayUnion(
-                  [FirebaseAuth.instance.currentUser?.uid] )
+              'Student_id': FieldValue.arrayUnion(
+                  [FirebaseAuth.instance.currentUser?.uid])
             });
           } else {
             await FirebaseFirestore.instance
@@ -191,9 +200,7 @@ class _eventdetailhomeState extends State<eventdetailhome> {
                 .set({
               "Photo": widget.snap["Image"],
               "Name": widget.snap["Name"],
-              "Student_id":([
-                FirebaseAuth.instance.currentUser?.uid
-              ])
+              "Student_id": ([FirebaseAuth.instance.currentUser?.uid])
             });
           }
 

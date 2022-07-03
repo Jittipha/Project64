@@ -41,6 +41,7 @@ class _EditEventState extends State<EditEvent> {
   bool isLoading = false;
   List count_interests = [];
   List Joined = [];
+  bool _timeistrue = true;
 
   //set date
   DateTime? dateTime;
@@ -48,7 +49,7 @@ class _EditEventState extends State<EditEvent> {
   String getTextDate() {
     if (date == null) {
       date = widget.studenthasposts['date'];
-      return widget.studenthasposts['date'];
+      return date.toString();
     } else {
       return date!;
     }
@@ -82,13 +83,19 @@ class _EditEventState extends State<EditEvent> {
   TimeOfDay? time;
   getTextTime() {
     if (time == null) {
-      return widget.studenthasposts["Time"];
+      time = stringToTimeOfDay(widget.studenthasposts["Time"]);
+      return time!.format(context);
     } else {
       final hours = time?.hour.toString().padLeft(2, '0');
       final minutes = time?.minute.toString().padLeft(2, '0');
 
       return '$hours:$minutes';
     }
+  }
+
+  TimeOfDay stringToTimeOfDay(String tod) {
+    final format = DateFormat.jm(); //"6:00 AM"
+    return TimeOfDay.fromDateTime(format.parse(tod));
   }
 
   Future pickTime(BuildContext context) async {
@@ -130,6 +137,7 @@ class _EditEventState extends State<EditEvent> {
   File? image;
   String? urlImage;
   String? urlImaged;
+
   void IMG() {
     urlImage = widget.studenthasposts["Image"];
     setState(() {});
@@ -169,6 +177,7 @@ class _EditEventState extends State<EditEvent> {
     await uploadTask.then((TaskSnapshot taskSnapshot) async => {
           await taskSnapshot.ref.getDownloadURL().then((dynamic url) => {
                 print("url : $url"),
+                urlImaged = urlImage,
                 urlImage = url.toString(),
                 setState(() {
                   isLoading = false;
@@ -178,7 +187,9 @@ class _EditEventState extends State<EditEvent> {
   }
 
   Future<void> RemoveImageinStorage() async {
-    FirebaseStorage.instance.refFromURL(urlImaged!).delete();
+    if (urlImaged != null) {
+      await FirebaseStorage.instance.refFromURL(urlImaged!).delete();
+    }
   }
 
   @override
@@ -215,10 +226,8 @@ class _EditEventState extends State<EditEvent> {
                         child: Column(children: <Widget>[
                           GestureDetector(
                             onTap: () {
-                              setState(() {
-                                urlImaged = urlImage;
-                              });
                               pickImage(ImageSource.gallery);
+                              setState(() {});
                             },
                             child: Container(
                               child: ClipRRect(
@@ -577,63 +586,46 @@ class _EditEventState extends State<EditEvent> {
                                               color: Colors.black),
                                           textAlign: TextAlign.right),
                                       onPressed: () async {
-                                        print(urlImage);
-                                        //  await createPlantFoodNotification();
-
-                                        //  await model.imageNotification(event);
                                         isLoading = true;
-
+                                        print(urlImage);
                                         //เรียก method editdatatoFirebase
                                         editdatatoFirebase();
-                                        print(event.Name);
 
                                         //  เวลาแจ้งเตือน //
-                                        String Time = DateFormat("hh:mm:ss")
-                                            .format(DateTime.now());
-                                        String date = DateFormat("dd/MM/yyyy")
-                                            .format(DateTime.now());
-                                        print(Time + date);
-                                        print(event.Name);
+                                        if (_timeistrue == true) {
+                                          String Time = DateFormat("hh:mm:ss")
+                                              .format(DateTime.now());
+                                          String date = DateFormat("dd/MM/yyyy")
+                                              .format(DateTime.now());
+                                          var join = await FirebaseFirestore
+                                              .instance
+                                              .collection("Event")
 
-                                        //
-
-
-                                        var join = await FirebaseFirestore
-                                            .instance
-                                            .collection("Event")
-                                            .doc(widget
-                                                .studenthasposts["Event_id"])
-                                            .collection("Joined")
-                                            .get();
-                                        FirebaseFirestore.instance
-                                            .collection('Notification')
-                                            .doc(widget
-                                                .studenthasposts["Event_id"])
-                                            .update({
-                                          'Student_id': FieldValue.delete()
-                                        }).whenComplete(() {
-                                          print('Field Deleted');
-                                        });
-
-                                        join.docs.forEach((element) async {
-                                          var a = element.data();
-                                          await FirebaseFirestore.instance
-                                              .collection("Student")
-                                              .doc(a["Student_id"])
-                                              .collection("Joined")
                                               .doc(widget
                                                   .studenthasposts["Event_id"])
-                                              .update({
-                                            "Image": urlImage,
-                                            "Name": event.Name,
-                                            "Description": event.Description,
-                                            "Time":
-                                                widget.studenthasposts["Time"],
-                                            "Location": event.Location,
-                                            "date":
-                                                widget.studenthasposts["date"],
-                                          });
-                                          await FirebaseFirestore.instance
+                                              .collection("Joined")
+                                              .get();
+
+                                          join.docs.forEach((element) async {
+                                            var a = element.data();
+                                            await FirebaseFirestore.instance
+                                                .collection("Student")
+                                                .doc(a["Student_id"])
+                                                .collection("Joined")
+                                                .doc(widget.studenthasposts[
+                                                    "Event_id"])
+                                                .update({
+                                              "Image": urlImage,
+                                              "Name": event.Name,
+                                              "Description": event.Description,
+                                              "Time": widget
+                                                  .studenthasposts["Time"],
+                                              "Location": event.Location,
+                                              "date": widget
+                                                  .studenthasposts["date"],
+                                            });
+
+                                            await FirebaseFirestore.instance
                                               .collection('Notification')
                                               .doc(widget
                                                   .studenthasposts["Event_id"])
@@ -644,27 +636,27 @@ class _EditEventState extends State<EditEvent> {
                                              
                                             ])
                                           });
-                                        });
-                                        if (join.docs.isNotEmpty) {
-                                          await FirebaseFirestore.instance
-                                              .collection("Notification")
-                                              .doc(widget
-                                                  .studenthasposts["Event_id"])
-                                              .update({
-                                            "Photo": urlImage,
-                                            "Name": event.Name,
-                                            "Status": "edited",
-                                            "Time": Time,
-                                            "date": date,
-                                            "Type": '1'
                                           });
+                                          if (join.docs.isNotEmpty) {
+                                            await FirebaseFirestore.instance
+                                                .collection("Notification")
+                                                .doc(widget.studenthasposts[
+                                                    "Event_id"])
+                                                .update({
+                                              "Photo": urlImage,
+                                              "Name": event.Name,
+                                              "Status": "edited",
+                                              "Time": Time,
+                                              "date": date,
+                                              "Type": '1'
+                                            });
+                                          }
+                                          RemoveImageinStorage();
+                                          Fluttertoast.showToast(
+                                              msg: "Success!",
+                                              gravity: ToastGravity.CENTER);
+                                          Navigator.pop(context);
                                         }
-                                        RemoveImageinStorage();
-
-                                        Fluttertoast.showToast(
-                                            msg: "Success!",
-                                            gravity: ToastGravity.CENTER);
-                                        Navigator.pop(context);
                                       }),
                                 ),
                                 SizedBox(
@@ -800,159 +792,279 @@ class _EditEventState extends State<EditEvent> {
   }
 
   editdatatoFirebase() async {
-    if (event.Time == null && event.Date == null) {
-      // event.Time =
-      //     widget.studenthasposts["Time"];
-      // event.Date =
-      //     widget.studenthasposts["date"];if (_formKey.currentState!.validate()) {
-      if (_formKey.currentState!.validate()) {
-        _formKey.currentState!.save();
-        try {
-          // await model.imageNotification(event);
-          event.Image = urlImage;
-          await createPlantFoodNotification(event);
+    // if (event.Time == null && event.Date == null) {
+    // event.Time =
+    //     widget.studenthasposts["Time"];
+    // event.Date =
+    //     widget.studenthasposts["date"];if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      _timeistrue = true;
+      String? text;
+      String hour = DateFormat("HH").format(DateTime.now());
+      String min = DateFormat("mm").format(DateTime.now());
+      int minutenow = int.parse(min);
+      int hournow = int.parse(hour);
+      String datenow = DateFormat("dd/MM/yyyy").format(DateTime.now());
+      var Datenow = datenow.split("/");
+      int yearnow = int.parse(Datenow[2]);
+      int monthnow = int.parse(Datenow[1]);
+      int daynow = int.parse(Datenow[0]);
+      String a = formatTimeOfDay(time);
+      var b = a.split(':');
+      int timeselect = int.parse(b[0]);
+      int minselect = int.parse(b[1]);
+      int? mincondition;
+      var Date = date!.split("/");
 
-          await FirebaseFirestore.instance
-              .collection('Event')
-              .doc(widget.studenthasposts["Event_id"])
-              .update({
-            "Image": urlImage,
-            "Name": event.Name,
-            "Description": event.Description,
-            "Time": widget.studenthasposts["Time"],
-            "Location": event.Location,
-            "date": widget.studenthasposts["date"]
-          });
-
-          await FirebaseFirestore.instance
-              .collection('Student')
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .collection('Posts')
-              .doc(widget.studenthasposts.id)
-              .update({
-            "Image": urlImage,
-            "Name": event.Name,
-            "Description": event.Description,
-            "Time": widget.studenthasposts["Time"],
-            "Location": event.Location,
-            "date": widget.studenthasposts["date"],
-          });
-        } on FirebaseAuthException catch (err) {
-          Fluttertoast.showToast(msg: err.message!);
+      int yearevent = int.parse(Date[2]);
+      int monthevent = int.parse(Date[1]);
+      int dayevent = int.parse(Date[0]);
+      print('time >>>> $timeselect   +   $hournow');
+      if (yearevent > yearnow) {
+        addedittodb();
+        //ปีนี้
+      } else if (yearevent == yearnow) {
+        if (monthevent > monthnow) {
+          addedittodb();
+          //เดือนนี้
+        } else if (monthevent == monthnow) {
+          if (dayevent > daynow) {
+            addedittodb();
+            //วันนี้
+          } else if (dayevent == daynow) {
+            if (minutenow >= 45) {
+              mincondition = (minutenow + 15) - 60;
+              if (timeselect > hournow) {
+                if ((timeselect - 1) == hournow) {
+                  if (minselect > mincondition) {
+                    addedittodb();
+                  } else {
+                    text =
+                        'กรุณาเลือกเวลาหลังจากเวลาปัจจุบัน 15 นาที (ชั่วโมงถัดไป)';
+                    showAlertDialog(context, text);
+                  }
+                } else {
+                  addedittodb();
+                }
+              } else if (timeselect == hournow) {
+                text =
+                    'กรุณาเลือกเวลาหลังจากเวลาปัจจุบัน 15 นาที (ชั่วโมงถัดไป)';
+                showAlertDialog(context, text);
+              } else {
+                text =
+                    'กรุณาเลือกเวลาหลังจากเวลาปัจจุบัน 15 นาที (ชั่วโมงถัดไป)';
+                showAlertDialog(context, text);
+              }
+            } else {
+              if (timeselect > hournow) {
+                addedittodb();
+              } else if (timeselect == hournow) {
+                if (minselect > (minutenow + 15)) {
+                  addedittodb();
+                } else {
+                  text = 'กรุณาเลือกเวลาหลังจากเวลาปัจจุบัน 15 นาที ';
+                  showAlertDialog(context, text);
+                }
+              } else {
+                text = 'กรุณาเลือกเวลาหลังจากเวลาปัจจุบัน 15 นาที ';
+                showAlertDialog(context, text);
+              }
+            }
+          } else {
+            text = 'วันที่คุณเลือกผ่านมาแล้ว';
+            showAlertDialog(context, text);
+          }
+        } else {
+          text = 'เดือนที่คุณเลือกผ่านมาแล้ว';
+          showAlertDialog(context, text);
         }
-      }
-    } else if (event.Time != null && event.Date != null) {
-      if (_formKey.currentState!.validate()) {
-        _formKey.currentState!.save();
-        try {
-          // await model.imageNotification(event);
-          await createPlantFoodNotification(event);
-
-          await FirebaseFirestore.instance
-              .collection('Event')
-              .doc(widget.studenthasposts["Event_id"])
-              .update({
-            "Image": urlImage,
-            "Name": event.Name,
-            "Description": event.Description,
-            "Time": event.Time?.format(context),
-            "Location": event.Location,
-            "date": event.Date
-          });
-
-          await FirebaseFirestore.instance
-              .collection('Student')
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .collection('Posts')
-              .doc(widget.studenthasposts.id)
-              .update({
-            "Image": urlImage,
-            "Name": event.Name,
-            "Description": event.Description,
-            "Time": event.Time?.format(context),
-            "Location": event.Location,
-            "date": event.Date,
-          });
-        } on FirebaseAuthException catch (err) {
-          Fluttertoast.showToast(msg: err.message!);
-        }
-      }
-      // Time มีค่า  แต่ date ไม่มีค่า
-    } else if (event.Time != null && event.Date == null) {
-      if (_formKey.currentState!.validate()) {
-        _formKey.currentState!.save();
-        try {
-          // await model.imageNotification(event);
-          await createPlantFoodNotification(event);
-
-          await FirebaseFirestore.instance
-              .collection('Event')
-              .doc(widget.studenthasposts["Event_id"])
-              .update({
-            "Image": urlImage,
-            "Name": event.Name,
-            "Description": event.Description,
-            "Time": event.Time?.format(context),
-            "Location": event.Location,
-            "date": widget.studenthasposts["date"]
-          });
-
-          await FirebaseFirestore.instance
-              .collection('Student')
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .collection('Posts')
-              .doc(widget.studenthasposts.id)
-              .update({
-            "Image": urlImage,
-            "Name": event.Name,
-            "Description": event.Description,
-            "Time": event.Time?.format(context),
-            "Location": event.Location,
-            "date": widget.studenthasposts["date"]
-          });
-        } on FirebaseAuthException catch (err) {
-          Fluttertoast.showToast(msg: err.message!);
-        }
-      }
-
-      // ถ้า Time ไม่มีค่า แต่ date มีค่า
-    } else if (event.Time == null && event.Date != null) {
-      if (_formKey.currentState!.validate()) {
-        _formKey.currentState!.save();
-        try {
-          // await model.imageNotification(event);
-          await createPlantFoodNotification(event);
-
-          await FirebaseFirestore.instance
-              .collection('Event')
-              .doc(widget.studenthasposts["Event_id"])
-              .update({
-            "Image": urlImage,
-            "Name": event.Name,
-            "Description": event.Description,
-            "Time": widget.studenthasposts["Time"],
-            "Location": event.Location,
-            "date": event.Date
-          });
-
-          await FirebaseFirestore.instance
-              .collection('Student')
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .collection('Posts')
-              .doc(widget.studenthasposts.id)
-              .update({
-            "Image": urlImage,
-            "Name": event.Name,
-            "Description": event.Description,
-            "Time": widget.studenthasposts["Time"],
-            "Location": event.Location,
-            "date": event.Date
-          });
-        } on FirebaseAuthException catch (err) {
-          Fluttertoast.showToast(msg: err.message!);
-        }
+      } else {
+        text = 'ปีที่คุณเลือกผ่านมาแล้ว';
+        showAlertDialog(context, text);
       }
     }
+    // } else if (event.Time != null && event.Date != null) {
+    //   if (_formKey.currentState!.validate()) {
+    //     _formKey.currentState!.save();
+    //     try {
+    //       // await model.imageNotification(event);
+    //       await createPlantFoodNotification(event);
+
+    //       await FirebaseFirestore.instance
+    //           .collection('Event')
+    //           .doc(widget.studenthasposts["Event_id"])
+    //           .update({
+    //         "Image": urlImage,
+    //         "Name": event.Name,
+    //         "Description": event.Description,
+    //         "Time": event.Time?.format(context),
+    //         "Location": event.Location,
+    //         "date": event.Date
+    //       });
+
+    //       await FirebaseFirestore.instance
+    //           .collection('Student')
+    //           .doc(FirebaseAuth.instance.currentUser?.uid)
+    //           .collection('Posts')
+    //           .doc(widget.studenthasposts.id)
+    //           .update({
+    //         "Image": urlImage,
+    //         "Name": event.Name,
+    //         "Description": event.Description,
+    //         "Time": event.Time?.format(context),
+    //         "Location": event.Location,
+    //         "date": event.Date,
+    //       });
+    //     } on FirebaseAuthException catch (err) {
+    //       Fluttertoast.showToast(msg: err.message!);
+    //     }
+    //   }
+    //   // Time มีค่า  แต่ date ไม่มีค่า
+    // } else if (event.Time != null && event.Date == null) {
+    //   if (_formKey.currentState!.validate()) {
+    //     _formKey.currentState!.save();
+    //     try {
+    //       // await model.imageNotification(event);
+    //       await createPlantFoodNotification(event);
+
+    //       await FirebaseFirestore.instance
+    //           .collection('Event')
+    //           .doc(widget.studenthasposts["Event_id"])
+    //           .update({
+    //         "Image": urlImage,
+    //         "Name": event.Name,
+    //         "Description": event.Description,
+    //         "Time": event.Time?.format(context),
+    //         "Location": event.Location,
+    //         "date": widget.studenthasposts["date"]
+    //       });
+
+    //       await FirebaseFirestore.instance
+    //           .collection('Student')
+    //           .doc(FirebaseAuth.instance.currentUser?.uid)
+    //           .collection('Posts')
+    //           .doc(widget.studenthasposts.id)
+    //           .update({
+    //         "Image": urlImage,
+    //         "Name": event.Name,
+    //         "Description": event.Description,
+    //         "Time": event.Time?.format(context),
+    //         "Location": event.Location,
+    //         "date": widget.studenthasposts["date"]
+    //       });
+    //     } on FirebaseAuthException catch (err) {
+    //       Fluttertoast.showToast(msg: err.message!);
+    //     }
+    //   }
+
+    //   // ถ้า Time ไม่มีค่า แต่ date มีค่า
+    // } else if (event.Time == null && event.Date != null) {
+    //   if (_formKey.currentState!.validate()) {
+    //     _formKey.currentState!.save();
+    //     try {
+    //       // await model.imageNotification(event);
+    //       await createPlantFoodNotification(event);
+
+    //       await FirebaseFirestore.instance
+    //           .collection('Event')
+    //           .doc(widget.studenthasposts["Event_id"])
+    //           .update({
+    //         "Image": urlImage,
+    //         "Name": event.Name,
+    //         "Description": event.Description,
+    //         "Time": widget.studenthasposts["Time"],
+    //         "Location": event.Location,
+    //         "date": event.Date
+    //       });
+
+    //       await FirebaseFirestore.instance
+    //           .collection('Student')
+    //           .doc(FirebaseAuth.instance.currentUser?.uid)
+    //           .collection('Posts')
+    //           .doc(widget.studenthasposts.id)
+    //           .update({
+    //         "Image": urlImage,
+    //         "Name": event.Name,
+    //         "Description": event.Description,
+    //         "Time": widget.studenthasposts["Time"],
+    //         "Location": event.Location,
+    //         "date": event.Date
+    //       });
+    //     } on FirebaseAuthException catch (err) {
+    //       Fluttertoast.showToast(msg: err.message!);
+    //     }
+    //   }
+    // }
+  }
+
+  void addedittodb() async {
+    try {
+      // await model.imageNotification(event);
+      event.Image = urlImage;
+      await createPlantFoodNotification(event);
+
+      await FirebaseFirestore.instance
+          .collection('Event')
+          .doc(widget.studenthasposts["Event_id"])
+          .update({
+        "Image": urlImage,
+        "Name": event.Name,
+        "Description": event.Description,
+        "Time": time!.format(context),
+        "Location": event.Location,
+        "date": date
+      });
+
+      await FirebaseFirestore.instance
+          .collection('Student')
+          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .collection('Posts')
+          .doc(widget.studenthasposts.id)
+          .update({
+        "Image": urlImage,
+        "Name": event.Name,
+        "Description": event.Description,
+        "Time": time!.format(context),
+        "Location": event.Location,
+        "date": date,
+      });
+    } on FirebaseAuthException catch (err) {
+      Fluttertoast.showToast(msg: err.message!);
+    }
+  }
+
+  showAlertDialog(BuildContext context, text) {
+    _timeistrue = false;
+    // set up the button
+    Widget OKButton = FlatButton(
+      child: const Text("OK"),
+      onPressed: () {
+        Navigator.pop(context, 'Cancel');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Warning!!"),
+      content: Text(text),
+      actions: [OKButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  String formatTimeOfDay(TimeOfDay? tod) {
+    final now = new DateTime.now();
+    final dt = DateTime(now.year, now.month, now.day, tod!.hour, tod.minute);
+    final format = DateFormat.Hm();
+    return format.format(dt);
   }
 
   getlength() {

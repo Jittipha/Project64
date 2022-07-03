@@ -148,6 +148,8 @@ class _PostState extends State<Post> {
     final newTime = await showTimePicker(
         context: context, initialTime: time ?? initialTime);
 
+     print('newTime $newTime');
+     
     if (newTime == null) return;
 
     setState(() {
@@ -465,13 +467,24 @@ class _PostState extends State<Post> {
                           } else {
                             String time =
                                 DateFormat("HH").format(DateTime.now());
+                                /////////
+                           String min = 
+                                DateFormat("mm").format(DateTime.now());
+                                ////////
+                                int minute = int.parse(min);
+                              
+                               
+                                
                             String datenow =
                                 DateFormat("dd/MM/yyyy").format(DateTime.now());
                                 // เวลานะปัจจุบัน
                             int timenow = int.parse(time);
                             String a = formatTimeOfDay(event.Time);
-                            int timeselect = int.parse(a);
-                           
+                            print(a);
+                            //
+                             var b = a.split(':');
+                            int timeselect = int.parse(b[0]);
+                            int minselect = int.parse(b[1]);
                             //เวลาที่ผู้ใช้เลือก
                             print(timeselect);
                             print(time);
@@ -480,6 +493,12 @@ class _PostState extends State<Post> {
                                   'กรุณาเลือกเวลาหลังจากเวลาปัจจุบัน 1 ชั่วโมง';
                               showAlertDialog(context, text);
                             } else {
+                              //
+                              if(minselect < minute){
+                                text = 'กรุณาเลือกเวลาหลังจากเวลาปัจจุบัน 1 ชั่วโมง';
+                                 showAlertDialog(context, text);
+                              }
+                              else{
                               await FirebaseFirestore.instance
                                   .collection('Event')
                                   .doc()
@@ -533,7 +552,7 @@ class _PostState extends State<Post> {
                                         });
                               });
                             }
-                          }
+                            }}
                         }
                       }),
                 ),
@@ -546,7 +565,7 @@ class _PostState extends State<Post> {
   String formatTimeOfDay(TimeOfDay? tod) {
     final now = new DateTime.now();
     final dt = DateTime(now.year, now.month, now.day, tod!.hour, tod.minute);
-    final format = DateFormat.H();
+    final format = DateFormat.Hm();
     return format.format(dt);
   }
 
